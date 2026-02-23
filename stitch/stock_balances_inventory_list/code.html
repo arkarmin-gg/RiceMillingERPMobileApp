@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stock Balances Inventory List</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "primary-50": "#eff6ff",
+                        "primary-100": "#dbeafe",
+                        "primary-200": "#bfdbfe",
+                        "primary-600": "#2563eb",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        /* Custom scrollbar hiding for horizontal scroll areas */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 flex flex-col h-screen overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 z-10 sticky top-0 shrink-0">
+<div class="flex items-center justify-between px-4 py-3">
+<button class="text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined text-2xl">arrow_back_ios_new</span>
+</button>
+<h1 class="text-lg font-bold text-slate-900 dark:text-white">Stock Balances</h1>
+<button class="text-primary hover:text-primary-600 transition-colors">
+<span class="material-symbols-outlined text-2xl">add_circle</span>
+</button>
+</div>
+<!-- Search Bar -->
+<div class="px-4 pb-3">
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border-none rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-slate-800 transition-all text-sm font-medium" placeholder="Search owner or item..." type="text"/>
+</div>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-2 px-4 pb-4 overflow-x-auto hide-scrollbar">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-transparent hover:border-slate-300 dark:hover:border-slate-600 transition-all whitespace-nowrap group">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Owner</span>
+<span class="material-symbols-outlined text-slate-400 text-lg group-hover:text-slate-600">expand_more</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-transparent hover:border-slate-300 dark:hover:border-slate-600 transition-all whitespace-nowrap group">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Item Type</span>
+<span class="material-symbols-outlined text-slate-400 text-lg group-hover:text-slate-600">expand_more</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 transition-all whitespace-nowrap">
+<span class="text-sm font-medium text-primary">Date: Today</span>
+<span class="material-symbols-outlined text-primary text-lg">close</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-transparent hover:border-slate-300 dark:hover:border-slate-600 transition-all whitespace-nowrap group">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Warehouse</span>
+<span class="material-symbols-outlined text-slate-400 text-lg group-hover:text-slate-600">expand_more</span>
+</button>
+</div>
+</header>
+<!-- Main Content List -->
+<main class="flex-1 overflow-y-auto p-4 space-y-3 bg-background-light dark:bg-background-dark pb-24">
+<!-- Summary Card (Optional Context) -->
+<div class="bg-gradient-to-r from-slate-800 to-slate-900 dark:from-slate-700 dark:to-slate-800 rounded-xl p-4 text-white shadow-lg mb-4">
+<div class="flex justify-between items-start mb-2">
+<div class="opacity-80 text-xs font-medium uppercase tracking-wider">Total Inventory Value</div>
+<span class="material-symbols-outlined opacity-60">inventory_2</span>
+</div>
+<div class="text-2xl font-bold mb-1">3,450,200 lb</div>
+<div class="text-sm opacity-70">Across 3 warehouses</div>
+</div>
+<!-- Inventory Card 1 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 active:scale-[0.99] transition-transform duration-100 cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-700 dark:text-green-400 shrink-0">
+<span class="material-symbols-outlined text-xl">spa</span>
+</div>
+<div>
+<h3 class="font-semibold text-slate-900 dark:text-white leading-tight">Green Valley Farms</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Warehouse A • Zone 3</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-md bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-xs font-bold uppercase tracking-wide border border-green-100 dark:border-green-900/30">
+                    PADDY
+                </span>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3 mb-3 border border-slate-100 dark:border-slate-800">
+<div class="flex justify-between items-baseline">
+<span class="text-sm text-slate-500 dark:text-slate-400 font-medium">Bags</span>
+<span class="text-xl font-bold text-slate-900 dark:text-white font-mono">1,200</span>
+</div>
+<div class="flex justify-between items-baseline mt-1">
+<span class="text-sm text-slate-500 dark:text-slate-400 font-medium">Loose</span>
+<span class="text-base font-semibold text-slate-700 dark:text-slate-300 font-mono">+ 45 lb</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex flex-col">
+<span class="text-xs text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider">Total Weight</span>
+<span class="text-sm font-semibold text-slate-600 dark:text-slate-300">129,645 lb</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600">chevron_right</span>
+</div>
+</div>
+<!-- Inventory Card 2 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 active:scale-[0.99] transition-transform duration-100 cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-700 dark:text-amber-400 shrink-0">
+<span class="material-symbols-outlined text-xl">grain</span>
+</div>
+<div>
+<h3 class="font-semibold text-slate-900 dark:text-white leading-tight">Sunrise Agrico</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Warehouse B • Zone 1</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-md bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 text-xs font-bold uppercase tracking-wide border border-amber-100 dark:border-amber-900/30">
+                    BRAN
+                </span>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3 mb-3 border border-slate-100 dark:border-slate-800">
+<div class="flex justify-between items-baseline">
+<span class="text-sm text-slate-500 dark:text-slate-400 font-medium">Bags</span>
+<span class="text-xl font-bold text-slate-900 dark:text-white font-mono">450</span>
+</div>
+<div class="flex justify-between items-baseline mt-1">
+<span class="text-sm text-slate-500 dark:text-slate-400 font-medium">Loose</span>
+<span class="text-base font-semibold text-slate-700 dark:text-slate-300 font-mono">+ 0 lb</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex flex-col">
+<span class="text-xs text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider">Total Weight</span>
+<span class="text-sm font-semibold text-slate-600 dark:text-slate-300">22,500 lb</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600">chevron_right</span>
+</div>
+</div>
+<!-- Inventory Card 3 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 active:scale-[0.99] transition-transform duration-100 cursor-pointer relative overflow-hidden">
+<!-- Status Stripe -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex justify-between items-start mb-3 pl-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-700 dark:text-primary-400 shrink-0">
+<span class="material-symbols-outlined text-xl">factory</span>
+</div>
+<div>
+<h3 class="font-semibold text-slate-900 dark:text-white leading-tight">Internal Stock</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Main Silo • S2</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-md bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 text-xs font-bold uppercase tracking-wide border border-primary-100 dark:border-primary-900/30">
+                    WHITE RICE
+                </span>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3 mb-3 border border-slate-100 dark:border-slate-800 ml-2">
+<div class="flex justify-between items-baseline">
+<span class="text-sm text-slate-500 dark:text-slate-400 font-medium">Bags</span>
+<span class="text-xl font-bold text-slate-900 dark:text-white font-mono">3,000</span>
+</div>
+<div class="flex justify-between items-baseline mt-1">
+<span class="text-sm text-slate-500 dark:text-slate-400 font-medium">Loose</span>
+<span class="text-base font-semibold text-slate-700 dark:text-slate-300 font-mono">--</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1 pl-2">
+<div class="flex flex-col">
+<span class="text-xs text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider">Total Weight</span>
+<span class="text-sm font-semibold text-slate-600 dark:text-slate-300">150,000 lb</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600">chevron_right</span>
+</div>
+</div>
+<!-- Inventory Card 4 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 active:scale-[0.99] transition-transform duration-100 cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-700 dark:text-red-400 shrink-0">
+<span class="material-symbols-outlined text-xl">person_pin</span>
+</div>
+<div>
+<h3 class="font-semibold text-slate-900 dark:text-white leading-tight">Robert &amp; Sons</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Warehouse C • Dock 4</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-md bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-xs font-bold uppercase tracking-wide border border-green-100 dark:border-green-900/30">
+                    PADDY
+                </span>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3 mb-3 border border-slate-100 dark:border-slate-800">
+<div class="flex justify-between items-baseline">
+<span class="text-sm text-slate-500 dark:text-slate-400 font-medium">Bags</span>
+<span class="text-xl font-bold text-slate-900 dark:text-white font-mono">15</span>
+</div>
+<div class="flex justify-between items-baseline mt-1">
+<span class="text-sm text-slate-500 dark:text-slate-400 font-medium">Loose</span>
+<span class="text-base font-semibold text-slate-700 dark:text-slate-300 font-mono">+ 80 lb</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex flex-col">
+<span class="text-xs text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider">Total Weight</span>
+<span class="text-sm font-semibold text-slate-600 dark:text-slate-300">1,580 lb</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600">chevron_right</span>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (reusing style but simplified for this screen) -->
+<nav class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-6 pb-6 pt-3 flex justify-between items-center z-10 sticky bottom-0 shrink-0">
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary text-2xl">dashboard</span>
+<span class="text-[10px] font-medium text-slate-400 group-hover:text-primary">Dashboard</span>
+</a>
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-symbols-outlined text-primary text-2xl fill-current">inventory_2</span>
+<span class="text-[10px] font-medium text-primary">Stock</span>
+</a>
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary text-2xl">factory</span>
+<span class="text-[10px] font-medium text-slate-400 group-hover:text-primary">Production</span>
+</a>
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary text-2xl">settings</span>
+<span class="text-[10px] font-medium text-slate-400 group-hover:text-primary">Settings</span>
+</a>
+</nav>
+</body></html>

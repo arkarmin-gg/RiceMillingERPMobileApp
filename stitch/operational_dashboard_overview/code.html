@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rice Mill Operational Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#137fec",
+                        "primary-content": "#ffffff",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2632",
+                        "text-main": "#0f172a",
+                        "text-main-dark": "#f1f5f9",
+                        "text-muted": "#64748b",
+                        "text-muted-dark": "#94a3b8",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px",
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for horizontal scrolling */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-text-main-dark min-h-screen flex flex-col font-display">
+<!-- Sticky Header -->
+<header class="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<div class="bg-primary/10 dark:bg-primary/20 p-2 rounded-lg text-primary">
+<span class="material-symbols-outlined">agriculture</span>
+</div>
+<div>
+<h1 class="text-lg font-bold leading-tight text-text-main dark:text-text-main-dark">Rice Mill Manager</h1>
+<p class="text-xs text-text-muted dark:text-text-muted-dark">Operational Overview</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="relative p-2 text-text-muted dark:text-text-muted-dark hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-red-500 border-2 border-white dark:border-surface-dark"></span>
+</button>
+<div class="h-9 w-9 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden border-2 border-white dark:border-slate-600 shadow-sm" data-alt="User profile avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDpraZlFIUiROyixB0TrxvRauPm8AuId3k1tQNi_yY-9aWW1_HEsrLijJu2KvKt0UVTDt16UOT6xx5mf1S36WY0pBWKZO_XO3vXKgM9NqVwjbJfNSzJ7egYMVFO4V74LtzX3s8t3DL2SPcnvz_x062RMadusOVBNtvY2o4FbzEd4JCYGTZ2qJEhHCAey9Z77xrNFNSB0_rYlO1HlFDdkw1J5hPXVgRQxIVKgWBga0v2irnQf9qWQCPgxQk6e9ZOOCsTS-RcyiGax89t'); background-size: cover; background-position: center;"></div>
+</div>
+</header>
+<!-- Main Content Scroll Area -->
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- KPI Section -->
+<section class="p-4">
+<div class="flex items-center justify-between mb-3 px-1">
+<h2 class="text-sm font-semibold text-text-muted dark:text-text-muted-dark uppercase tracking-wider">Key Metrics</h2>
+<span class="text-xs text-primary font-medium">Updated 5m ago</span>
+</div>
+<div class="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 hide-scrollbar snap-x snap-mandatory">
+<!-- Card 1 -->
+<div class="min-w-[280px] snap-center bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl text-primary">inventory_2</span>
+</div>
+<div class="relative z-10">
+<p class="text-text-muted dark:text-text-muted-dark text-sm font-medium mb-1">Total Paddy Stock</p>
+<div class="flex items-baseline gap-2">
+<h3 class="text-3xl font-bold text-text-main dark:text-text-main-dark">1,250 <span class="text-lg font-normal text-text-muted dark:text-text-muted-dark">T</span></h3>
+</div>
+<div class="mt-3 flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 w-fit px-2 py-1 rounded text-xs font-semibold">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>+5% vs last week</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="min-w-[280px] snap-center bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl text-blue-600">factory</span>
+</div>
+<div class="relative z-10">
+<p class="text-text-muted dark:text-text-muted-dark text-sm font-medium mb-1">Today's Milling</p>
+<div class="flex items-baseline gap-2">
+<h3 class="text-3xl font-bold text-text-main dark:text-text-main-dark">420 <span class="text-lg font-normal text-text-muted dark:text-text-muted-dark">Bags</span></h3>
+</div>
+<div class="mt-3 flex items-center gap-1.5 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 w-fit px-2 py-1 rounded text-xs font-semibold">
+<span class="material-symbols-outlined text-sm">bolt</span>
+<span>98% Efficiency</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="min-w-[280px] snap-center bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl text-orange-500">local_shipping</span>
+</div>
+<div class="relative z-10">
+<p class="text-text-muted dark:text-text-muted-dark text-sm font-medium mb-1">Pending Dispatches</p>
+<div class="flex items-baseline gap-2">
+<h3 class="text-3xl font-bold text-text-main dark:text-text-main-dark">3 <span class="text-lg font-normal text-text-muted dark:text-text-muted-dark">Orders</span></h3>
+</div>
+<div class="mt-3 flex items-center gap-1.5 text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20 w-fit px-2 py-1 rounded text-xs font-semibold">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>Due by 4:00 PM</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Actions -->
+<section class="px-4 mb-6">
+<h2 class="text-sm font-semibold text-text-muted dark:text-text-muted-dark uppercase tracking-wider mb-3 px-1">Quick Actions</h2>
+<div class="grid grid-cols-3 gap-3">
+<button class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center gap-2 active:scale-95 transition-transform hover:bg-slate-50 dark:hover:bg-slate-800">
+<div class="bg-primary/10 dark:bg-primary/20 text-primary p-3 rounded-full mb-1">
+<span class="material-symbols-outlined text-2xl">add_circle</span>
+</div>
+<span class="text-xs font-semibold text-text-main dark:text-text-main-dark text-center">New Batch</span>
+</button>
+<button class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center gap-2 active:scale-95 transition-transform hover:bg-slate-50 dark:hover:bg-slate-800">
+<div class="bg-primary/10 dark:bg-primary/20 text-primary p-3 rounded-full mb-1">
+<span class="material-symbols-outlined text-2xl">local_shipping</span>
+</div>
+<span class="text-xs font-semibold text-text-main dark:text-text-main-dark text-center">Dispatch</span>
+</button>
+<button class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center gap-2 active:scale-95 transition-transform hover:bg-slate-50 dark:hover:bg-slate-800">
+<div class="bg-primary/10 dark:bg-primary/20 text-primary p-3 rounded-full mb-1">
+<span class="material-symbols-outlined text-2xl">content_paste_search</span>
+</div>
+<span class="text-xs font-semibold text-text-main dark:text-text-main-dark text-center">Check Stock</span>
+</button>
+</div>
+</section>
+<!-- Recent Activity -->
+<section class="px-4">
+<div class="flex items-center justify-between mb-3 px-1">
+<h2 class="text-sm font-semibold text-text-muted dark:text-text-muted-dark uppercase tracking-wider">Recent Activity</h2>
+<a class="text-xs text-primary font-semibold hover:underline" href="#">View All</a>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Activity Item 1 -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 flex items-start gap-4">
+<div class="bg-blue-50 dark:bg-blue-900/30 p-2 rounded-lg text-blue-600 dark:text-blue-400 shrink-0">
+<span class="material-symbols-outlined">settings_suggest</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-sm font-bold text-text-main dark:text-text-main-dark truncate">Batch #B-291 Milling Started</h4>
+<span class="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">In Progress</span>
+</div>
+<p class="text-xs text-text-muted dark:text-text-muted-dark mb-1">Line 2 • Basmati Grade A</p>
+<p class="text-[10px] text-text-muted/70 dark:text-text-muted-dark/70">Today, 10:30 AM</p>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 flex items-start gap-4">
+<div class="bg-emerald-50 dark:bg-emerald-900/30 p-2 rounded-lg text-emerald-600 dark:text-emerald-400 shrink-0">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-sm font-bold text-text-main dark:text-text-main-dark truncate">Dispatch #D-882 Completed</h4>
+<span class="bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">Closed</span>
+</div>
+<p class="text-xs text-text-muted dark:text-text-muted-dark mb-1">To: Star Distributors • 500 Bags</p>
+<p class="text-[10px] text-text-muted/70 dark:text-text-muted-dark/70">Today, 09:15 AM</p>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 flex items-start gap-4">
+<div class="bg-orange-50 dark:bg-orange-900/30 p-2 rounded-lg text-orange-600 dark:text-orange-400 shrink-0">
+<span class="material-symbols-outlined">input</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-sm font-bold text-text-main dark:text-text-main-dark truncate">Paddy Arrival - Gate 2</h4>
+<span class="bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">Open</span>
+</div>
+<p class="text-xs text-text-muted dark:text-text-muted-dark mb-1">Truck TN-45-A-1234 • Waiting QC</p>
+<p class="text-[10px] text-text-muted/70 dark:text-text-muted-dark/70">Today, 08:45 AM</p>
+</div>
+</div>
+<!-- Activity Item 4 -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 flex items-start gap-4 opacity-75">
+<div class="bg-slate-50 dark:bg-slate-800 p-2 rounded-lg text-slate-500 dark:text-slate-400 shrink-0">
+<span class="material-symbols-outlined">build</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-sm font-bold text-text-main dark:text-text-main-dark truncate">Maintenance Check</h4>
+<span class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">Log</span>
+</div>
+<p class="text-xs text-text-muted dark:text-text-muted-dark mb-1">Polisher Unit 3 • Routine</p>
+<p class="text-[10px] text-text-muted/70 dark:text-text-muted-dark/70">Yesterday, 06:30 PM</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full bg-surface-light dark:bg-surface-dark border-t border-slate-200 dark:border-slate-800 pb-safe pt-2 px-2 z-40">
+<div class="flex justify-around items-center h-16 pb-2">
+<!-- Dashboard (Active) -->
+<a class="flex flex-col items-center justify-center w-full gap-1 group" href="#">
+<div class="text-primary bg-primary/10 dark:bg-primary/20 px-4 py-1 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[24px]">grid_view</span>
+</div>
+<span class="text-[10px] font-medium text-primary">Dashboard</span>
+</a>
+<!-- Inventory -->
+<a class="flex flex-col items-center justify-center w-full gap-1 group text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<div class="px-4 py-1 rounded-full transition-colors group-hover:bg-primary/5 dark:group-hover:bg-primary/10">
+<span class="material-symbols-outlined text-[24px]">inventory</span>
+</div>
+<span class="text-[10px] font-medium">Inventory</span>
+</a>
+<!-- Production -->
+<a class="flex flex-col items-center justify-center w-full gap-1 group text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<div class="px-4 py-1 rounded-full transition-colors group-hover:bg-primary/5 dark:group-hover:bg-primary/10">
+<span class="material-symbols-outlined text-[24px]">factory</span>
+</div>
+<span class="text-[10px] font-medium">Production</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center w-full gap-1 group text-text-muted dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<div class="px-4 py-1 rounded-full transition-colors group-hover:bg-primary/5 dark:group-hover:bg-primary/10">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+</div>
+<span class="text-[10px] font-medium">Settings</span>
+</a>
+</div>
+</nav>
+</body></html>

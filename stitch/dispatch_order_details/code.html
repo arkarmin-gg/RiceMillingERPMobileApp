@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dispatch Order Details</title>
+<!-- Fonts and Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased selection:bg-primary selection:text-white">
+<div class="relative flex h-screen w-full flex-col overflow-hidden max-w-md mx-auto bg-white dark:bg-background-dark shadow-xl">
+<!-- Header -->
+<header class="flex items-center justify-between px-4 py-3 bg-white dark:bg-background-dark border-b border-slate-100 dark:border-slate-800 shrink-0 z-10">
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-900 dark:text-white">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-base font-bold text-center flex-1 text-slate-900 dark:text-white">Dispatch Order Details</h1>
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-900 dark:text-white">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</header>
+<!-- Main Content (Scrollable) -->
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- Hero / ID Section -->
+<div class="px-5 py-6 bg-white dark:bg-background-dark">
+<div class="flex items-start justify-between">
+<div>
+<span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 mb-2 dark:bg-green-900/30 dark:text-green-400">Processing</span>
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Dispatch #DS-9902</h2>
+</div>
+<div class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+</div>
+</div>
+<hr class="border-t border-slate-100 dark:border-slate-800 mx-5"/>
+<!-- Information Grid -->
+<div class="px-5 py-6 space-y-6">
+<!-- Merchant -->
+<div class="flex items-start gap-4 group">
+<div class="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-500 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">storefront</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">Merchant</p>
+<p class="mt-1 text-base font-semibold text-slate-900 dark:text-white">Green Valley Farms</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">ID: M-4421</p>
+</div>
+</div>
+<!-- Date -->
+<div class="flex items-start gap-4 group">
+<div class="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-500 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">Date</p>
+<p class="mt-1 text-base font-semibold text-slate-900 dark:text-white">Oct 24, 2023</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">10:42 AM</p>
+</div>
+</div>
+<!-- Description -->
+<div class="flex items-start gap-4 group">
+<div class="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-500 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">description</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">Description</p>
+<p class="mt-1 text-sm font-normal text-slate-900 dark:text-white leading-relaxed">Bulk delivery to main silo for Q4 inventory stock up.</p>
+</div>
+</div>
+</div>
+<!-- Items List -->
+<div class="mt-2 bg-slate-50 dark:bg-[#15202b] py-6 px-5 border-t border-slate-100 dark:border-slate-800 min-h-[300px]">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Items Dispatched</h3>
+<span class="text-xs font-medium text-slate-500 bg-white dark:bg-slate-800 px-2 py-1 rounded border border-slate-200 dark:border-slate-700">3 Items</span>
+</div>
+<div class="space-y-3">
+<!-- Item 1 -->
+<div class="bg-white dark:bg-background-dark p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between gap-3">
+<div class="flex items-center gap-3 overflow-hidden">
+<div class="size-10 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-500 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">grain</span>
+</div>
+<div class="truncate">
+<p class="text-sm font-semibold text-slate-900 dark:text-white truncate">Paddy</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 truncate">Batch #PD-2023-X</p>
+</div>
+</div>
+<div class="text-right shrink-0">
+<p class="text-sm font-bold text-slate-900 dark:text-white">500 <span class="text-xs font-normal text-slate-500">bags</span></p>
+<p class="text-xs text-slate-500 dark:text-slate-400">+ 0 lb</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="bg-white dark:bg-background-dark p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between gap-3">
+<div class="flex items-center gap-3 overflow-hidden">
+<div class="size-10 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">water_drop</span>
+</div>
+<div class="truncate">
+<p class="text-sm font-semibold text-slate-900 dark:text-white truncate">Long Grain White</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 truncate">Batch #LG-002</p>
+</div>
+</div>
+<div class="text-right shrink-0">
+<p class="text-sm font-bold text-slate-900 dark:text-white">120 <span class="text-xs font-normal text-slate-500">bags</span></p>
+<p class="text-xs text-slate-500 dark:text-slate-400">+ 15 lb</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="bg-white dark:bg-background-dark p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between gap-3 opacity-60">
+<div class="flex items-center gap-3 overflow-hidden">
+<div class="size-10 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+</div>
+<div class="truncate">
+<p class="text-sm font-semibold text-slate-900 dark:text-white truncate">Packaging Material</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 truncate">Misc.</p>
+</div>
+</div>
+<div class="text-right shrink-0">
+<p class="text-sm font-bold text-slate-900 dark:text-white">50 <span class="text-xs font-normal text-slate-500">units</span></p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Fixed Footer Actions -->
+<div class="absolute bottom-0 w-full bg-white dark:bg-background-dark border-t border-slate-100 dark:border-slate-800 px-5 py-4 safe-area-bottom shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<div class="flex gap-3">
+<button class="flex-1 px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+                    Edit
+                </button>
+<button class="flex-[2] px-4 py-3.5 rounded-xl bg-primary text-white font-semibold text-sm shadow-lg shadow-primary/30 hover:bg-primary/90 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">print</span>
+                    Print Gate Pass
+                </button>
+</div>
+</div>
+</div>
+</body></html>

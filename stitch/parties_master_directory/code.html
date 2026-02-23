@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Parties Master Directory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased selection:bg-primary/20">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto bg-white dark:bg-background-dark border-x border-slate-200 dark:border-slate-800 shadow-2xl">
+<!-- Header -->
+<header class="sticky top-0 z-10 bg-white/95 dark:bg-background-dark/95 backdrop-blur-sm border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center justify-between px-4 py-3">
+<button class="flex h-10 w-10 items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-white transition-colors">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold text-slate-900 dark:text-white flex-1 text-center pr-10">Parties Directory</h1>
+<button class="absolute right-4 flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all shadow-sm">
+<span class="material-symbols-outlined text-[24px]">add</span>
+</button>
+</div>
+<!-- Search Bar -->
+<div class="px-4 pb-3">
+<div class="group flex w-full items-center rounded-xl bg-slate-100 dark:bg-slate-800 px-3 py-2.5 transition-all focus-within:ring-2 focus-within:ring-primary/20 ring-offset-2 ring-offset-white dark:ring-offset-background-dark">
+<span class="material-symbols-outlined text-slate-400 text-[20px]">search</span>
+<input aria-label="Search parties" class="ml-2 h-full w-full bg-transparent text-sm font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none" placeholder="Search name, phone..." type="text"/>
+</div>
+</div>
+<!-- Filter Pills -->
+<div class="flex gap-2 px-4 pb-3 overflow-x-auto no-scrollbar scroll-smooth">
+<button class="flex h-8 min-w-max items-center justify-center rounded-full bg-slate-900 dark:bg-white px-4 text-xs font-semibold text-white dark:text-slate-900 shadow-sm transition-transform active:scale-95">
+                    All
+                </button>
+<button class="flex h-8 min-w-max items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    Merchant
+                </button>
+<button class="flex h-8 min-w-max items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    Farmer
+                </button>
+<button class="flex h-8 min-w-max items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    Customer
+                </button>
+</div>
+</header>
+<!-- List Content -->
+<main class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark pb-24">
+<!-- List Item: Merchant -->
+<a class="group flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-4 active:bg-slate-50 dark:active:bg-slate-800/50 transition-colors" href="#">
+<div class="flex items-center gap-4 overflow-hidden">
+<div class="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold text-lg">
+                        R
+                        <div class="absolute -bottom-0.5 -right-0.5 h-4 w-4 rounded-full border-2 border-white dark:border-background-dark bg-green-500"></div>
+</div>
+<div class="flex flex-col gap-0.5 min-w-0">
+<div class="flex items-center gap-2">
+<h3 class="truncate text-base font-semibold text-slate-900 dark:text-white">Ramesh Traders</h3>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center rounded-md bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-blue-700 dark:text-blue-300 ring-1 ring-inset ring-blue-700/10">
+                                Merchant
+                            </span>
+<span class="truncate text-xs text-slate-500 dark:text-slate-400 font-medium">+91 98765 43210</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-[20px] group-active:translate-x-1 transition-transform">chevron_right</span>
+</a>
+<!-- List Item: Farmer -->
+<a class="group flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-4 active:bg-slate-50 dark:active:bg-slate-800/50 transition-colors" href="#">
+<div class="flex items-center gap-4 overflow-hidden">
+<div class="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 font-bold text-lg">
+                        S
+                    </div>
+<div class="flex flex-col gap-0.5 min-w-0">
+<div class="flex items-center gap-2">
+<h3 class="truncate text-base font-semibold text-slate-900 dark:text-white">Suresh Patil</h3>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center rounded-md bg-green-50 dark:bg-green-900/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-green-700 dark:text-green-300 ring-1 ring-inset ring-green-600/20">
+                                Farmer
+                            </span>
+<span class="truncate text-xs text-slate-500 dark:text-slate-400 font-medium">+91 91234 56789</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-[20px] group-active:translate-x-1 transition-transform">chevron_right</span>
+</a>
+<!-- List Item: Customer -->
+<a class="group flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-4 active:bg-slate-50 dark:active:bg-slate-800/50 transition-colors" href="#">
+<div class="flex items-center gap-4 overflow-hidden">
+<div class="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 font-bold text-lg">
+                        S
+                    </div>
+<div class="flex flex-col gap-0.5 min-w-0">
+<div class="flex items-center gap-2">
+<h3 class="truncate text-base font-semibold text-slate-900 dark:text-white">Sunrise Logistics</h3>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center rounded-md bg-purple-50 dark:bg-purple-900/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-purple-700 dark:text-purple-300 ring-1 ring-inset ring-purple-700/10">
+                                Customer
+                            </span>
+<span class="truncate text-xs text-slate-500 dark:text-slate-400 font-medium">+91 99887 77665</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-[20px] group-active:translate-x-1 transition-transform">chevron_right</span>
+</a>
+<!-- List Item: Merchant -->
+<a class="group flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-4 active:bg-slate-50 dark:active:bg-slate-800/50 transition-colors" href="#">
+<div class="flex items-center gap-4 overflow-hidden">
+<!-- Image Avatar Example -->
+<div class="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-slate-100">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Company logo gradient placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD5oUxA_x1pEuYCNOeErrRl0b2JkRN2sK63KGssgsExuqCvW__EAG8zng2IaAsRvTr_DbciVk9Bbuxeu2c_uMnGmsdecwBi056ev1li2UxW3ZIRgt7baIwAYjmhLyYNwxjAqqC6I48Ez2HUoc8LHl2f-FZ2Oe1_nrM66tk_CaKWw5S0oYICtGS_BJbkzuce4y8HTM2b9fTzjIeP-3skN1s8sfj7T8Va-FljU9PsKfTrhqw6-_WTTRDC7IXv4V-rux0Qlj1jq0k6A_01");'></div>
+</div>
+<div class="flex flex-col gap-0.5 min-w-0">
+<div class="flex items-center gap-2">
+<h3 class="truncate text-base font-semibold text-slate-900 dark:text-white">Global Rice Exports</h3>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center rounded-md bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-blue-700 dark:text-blue-300 ring-1 ring-inset ring-blue-700/10">
+                                Merchant
+                            </span>
+<span class="truncate text-xs text-slate-500 dark:text-slate-400 font-medium">+91 88888 11111</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-[20px] group-active:translate-x-1 transition-transform">chevron_right</span>
+</a>
+<!-- List Item: Farmer -->
+<a class="group flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-4 active:bg-slate-50 dark:active:bg-slate-800/50 transition-colors" href="#">
+<div class="flex items-center gap-4 overflow-hidden">
+<div class="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 font-bold text-lg">
+                        A
+                    </div>
+<div class="flex flex-col gap-0.5 min-w-0">
+<div class="flex items-center gap-2">
+<h3 class="truncate text-base font-semibold text-slate-900 dark:text-white">Anil Kumar</h3>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center rounded-md bg-green-50 dark:bg-green-900/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-green-700 dark:text-green-300 ring-1 ring-inset ring-green-600/20">
+                                Farmer
+                            </span>
+<span class="truncate text-xs text-slate-500 dark:text-slate-400 font-medium">+91 77777 22222</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-[20px] group-active:translate-x-1 transition-transform">chevron_right</span>
+</a>
+<!-- List Item: Merchant -->
+<a class="group flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-4 active:bg-slate-50 dark:active:bg-slate-800/50 transition-colors" href="#">
+<div class="flex items-center gap-4 overflow-hidden">
+<div class="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 font-bold text-lg">
+                        M
+                        <div class="absolute -bottom-0.5 -right-0.5 h-4 w-4 rounded-full border-2 border-white dark:border-background-dark bg-green-500"></div>
+</div>
+<div class="flex flex-col gap-0.5 min-w-0">
+<div class="flex items-center gap-2">
+<h3 class="truncate text-base font-semibold text-slate-900 dark:text-white">Mahalakshmi Mill</h3>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center rounded-md bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-blue-700 dark:text-blue-300 ring-1 ring-inset ring-blue-700/10">
+                                Merchant
+                            </span>
+<span class="truncate text-xs text-slate-500 dark:text-slate-400 font-medium">+91 66666 33333</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-[20px] group-active:translate-x-1 transition-transform">chevron_right</span>
+</a>
+<!-- List Item: Customer -->
+<a class="group flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-4 active:bg-slate-50 dark:active:bg-slate-800/50 transition-colors" href="#">
+<div class="flex items-center gap-4 overflow-hidden">
+<div class="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-bold text-lg">
+                        K
+                    </div>
+<div class="flex flex-col gap-0.5 min-w-0">
+<div class="flex items-center gap-2">
+<h3 class="truncate text-base font-semibold text-slate-900 dark:text-white">Krishna Retailers</h3>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center rounded-md bg-purple-50 dark:bg-purple-900/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-purple-700 dark:text-purple-300 ring-1 ring-inset ring-purple-700/10">
+                                Customer
+                            </span>
+<span class="truncate text-xs text-slate-500 dark:text-slate-400 font-medium">+91 55555 44444</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-[20px] group-active:translate-x-1 transition-transform">chevron_right</span>
+</a>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="sticky bottom-0 z-20 w-full border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark pb-safe">
+<div class="flex h-16 items-center justify-around px-2">
+<a class="group flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">home</span>
+<span class="text-[10px] font-medium">Dashboard</span>
+</a>
+<a class="group flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<div class="flex h-8 w-14 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/20">
+<span class="material-symbols-outlined text-[24px] fill-current">group</span>
+</div>
+<span class="text-[10px] font-bold">Parties</span>
+</a>
+<a class="group flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">inventory_2</span>
+<span class="text-[10px] font-medium">Stock</span>
+</a>
+<a class="group flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">shopping_cart</span>
+<span class="text-[10px] font-medium">Orders</span>
+</a>
+</div>
+<!-- iPhone Home Indicator Spacer -->
+<div class="h-1 w-full bg-white dark:bg-background-dark"></div>
+</nav>
+</div>
+</body></html>

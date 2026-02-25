@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 
 export default function Profile() {
   const { user, logout } = useAuth();
@@ -25,19 +25,24 @@ export default function Profile() {
       >
         <View style={{ flex: 1, marginTop: 100 }}>
           <View style={styles.profileSection}>
-            <View style={styles.avatarContainer}>
-              <Image
-                source={
-                  user?.profile_image_url ??
-                  require("../../assets/images/react-logo.png")
-                } // Placeholder, replace with user avatar if available
-                style={styles.avatar}
-                contentFit="cover"
-              />
-              <View style={styles.editBadge}>
-                <Ionicons name="pencil" size={12} color="#FFFFFF" />
+            <Pressable
+              onPress={() => router.push("/dashboard/profile/edit")}
+              style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}
+            >
+              <View style={styles.avatarContainer}>
+                <Image
+                  source={
+                    user?.profile_image_url ??
+                    require("../../../assets/images/react-logo.png")
+                  }
+                  style={styles.avatar}
+                  contentFit="cover"
+                />
+                <View style={styles.editBadge}>
+                  <Ionicons name="pencil" size={12} color="#FFFFFF" />
+                </View>
               </View>
-            </View>
+            </Pressable>
 
             <AppText variant="h1" style={styles.name}>
               {user?.full_name || "John Doe"}
@@ -54,7 +59,7 @@ export default function Profile() {
                 variant="caption"
                 style={{ color: colors.primary, fontWeight: "700" }}
               >
-                {user?.user_type}
+                {String(user?.user_type || "")}
               </AppText>
             </View>
 
@@ -62,7 +67,7 @@ export default function Profile() {
               {user?.email || "---"}
             </AppText>
             <AppText variant="bodySecondary" style={styles.contactInfo}>
-              {user?.phone || "---"}
+              {String(user?.phone || "---")}
             </AppText>
           </View>
         </View>

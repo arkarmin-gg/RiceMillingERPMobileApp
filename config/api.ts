@@ -1,6 +1,6 @@
 // const API_BASE_URL = "http://192.168.1.3:8000/api/v1";
-const API_BASE_URL = "http://192.168.0.205:8000/api/v1";
-// const API_BASE_URL = "http://localhost:8000/api/v1";
+// const API_BASE_URL = "http://192.168.0.205:8000/api/v1";
+const API_BASE_URL = "http://localhost:8000/api/v1";
 
 type ApiFetchOptions = RequestInit & {
   authToken?: string | null;
@@ -10,13 +10,16 @@ async function apiFetch<TResponse = unknown>(
   path: string,
   options: ApiFetchOptions = {},
 ): Promise<TResponse> {
-  const { authToken, headers, ...rest } = options;
+  const { authToken, headers, body, ...rest } = options;
 
   const mergedHeaders: Record<string, string> = {
     Accept: "application/json",
-    "Content-Type": "application/json",
     ...(headers as Record<string, string> | undefined),
   };
+
+  if (!(body instanceof FormData)) {
+    mergedHeaders["Content-Type"] = "application/json";
+  }
 
   if (authToken) {
     mergedHeaders.Authorization = `Bearer ${authToken}`;
@@ -24,6 +27,7 @@ async function apiFetch<TResponse = unknown>(
 
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...rest,
+    body,
     headers: mergedHeaders,
   });
 

@@ -1,9 +1,10 @@
-import React from "react";
 import { AppText } from "@/design-system/components";
 import { colors, radii, spacing } from "@/design-system/tokens";
 import { useToastStore } from "@/hooks/use-toast";
 import { Ionicons } from "@expo/vector-icons";
+import React from "react";
 import { StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export function ToastHost() {
   const { visible, type, title, message, hide } = useToastStore();
@@ -20,13 +21,19 @@ export function ToastHost() {
 
   const palette =
     type === "success"
-      ? { background: colors.success, icon: "checkmark-circle-outline" as const }
+      ? {
+          background: colors.success,
+          icon: "checkmark-circle-outline" as const,
+        }
       : type === "error"
         ? { background: colors.danger, icon: "alert-circle-outline" as const }
-        : { background: colors.primary, icon: "information-circle-outline" as const };
+        : {
+            background: colors.primary,
+            icon: "information-circle-outline" as const,
+          };
 
   return (
-    <View pointerEvents="box-none" style={styles.overlay}>
+    <SafeAreaView pointerEvents="box-none" style={styles.overlay}>
       <View style={[styles.container, { backgroundColor: palette.background }]}>
         <View style={styles.iconContainer}>
           <Ionicons name={palette.icon} size={20} color="#FFFFFF" />
@@ -52,7 +59,7 @@ export function ToastHost() {
           ) : null}
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -61,7 +68,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
-    bottom: 0,
+    top: 0,
     paddingHorizontal: spacing.m,
     paddingBottom: spacing.l,
   },
@@ -79,4 +86,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-

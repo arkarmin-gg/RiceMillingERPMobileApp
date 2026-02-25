@@ -3,7 +3,7 @@ import { AppText, Screen } from "@/design-system/components";
 import { ToastHost } from "@/design-system/toast";
 import { colors, spacing } from "@/design-system/tokens";
 import { useAppState } from "@/hooks/use-app-status";
-import { useAuth, useAuthHydration } from "@/hooks/use-auth";
+import { useAuthHydration } from "@/hooks/use-auth";
 import { useOnlineManager } from "@/hooks/use-online-manager";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
@@ -12,10 +12,9 @@ import { ActivityIndicator, View } from "react-native";
 export default function RootLayout() {
   useOnlineManager();
   useAppState();
-  const { isLoading } = useAuth();
   const hasHydrated = useAuthHydration();
 
-  const showAuthLoading = !hasHydrated || isLoading;
+  const showAuthLoading = !hasHydrated;
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -9,6 +9,7 @@ import {
   type TextInputProps,
   type ViewStyle,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   colors,
   radii,
@@ -26,10 +27,10 @@ export function AppText({ variant = "body", style, ...rest }: AppTextProps) {
   return <Text style={[textVariants[variant], style]} {...rest} />;
 }
 
-type ScreenProps = React.ComponentProps<typeof View>;
+type ScreenProps = React.ComponentProps<typeof SafeAreaView>;
 
 export function Screen({ style, ...rest }: ScreenProps) {
-  return <View style={[styles.screen, style]} {...rest} />;
+  return <SafeAreaView style={[styles.screen, style]} {...rest} />;
 }
 
 type CardProps = React.ComponentProps<typeof View>;
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
     paddingHorizontal: spacing.m,
-    paddingVertical: spacing.l,
+    paddingVertical: 0,
   },
   card: {
     backgroundColor: colors.surface,

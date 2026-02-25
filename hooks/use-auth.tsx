@@ -17,6 +17,7 @@ type AuthUser = {
   gender?: string;
   user_type?: string;
   last_login_at?: string;
+  phone?: string;
   [key: string]: unknown;
 };
 
@@ -36,6 +37,11 @@ export type AuthContextValue = {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
+  updateProfile: (data: {
+    full_name?: string;
+    phone?: string;
+    profile_image?: string;
+  }) => Promise<void>;
 };
 
 const secureStorage: StateStorage = {
@@ -151,6 +157,65 @@ export const useAuthStore = create<AuthContextValue>()(
             isAuthenticated: false,
             isLoading: false,
           });
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+      updateProfile: async (data: {
+        full_name?: string;
+        phone?: string;
+        profile_image?: string;
+      }) => {
+        const { user, token } = get();
+
+        if (!user || !token) {
+          return;
+        }
+
+        set({ isLoading: true, error: null });
+
+        try {
+          const formData = new FormData();
+
+          if (data.full_name) {
+            formData.append("full_name", data.full_name);
+          }
+
+          if (data.phone) {
+            formData.append("phone", data.phone);
+          }
+
+          if (data.profile_image) {
+            const uri = data.profile_image;
+            const filename = uri.split("/").pop() || "profile.jpg";
+            const match = /\.(\w+)$/.exec(filename);
+            const type = match ? `image/${match[1]}` : `image/jpeg`;
+
+            // @ts-ignore
+            formData.append("profile_image", {
+              uri,
+              name: filename,
+              type,
+            });
+          }
+
+          const { data: updatedUser } = await apiFetch<{
+            data: AuthUser;
+            message: string;
+          }>(`/users/${user.id}`, {
+            method: "PATCH",
+            authToken: token,
+            body: formData,
+          });
+
+          set({ user: updatedUser, isLoading: false, error: null });
+        } catch (err) {
+          const message =
+            err instanceof Error
+              ? err.message
+              : "Unable to update profile. Please try again.";
+          set({ error: message, isLoading: false });
+          throw err;
         } finally {
           set({ isLoading: false });
         }

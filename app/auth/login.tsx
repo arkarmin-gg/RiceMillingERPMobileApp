@@ -14,7 +14,7 @@ import { KeyboardAvoidingView, Platform, View } from "react-native";
 import { z } from "zod";
 
 const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
+  email: z.email("Please enter a valid email address"),
   password: z.string().min(1, "Password is required"),
 });
 
@@ -35,9 +35,9 @@ export default function Login() {
     const result = loginSchema.safeParse({ email, password });
 
     if (!result.success) {
-      const formattedErrors = result.error.format();
-      setEmailError(formattedErrors.email?._errors[0] || "");
-      setPasswordError(formattedErrors.password?._errors[0] || "");
+      const formattedErrors = z.treeifyError(result.error);
+      setEmailError(formattedErrors?.properties?.email?.errors[0] || "");
+      setPasswordError(formattedErrors?.properties?.password?.errors[0] || "");
       return;
     }
 
@@ -129,6 +129,7 @@ export default function Login() {
               }}
               placeholder="you@example.com"
               error={emailError}
+              editable={!isLoading}
               leftIcon={
                 <Ionicons
                   name="person-outline"
@@ -148,6 +149,7 @@ export default function Login() {
               }}
               placeholder="********"
               error={passwordError}
+              editable={!isLoading}
               leftIcon={
                 <Ionicons
                   name="lock-closed-outline"
@@ -179,6 +181,7 @@ export default function Login() {
                 ) : undefined
               }
               onPress={handleSignIn}
+              disabled={isLoading}
             />
           </View>
         </View>

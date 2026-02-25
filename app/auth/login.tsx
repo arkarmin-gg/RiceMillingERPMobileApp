@@ -11,17 +11,33 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
 import { KeyboardAvoidingView, Platform, View } from "react-native";
+import { z } from "zod";
+
+const loginSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+  password: z.string().min(1, "Password is required"),
+});
 
 export default function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
+  const [emailError, setEmailError] = React.useState("");
+  const [passwordError, setPasswordError] = React.useState("");
   const { login, isLoading, error } = useAuth();
   const { show } = useToastActions();
   const router = useRouter();
 
   async function handleSignIn() {
-    if (!email || !password) {
+    setEmailError("");
+    setPasswordError("");
+
+    const result = loginSchema.safeParse({ email, password });
+
+    if (!result.success) {
+      const formattedErrors = result.error.format();
+      setEmailError(formattedErrors.email?._errors[0] || "");
+      setPasswordError(formattedErrors.password?._errors[0] || "");
       return;
     }
 
@@ -54,13 +70,13 @@ export default function Login() {
         <View
           style={{
             flex: 1,
-            justifyContent: "flex-start",
+            justifyContent: "center",
           }}
         >
           <View
             style={{
               alignItems: "center",
-              marginTop: spacing.xl,
+
               marginBottom: spacing.l,
             }}
           >
@@ -107,8 +123,12 @@ export default function Login() {
               keyboardType="email-address"
               autoCapitalize="none"
               value={email}
-              onChangeText={setEmail}
+              onChangeText={(text) => {
+                setEmail(text);
+                setEmailError("");
+              }}
               placeholder="you@example.com"
+              error={emailError}
               leftIcon={
                 <Ionicons
                   name="person-outline"
@@ -122,8 +142,12 @@ export default function Login() {
               secureTextEntry={!showPassword}
               value={password}
               autoCapitalize="none"
-              onChangeText={setPassword}
+              onChangeText={(text) => {
+                setPassword(text);
+                setPasswordError("");
+              }}
               placeholder="********"
+              error={passwordError}
               leftIcon={
                 <Ionicons
                   name="lock-closed-outline"

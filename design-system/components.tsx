@@ -52,7 +52,12 @@ export function PrimaryButton({
 }: ButtonBaseProps) {
   return (
     <Pressable
-      style={[styles.buttonBase, styles.primaryButton, style]}
+      style={({ pressed }) => [
+        styles.buttonBase,
+        styles.primaryButton,
+        pressed && styles.buttonPressed,
+        style,
+      ]}
       {...rest}
     >
       <AppText variant="button" style={styles.primaryButtonLabel}>
@@ -73,10 +78,41 @@ export function SecondaryButton({
 }: ButtonBaseProps) {
   return (
     <Pressable
-      style={[styles.buttonBase, styles.secondaryButton, style]}
+      style={({ pressed }) => [
+        styles.buttonBase,
+        styles.secondaryButton,
+        pressed && styles.buttonPressed,
+        style,
+      ]}
       {...rest}
     >
       <AppText variant="button" style={styles.secondaryButtonLabel}>
+        {label}
+      </AppText>
+      {rightIcon ? (
+        <View style={styles.buttonRightIcon}>{rightIcon}</View>
+      ) : null}
+    </Pressable>
+  );
+}
+
+export function DangerButton({
+  label,
+  rightIcon,
+  style,
+  ...rest
+}: ButtonBaseProps) {
+  return (
+    <Pressable
+      style={({ pressed }) => [
+        styles.buttonBase,
+        styles.dangerButton,
+        pressed && styles.buttonPressed,
+        style,
+      ]}
+      {...rest}
+    >
+      <AppText variant="button" style={styles.primaryButtonLabel}>
         {label}
       </AppText>
       {rightIcon ? (
@@ -205,6 +241,9 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
   },
+  buttonPressed: {
+    opacity: 0.7,
+  },
   primaryButton: {
     backgroundColor: colors.primary,
   },
@@ -218,6 +257,9 @@ const styles = StyleSheet.create({
   },
   secondaryButtonLabel: {
     color: colors.textPrimary,
+  },
+  dangerButton: {
+    backgroundColor: colors.danger,
   },
   buttonRightIcon: {
     marginLeft: spacing.s,

@@ -12,6 +12,11 @@ type AuthUser = {
   id?: string;
   email?: string;
   full_name?: string;
+  profile_image_url?: string;
+  date_of_birth?: string;
+  gender?: string;
+  user_type?: string;
+  last_login_at?: string;
   [key: string]: unknown;
 };
 

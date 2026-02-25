@@ -26,6 +26,7 @@ export const spacing = {
   m: 16,
   l: 24,
   xl: 32,
+  "2xl": 40,
 } as const;
 
 export const radii = {
@@ -87,4 +88,3 @@ export const textVariants: Record<TextVariant, TextStyle> = {
     color: "#FFFFFF",
   },
 };
-

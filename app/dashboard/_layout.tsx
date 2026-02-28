@@ -1,7 +1,10 @@
-import { colors } from "@/design-system/tokens";
+import { CustomHeader } from "@/components/ui/custom-header";
+import { useAuth } from "@/hooks/use-auth";
 import { Ionicons } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
+import { Image } from "expo-image";
+import { Tabs, useRouter } from "expo-router";
 import React from "react";
+import { StyleSheet, View } from "react-native";
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof Ionicons>["name"];
@@ -11,22 +14,34 @@ function TabBarIcon(props: {
 }
 
 export default function DashboardLayout() {
+  const { user } = useAuth();
+  const router = useRouter();
+
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.navInactive,
-        tabBarStyle: {
-          borderTopColor: colors.navBorder,
-          backgroundColor: colors.surface,
-        },
-      }}
-    >
+    <Tabs>
       <Tabs.Screen
         name="home"
         options={{
           title: "Home",
+          header: () => (
+            <CustomHeader
+              title="RiceMill ERP"
+              titleAlign="left"
+              rightIcon={
+                <View style={styles.avatarContainer}>
+                  <Image
+                    source={
+                      user?.profile_image_url ??
+                      require("../../assets/images/react-logo.png")
+                    }
+                    style={styles.avatar}
+                    contentFit="cover"
+                  />
+                </View>
+              }
+              onRightPress={() => router.push("/dashboard/profile")}
+            />
+          ),
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "home" : "home-outline"}
@@ -38,10 +53,19 @@ export default function DashboardLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          href: null,
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="parties"
+        options={{
+          title: "Parties",
+          headerTitle: "",
+          headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "person" : "person-outline"}
+              name={focused ? "people" : "people-outline"}
               color={color}
             />
           ),
@@ -50,3 +74,14 @@ export default function DashboardLayout() {
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  avatarContainer: {
+    position: "relative",
+  },
+  avatar: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+  },
+});

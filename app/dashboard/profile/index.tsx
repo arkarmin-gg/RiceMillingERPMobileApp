@@ -1,3 +1,4 @@
+import InfoRow from "@/components/ui/info-row";
 import { AppText, DangerButton, Screen } from "@/design-system/components";
 import { colors, radii, spacing } from "@/design-system/tokens";
 import { useAuth } from "@/hooks/use-auth";
@@ -17,60 +18,65 @@ export default function Profile() {
 
   return (
     <Screen style={styles.container}>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "space-between",
-        }}
-      >
-        <View style={{ flex: 1, marginTop: 100 }}>
-          <View style={styles.profileSection}>
-            <Pressable
-              onPress={() => router.push("/dashboard/profile/edit")}
-              style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}
-            >
-              <View style={styles.avatarContainer}>
-                <Image
-                  source={
-                    user?.profile_image_url ??
-                    require("../../../assets/images/react-logo.png")
-                  }
-                  style={styles.avatar}
-                  contentFit="cover"
-                />
-                <View style={styles.editBadge}>
-                  <Ionicons name="pencil" size={12} color="#FFFFFF" />
-                </View>
-              </View>
-            </Pressable>
-
-            <AppText variant="h1" style={styles.name}>
-              {user?.full_name || "John Doe"}
-            </AppText>
-
-            <View style={styles.roleBadge}>
-              <Ionicons
-                name="shield-checkmark"
-                size={12}
-                color={colors.primary}
-                style={{ marginRight: 4 }}
+      <View style={{ flex: 1 }}>
+        <View style={styles.profileSection}>
+          <Pressable
+            onPress={() => router.push("/dashboard/profile/edit")}
+            style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}
+          >
+            <View style={styles.avatarContainer}>
+              <Image
+                source={
+                  user?.profile_image_url ??
+                  require("../../../assets/images/react-logo.png")
+                }
+                style={styles.avatar}
+                contentFit="cover"
               />
-              <AppText
-                variant="caption"
-                style={{ color: colors.primary, fontWeight: "700" }}
-              >
-                {String(user?.user_type || "")}
-              </AppText>
+              <View style={styles.editBadge}>
+                <Ionicons name="pencil" size={12} color="#FFFFFF" />
+              </View>
             </View>
+          </Pressable>
 
-            <AppText variant="bodySecondary" style={styles.contactInfo}>
-              {user?.email || "---"}
-            </AppText>
-            <AppText variant="bodySecondary" style={styles.contactInfo}>
-              {String(user?.phone || "---")}
+          <AppText variant="h1" style={styles.name}>
+            {user?.full_name || "John Doe"}
+          </AppText>
+
+          <View style={styles.roleBadge}>
+            <Ionicons
+              name="shield-checkmark"
+              size={12}
+              color={colors.primary}
+              style={{ marginRight: 4 }}
+            />
+            <AppText
+              variant="caption"
+              style={{ color: colors.primary, fontWeight: "700" }}
+            >
+              {String(user?.user_type || "")}
             </AppText>
           </View>
+
+          {/* <AppText variant="bodySecondary" style={styles.contactInfo}>
+            {user?.email || "---"}
+          </AppText> */}
+
+          <View style={styles.infoSection}>
+            <InfoRow
+              icon="call-outline"
+              label="Phone"
+              value={user?.phone || "---"}
+            />
+            <InfoRow
+              icon="mail-outline"
+              label="Email"
+              value={user?.email || "---"}
+            />
+          </View>
         </View>
+
+        <View style={{ flex: 1 }} />
 
         <DangerButton
           onPress={handleLogout}
@@ -92,19 +98,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: spacing.m,
-    paddingVertical: spacing.m,
-  },
-  headerTitle: {
-    textAlign: "center",
-  },
   profileSection: {
     alignItems: "center",
-    marginBottom: spacing.xl,
   },
   avatarContainer: {
     position: "relative",
@@ -116,6 +111,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     borderWidth: 4,
     borderColor: colors.surface,
+    backgroundColor: colors.surface,
   },
   editBadge: {
     position: "absolute",
@@ -132,6 +128,7 @@ const styles = StyleSheet.create({
   },
   name: {
     marginBottom: spacing.xs,
+    textAlign: "center",
   },
   roleBadge: {
     flexDirection: "row",
@@ -142,50 +139,11 @@ const styles = StyleSheet.create({
     borderRadius: radii.pill,
     marginBottom: spacing.m,
   },
-  contactInfo: {
-    marginBottom: 2,
-  },
-  sectionHeader: {
-    marginBottom: spacing.s,
-    marginLeft: spacing.xs,
-  },
-  card: {
+  infoSection: {
+    width: "100%",
     backgroundColor: colors.surface,
     borderRadius: radii.card,
-    overflow: "hidden",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  menuItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
     padding: spacing.m,
-  },
-  menuItemPressed: {
-    backgroundColor: colors.background,
-  },
-  menuItemLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  iconBox: {
-    width: 36,
-    height: 36,
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: spacing.m,
-  },
-  menuItemText: {
-    fontWeight: "500",
-  },
-  versionText: {
-    textAlign: "center",
-    color: colors.textSecondary,
-    opacity: 0.6,
+    gap: spacing.m,
   },
 });

@@ -97,19 +97,7 @@ export default function EditProfile() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
       >
-        <ScrollView contentContainerStyle={{ paddingBottom: spacing.xl }}>
-          <View style={styles.header}>
-            <Pressable onPress={() => router.back()} style={styles.backButton}>
-              <Ionicons
-                name="arrow-back"
-                size={24}
-                color={colors.textPrimary}
-              />
-            </Pressable>
-            <AppText variant="h2">Edit Profile</AppText>
-            <View style={{ width: 24 }} />
-          </View>
-
+        <ScrollView>
           <View style={styles.avatarSection}>
             <Pressable
               onPress={pickImage}

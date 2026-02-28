@@ -40,14 +40,7 @@ export default function RootLayout() {
         <>
           <Stack
             screenOptions={{
-              headerStyle: { backgroundColor: colors.primary },
-              headerTintColor: "#FFFFFF",
-              headerTitleStyle: {
-                color: "#FFFFFF",
-                fontSize: 20,
-                fontWeight: "600",
-              },
-              contentStyle: { backgroundColor: colors.background },
+              statusBarStyle: "dark",
             }}
           >
             <Stack.Screen name="auth" options={{ headerShown: false }} />

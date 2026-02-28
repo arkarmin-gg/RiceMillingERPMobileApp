@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+  
+  <!-- Main Container Circle -->
+  <circle cx="512" cy="512" r="400" fill="#FFFFFF" filter="url(#shadow)"/>
+  
+  <!-- Gear Icon (Industrial/Milling aspect) -->
+  <g transform="translate(512, 512)">
+    <path d="M-220 -80 L-180 -80 L-160 -150 L-90 -150 L-70 -80 L70 -80 L90 -150 L160 -150 L180 -80 L220 -80 L220 80 L180 80 L160 150 L90 150 L70 80 L-70 80 L-90 150 L-160 150 L-180 80 L-220 80 Z" fill="#94A3B8"/>
+    <circle r="140" fill="#E2E8F0"/>
+    <circle r="100" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Rice Stalk Icon (Agricultural aspect) -->
+  <g transform="translate(512, 512) scale(1.2)">
+    <!-- Stalk -->
+    <path d="M0 100 Q20 50 0 -100" stroke="#16A34A" stroke-width="12" fill="none" stroke-linecap="round"/>
+    
+    <!-- Grains (Left) -->
+    <ellipse cx="-25" cy="-20" rx="15" ry="30" fill="#FACC15" transform="rotate(-30 -25 -20)"/>
+    <ellipse cx="-25" cy="-80" rx="15" ry="30" fill="#FACC15" transform="rotate(-30 -25 -80)"/>
+    
+    <!-- Grains (Right) -->
+    <ellipse cx="25" cy="-50" rx="15" ry="30" fill="#FACC15" transform="rotate(30 25 -50)"/>
+    <ellipse cx="25" cy="10" rx="15" ry="30" fill="#FACC15" transform="rotate(30 25 10)"/>
+    
+    <!-- Top Grain -->
+    <ellipse cx="0" cy="-110" rx="15" ry="35" fill="#FACC15"/>
+  </g>
+</svg>

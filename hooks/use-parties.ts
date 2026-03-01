@@ -1,6 +1,7 @@
 import {
   createParty,
   deleteParty,
+  getDispatchableParties,
   getParties,
   getParty,
   updateParty,
@@ -84,5 +85,18 @@ export function useDeleteParty() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["parties"] });
     },
+  });
+}
+
+export function useDispatchableParties() {
+  const { token } = useAuth();
+
+  return useQuery({
+    queryKey: ["parties", "dispatchable"],
+    queryFn: () => {
+      if (!token) throw new Error("No auth token");
+      return getDispatchableParties(token);
+    },
+    enabled: !!token,
   });
 }

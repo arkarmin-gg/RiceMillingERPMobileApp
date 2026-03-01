@@ -54,7 +54,11 @@ const DetailPartyPage = () => {
               showBack
               onLeftPress={() => router.back()}
               rightIcon={
-                <Ionicons name="pencil" size={24} color={colors.primary} />
+                <Ionicons
+                  name="create-outline"
+                  size={24}
+                  color={colors.primary}
+                />
               }
               onRightPress={() =>
                 router.push({

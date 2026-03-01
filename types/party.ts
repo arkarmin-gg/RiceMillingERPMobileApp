@@ -31,3 +31,24 @@ export interface CreatePartyInput {
 export interface UpdatePartyInput extends Partial<CreatePartyInput> {
   id: string;
 }
+
+export interface DispatchableItem {
+  item_id: string;
+  item_name: string;
+  quantity: number;
+  bags: number;
+  loose_lb: number;
+}
+
+export interface DispatchableParty {
+  id: string;
+  full_name: string;
+  phone: string;
+  type: PartyType;
+  dispatchable_items: DispatchableItem[];
+}
+
+export interface DispatchablePartiesResponse {
+  data: DispatchableParty[];
+  message: string;
+}

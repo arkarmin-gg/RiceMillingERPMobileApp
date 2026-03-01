@@ -1,5 +1,11 @@
 import { apiFetch } from "@/config/api";
-import { CreatePartyInput, Party, PartyResponse, PartyType } from "@/types/party";
+import {
+  CreatePartyInput,
+  DispatchablePartiesResponse,
+  Party,
+  PartyResponse,
+  PartyType,
+} from "@/types/party";
 
 export async function getParties(
   token: string,
@@ -65,6 +71,14 @@ export async function deleteParty(
 ): Promise<{ message: string }> {
   return apiFetch<{ message: string }>(`/parties/${id}`, {
     method: "DELETE",
+    authToken: token,
+  });
+}
+
+export async function getDispatchableParties(
+  token: string,
+): Promise<DispatchablePartiesResponse> {
+  return apiFetch<DispatchablePartiesResponse>("/parties/dispatchable", {
     authToken: token,
   });
 }

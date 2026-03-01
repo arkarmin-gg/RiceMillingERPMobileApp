@@ -85,6 +85,20 @@ export default function DashboardLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="dispatches"
+        options={{
+          title: "Dispatches",
+          headerTitle: "",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "send" : "send-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

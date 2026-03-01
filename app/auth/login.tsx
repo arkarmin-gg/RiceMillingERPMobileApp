@@ -19,8 +19,8 @@ const loginSchema = z.object({
 });
 
 export default function Login() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = React.useState("kaungkaung@gmail.com");
+  const [password, setPassword] = React.useState("passwordD123!@#");
   const [showPassword, setShowPassword] = React.useState(false);
   const [emailError, setEmailError] = React.useState("");
   const [passwordError, setPasswordError] = React.useState("");
@@ -122,9 +122,9 @@ export default function Login() {
               label="Email"
               keyboardType="email-address"
               autoCapitalize="none"
-              value={email}
+              value={email.trim()}
               onChangeText={(text) => {
-                setEmail(text);
+                setEmail(text.trim());
                 setEmailError("");
               }}
               placeholder="you@example.com"
@@ -141,10 +141,10 @@ export default function Login() {
             <TextField
               label="Password"
               secureTextEntry={!showPassword}
-              value={password}
+              value={password.trim()}
               autoCapitalize="none"
               onChangeText={(text) => {
-                setPassword(text);
+                setPassword(text.trim());
                 setPasswordError("");
               }}
               placeholder="********"

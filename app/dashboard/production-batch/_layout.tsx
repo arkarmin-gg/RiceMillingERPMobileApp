@@ -3,7 +3,7 @@ import { colors } from "@/design-system/tokens";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
 
-export default function PartiesLayout() {
+export default function ProductionLayout() {
   const router = useRouter();
 
   return (
@@ -18,7 +18,7 @@ export default function PartiesLayout() {
       <Stack.Screen
         name="index"
         options={{
-          header: () => <CustomHeader title="Parties List" />,
+          header: () => <CustomHeader title="Production Batches" />,
         }}
       />
       <Stack.Screen
@@ -26,7 +26,7 @@ export default function PartiesLayout() {
         options={{
           header: () => (
             <CustomHeader
-              title="Create New Party"
+              title="Create New Production Batch"
               showBack
               onLeftPress={() => router.back()}
             />

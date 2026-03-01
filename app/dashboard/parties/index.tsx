@@ -1,5 +1,10 @@
 import PartyItem from "@/components/parties/party-item";
-import { AppText, Screen, TextField } from "@/design-system/components";
+import {
+  AppText,
+  IconButton,
+  Screen,
+  TextField,
+} from "@/design-system/components";
 import { colors, radii, spacing } from "@/design-system/tokens";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useParties } from "@/hooks/use-parties";
@@ -137,6 +142,14 @@ export default function PartiesPage() {
       </View>
 
       {renderContent()}
+
+      <IconButton
+        icon={<Ionicons name="add" size={32} color="white" />}
+        variant="primary"
+        size="large"
+        style={styles.fab}
+        onPress={() => router.push("/dashboard/parties/create")}
+      />
     </Screen>
   );
 }
@@ -183,5 +196,15 @@ const styles = StyleSheet.create({
   listContent: {
     gap: spacing.s,
     paddingTop: spacing.s,
+  },
+  fab: {
+    position: "absolute",
+    bottom: spacing.xl,
+    right: spacing.l,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });

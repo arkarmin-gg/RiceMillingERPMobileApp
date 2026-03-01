@@ -71,6 +71,20 @@ export default function DashboardLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="production-batch"
+        options={{
+          title: "Production Batches",
+          headerTitle: "",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "construct" : "construct-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

@@ -1,4 +1,4 @@
-import { getItems } from "@/services/items";
+import { getItems, getItemsWithStock } from "@/services/items";
 import { ItemCategory } from "@/types/item";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "./use-auth";
@@ -16,6 +16,18 @@ export function useItems(params?: {
     queryFn: () => {
       if (!token) throw new Error("No auth token");
       return getItems(token, params);
+    },
+    enabled: !!token,
+  });
+}
+
+export function useItemsWithStock() {
+  const { token } = useAuth();
+  return useQuery({
+    queryKey: ["items", "with-stock"],
+    queryFn: () => {
+      if (!token) throw new Error("No auth token");
+      return getItemsWithStock(token);
     },
     enabled: !!token,
   });

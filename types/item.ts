@@ -25,3 +25,18 @@ export interface ItemResponse {
   pagination: Pagination;
   message: string;
 }
+
+export interface ItemWithStock {
+  id: string;
+  name: string;
+  category: ItemCategory;
+  unit: string;
+  total_quantity: number;
+  total_bags: number;
+  total_loose_lb: number;
+}
+
+export interface ItemWithStockResponse {
+  data: ItemWithStock[];
+  message: string;
+}

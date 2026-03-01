@@ -1,5 +1,9 @@
 import { apiFetch } from "@/config/api";
-import { ItemCategory, ItemResponse } from "@/types/item";
+import {
+  ItemCategory,
+  ItemResponse,
+  ItemWithStockResponse,
+} from "@/types/item";
 
 export async function getItems(
   token: string,
@@ -23,6 +27,14 @@ export async function getItems(
   const url = `/items${queryString ? `?${queryString}` : ""}`;
 
   return apiFetch<ItemResponse>(url, {
+    authToken: token,
+  });
+}
+
+export async function getItemsWithStock(
+  token: string,
+): Promise<ItemWithStockResponse> {
+  return apiFetch<ItemWithStockResponse>("/items/with-stock", {
     authToken: token,
   });
 }

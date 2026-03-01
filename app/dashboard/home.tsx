@@ -1,3 +1,4 @@
+import { QuickActions } from "@/components/home/quick-actions";
 import { StockOverviewList } from "@/components/items/stock-overview-list";
 import { AppText, Screen } from "@/design-system/components";
 import { colors, spacing } from "@/design-system/tokens";
@@ -49,6 +50,7 @@ export default function Home() {
         }
       >
         <StockOverviewList items={items} />
+        <QuickActions />
       </ScrollView>
     </Screen>
   );
@@ -62,5 +64,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flexGrow: 1,
+    paddingBottom: spacing.xl,
+    gap: spacing.m,
   },
 });

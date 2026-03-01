@@ -15,7 +15,7 @@ export function StockOverviewList({ items }: StockOverviewListProps) {
   return (
     <View>
       <View style={styles.header}>
-        <AppText variant="h2">Stock Overview</AppText>
+        <AppText variant="caption">Stock Overview</AppText>
       </View>
       <FlatList
         data={items}

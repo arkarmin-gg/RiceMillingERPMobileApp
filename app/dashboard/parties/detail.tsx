@@ -1,14 +1,21 @@
+import { StockBalanceList } from "@/components/check-stock/stock-balance-list";
 import PartyAvatar from "@/components/parties/party-avatar";
 import { CustomHeader } from "@/components/ui/custom-header";
 import InfoRow from "@/components/ui/info-row";
 import { AppText, Screen } from "@/design-system/components";
 import { colors, radii, spacing } from "@/design-system/tokens";
 import { useParty } from "@/hooks/use-parties";
+import { useStockBalances } from "@/hooks/use-stock-balances";
 import { PartyType } from "@/types/party";
 import { Ionicons } from "@expo/vector-icons";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import React from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 const BADGE_STYLES: Record<
   PartyType,
@@ -25,6 +32,16 @@ const DetailPartyPage = () => {
   const { partyId } = useLocalSearchParams<{ partyId: string }>();
   const { data: partyResponse, isLoading } = useParty(partyId);
   const party = partyResponse?.data;
+
+  const {
+    data: stockBalancesData,
+    isLoading: isStockLoading,
+    refetch: refetchStock,
+  } = useStockBalances({
+    owner_id: partyId,
+  });
+
+  const [activeTab, setActiveTab] = useState<"info" | "stock">("info");
 
   if (isLoading) {
     return (
@@ -89,15 +106,60 @@ const DetailPartyPage = () => {
           </View>
         </View>
 
-        <View style={styles.infoSection}>
-          <InfoRow icon="call-outline" label="Phone" value={party.phone} />
-          <InfoRow
-            icon="location-outline"
-            label="Address"
-            value={party.address}
-          />
-          <InfoRow icon="card-outline" label="NRC" value={party.nrc} />
+        <View style={styles.tabs}>
+          <TouchableOpacity
+            style={[styles.tab, activeTab === "info" && styles.activeTab]}
+            onPress={() => setActiveTab("info")}
+          >
+            <AppText
+              style={[
+                styles.tabText,
+                activeTab === "info" && styles.activeTabText,
+              ]}
+            >
+              Information
+            </AppText>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tab, activeTab === "stock" && styles.activeTab]}
+            onPress={() => setActiveTab("stock")}
+          >
+            <AppText
+              style={[
+                styles.tabText,
+                activeTab === "stock" && styles.activeTabText,
+              ]}
+            >
+              Stock Balances
+            </AppText>
+          </TouchableOpacity>
         </View>
+
+        {activeTab === "info" ? (
+          <View style={styles.infoSection}>
+            <InfoRow icon="call-outline" label="Phone" value={party.phone} />
+            <InfoRow
+              icon="location-outline"
+              label="Address"
+              value={party.address}
+            />
+            <InfoRow icon="card-outline" label="NRC" value={party.nrc} />
+          </View>
+        ) : (
+          <View style={styles.stockSection}>
+            {isStockLoading ? (
+              <ActivityIndicator color={colors.primary} />
+            ) : (
+              <StockBalanceList
+                balances={stockBalancesData?.data || []}
+                isLoading={isStockLoading}
+                onRefresh={refetchStock}
+                hideOwner
+                contentContainerStyle={{ paddingBottom: spacing.xl }}
+              />
+            )}
+          </View>
+        )}
       </View>
     </Screen>
   );
@@ -117,7 +179,8 @@ const styles = StyleSheet.create({
   },
   profileSection: {
     alignItems: "center",
-    marginBottom: spacing.xl,
+    marginBottom: spacing.l,
+    paddingTop: spacing.m,
   },
   name: {
     marginTop: spacing.m,
@@ -129,11 +192,36 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.xs,
     borderRadius: radii.pill,
   },
+  tabs: {
+    flexDirection: "row",
+    marginBottom: spacing.m,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderSubtle,
+  },
+  tab: {
+    paddingVertical: spacing.s,
+    marginRight: spacing.l,
+    borderBottomWidth: 2,
+    borderBottomColor: "transparent",
+  },
+  activeTab: {
+    borderBottomColor: colors.primary,
+  },
+  tabText: {
+    color: colors.textSecondary,
+    fontWeight: "600",
+  },
+  activeTabText: {
+    color: colors.primary,
+  },
   infoSection: {
     backgroundColor: colors.surface,
     borderRadius: radii.card,
     padding: spacing.m,
     gap: spacing.m,
+  },
+  stockSection: {
+    flex: 1,
   },
 });
 

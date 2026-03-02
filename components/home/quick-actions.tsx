@@ -67,9 +67,7 @@ export function QuickActions() {
           }
           label="Check Stock"
           onPress={() => {
-            // Navigate to home to show stock (already on home, maybe scroll to top?)
-            // For now, let's just push to home which effectively refreshes/resets
-            router.push("/dashboard/home");
+            router.push("/dashboard/check-stock");
           }}
         />
         <ActionButton

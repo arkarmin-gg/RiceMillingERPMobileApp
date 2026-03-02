@@ -7,7 +7,7 @@ import { Platform } from "react-native";
 // For physical device, use your machine's LAN IP (e.g. 192.168.x.x)
 const API_BASE_URL = Platform.select({
   // android: "http://10.0.2.2:8000/api/v1",
-  android: "http://192.168.1.4:8000/api/v1",
+  android: "http://192.168.1.2:8000/api/v1",
   ios: "http://localhost:8000/api/v1",
   default: "http://localhost:8000/api/v1",
 });

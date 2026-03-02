@@ -112,10 +112,25 @@ export default function DashboardLayout() {
           ),
         }}
       />
+
       <Tabs.Screen
         name="activity-log/[id]"
         options={{
           href: null,
+        }}
+      />
+
+      <Tabs.Screen
+        name="check-stock/index"
+        options={{
+          href: null,
+          header: () => (
+            <CustomHeader
+              title="Stock Balances"
+              showBack
+              onLeftPress={() => router.back()}
+            />
+          ),
         }}
       />
     </Tabs>

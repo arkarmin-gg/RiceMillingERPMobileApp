@@ -1,5 +1,5 @@
 import { AppText } from "@/design-system/components";
-import { colors, spacing } from "@/design-system/tokens";
+import { colors, radii, shadows, spacing } from "@/design-system/tokens";
 import { Party, PartyType } from "@/types/party";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
@@ -73,12 +73,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: spacing.m,
-    paddingHorizontal: spacing.m,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderSubtle,
+    padding: spacing.m,
     backgroundColor: colors.surface,
-    borderRadius: 10,
+    borderRadius: radii.card,
+    marginBottom: spacing.m,
+    ...shadows.card,
+    borderWidth: 1,
+    borderColor: colors.borderSubtle,
   },
   statusDot: {
     position: "absolute",

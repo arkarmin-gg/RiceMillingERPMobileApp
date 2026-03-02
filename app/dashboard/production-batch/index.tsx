@@ -146,7 +146,6 @@ export default function ProductionBatchesPage() {
         refreshControl={
           <RefreshControl refreshing={isLoading} onRefresh={refetch} />
         }
-        contentContainerStyle={styles.listContent}
       />
     );
   };
@@ -550,10 +549,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  listContent: {
-    gap: spacing.s,
-    paddingTop: spacing.s,
   },
   modalOverlay: {
     flex: 1,

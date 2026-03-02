@@ -10,7 +10,6 @@ import { colors, radii, spacing } from "@/design-system/tokens";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useDispatches } from "@/hooks/use-dispatches";
 import { useParties } from "@/hooks/use-parties";
-import { DispatchStatus } from "@/types/dispatch";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter } from "expo-router";
@@ -27,14 +26,9 @@ import {
   View,
 } from "react-native";
 
-const STATUSES: DispatchStatus[] = ["PENDING", "COMPLETED", "CANCELLED"];
-
 export default function DispatchesPage() {
   const router = useRouter();
   const [search, setSearch] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState<
-    DispatchStatus | undefined
-  >();
   const [merchantId, setMerchantId] = useState<string>("");
   const [fromDate, setFromDate] = useState<Date | undefined>();
   const [toDate, setToDate] = useState<Date | undefined>();
@@ -113,7 +107,6 @@ export default function DispatchesPage() {
     merchant_id: merchantId || undefined,
     from_date: toLocalDateString(fromDate),
     to_date: toLocalDateString(toDate),
-    status: selectedStatus,
   });
 
   const renderContent = () => {
@@ -153,7 +146,6 @@ export default function DispatchesPage() {
         refreshControl={
           <RefreshControl refreshing={isLoading} onRefresh={refetch} />
         }
-        contentContainerStyle={styles.listContent}
       />
     );
   };
@@ -554,10 +546,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  listContent: {
-    gap: spacing.s,
-    paddingTop: spacing.s,
   },
   modalOverlay: {
     flex: 1,

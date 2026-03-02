@@ -510,7 +510,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
     paddingHorizontal: spacing.m,
-    paddingVertical: 0,
   },
   card: {
     backgroundColor: colors.surface,

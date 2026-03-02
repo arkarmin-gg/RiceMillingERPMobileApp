@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   header: {
-    paddingBottom: spacing.s,
+    paddingBottom: spacing.m,
   },
   listContent: {
     paddingBottom: spacing.m,

@@ -3,7 +3,7 @@ import { colors, radii, shadows, spacing } from "@/design-system/tokens";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 
 interface ActionButtonProps {
   icon: React.ReactNode;
@@ -36,7 +36,11 @@ export function QuickActions() {
       <AppText variant="caption" style={styles.sectionTitle}>
         Quick Actions
       </AppText>
-      <View style={styles.actionsRow}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.actionsScroll}
+      >
         <ActionButton
           icon={<Ionicons name="add" size={24} color={colors.surface} />}
           label="New Batch"
@@ -68,7 +72,14 @@ export function QuickActions() {
             router.push("/dashboard/home");
           }}
         />
-      </View>
+        <ActionButton
+          icon={
+            <Ionicons name="time-outline" size={24} color={colors.surface} />
+          }
+          label="Activity Log"
+          onPress={() => router.push("/dashboard/activity-log")}
+        />
+      </ScrollView>
     </View>
   );
 }
@@ -81,13 +92,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.m,
     color: colors.textSecondary,
   },
-  actionsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  actionsScroll: {
     gap: spacing.m,
   },
   actionButton: {
-    flex: 1,
+    width: 120, // Fixed width for horizontal items
     backgroundColor: colors.surface,
     borderRadius: radii.card,
     padding: spacing.m,

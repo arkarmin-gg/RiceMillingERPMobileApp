@@ -1,22 +1,14 @@
 import { ActivityLogList } from "@/components/activity-log/activity-log-list";
-import { QuickActions } from "@/components/home/quick-actions";
-import { StockOverviewList } from "@/components/items/stock-overview-list";
+import { CustomHeader } from "@/components/ui/custom-header";
 import { AppText, Screen } from "@/design-system/components";
 import { colors, spacing } from "@/design-system/tokens";
 import { useActivityLogs } from "@/hooks/use-activity-logs";
-import { useItemsWithStock } from "@/hooks/use-items";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import React, { useCallback } from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
 
-export default function Home() {
+export default function ActivityLogIndex() {
   const router = useRouter();
-  const {
-    data: stockData,
-    isLoading: stockIsLoading,
-    error: stockError,
-    refetch: stockRefetch,
-  } = useItemsWithStock();
   const {
     data: activityLogsData,
     isLoading: activityIsLoading,
@@ -26,50 +18,48 @@ export default function Home() {
 
   const onRefresh = useCallback(() => {
     activityRefetch();
-    stockRefetch();
-  }, [activityRefetch, stockRefetch]);
+  }, [activityRefetch]);
 
-  if (stockIsLoading || activityIsLoading) {
+  if (activityIsLoading) {
     return (
       <Screen style={styles.center}>
+        <Stack.Screen
+          options={{
+            header: () => (
+              <CustomHeader
+                title="Activity Logs"
+                showBack
+                onLeftPress={() => router.back()}
+              />
+            ),
+          }}
+        />
         <ActivityIndicator size="large" color={colors.primary} />
       </Screen>
     );
   }
 
-  if (stockError || activityError) {
+  if (activityError) {
     return (
       <Screen style={styles.center}>
         <AppText variant="body" style={{ color: colors.danger }}>
-          Failed to load items stock or activity logs.
+          Failed to load activity logs.
         </AppText>
-        <AppText variant="caption" style={{ marginTop: spacing.s }}>
-          {stockError?.message || activityError?.message}
+        <AppText variant="caption" style={{ marginTop: 8 }}>
+          {activityError?.message}
         </AppText>
       </Screen>
     );
   }
 
-  const items = stockData?.data || [];
   const logs = activityLogsData?.data || [];
-
-  const renderHeader = () => (
-    <View style={styles.headerContainer}>
-      <StockOverviewList items={items} />
-      <QuickActions />
-      <View>
-        <AppText variant="caption">Recent Activity</AppText>
-      </View>
-    </View>
-  );
 
   return (
     <Screen>
       <ActivityLogList
         logs={logs}
-        isLoading={stockIsLoading || activityIsLoading}
+        isLoading={activityIsLoading}
         onRefresh={onRefresh}
-        ListHeaderComponent={renderHeader()}
         onItemPress={(item) =>
           router.push({
             pathname: "/dashboard/activity-log/[id]",
@@ -87,8 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  headerContainer: {
-    gap: spacing.m,
-    marginBottom: spacing.m,
+  header: {
+    paddingBottom: spacing.m,
   },
 });

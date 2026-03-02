@@ -10,7 +10,6 @@ import { colors, radii, spacing } from "@/design-system/tokens";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useParties } from "@/hooks/use-parties";
 import { useProductionBatches } from "@/hooks/use-production-batches";
-import { ProductionBatchStatus } from "@/types/production-batch";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter } from "expo-router";
@@ -20,7 +19,6 @@ import {
   FlatList,
   Modal,
   Platform,
-  Pressable,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -28,19 +26,9 @@ import {
   View,
 } from "react-native";
 
-const STATUSES: ProductionBatchStatus[] = [
-  "PENDING",
-  "IN_PROGRESS",
-  "COMPLETED",
-  "CANCELLED",
-];
-
 export default function ProductionBatchesPage() {
   const router = useRouter();
   const [search, setSearch] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState<
-    ProductionBatchStatus | undefined
-  >();
   const [merchantId, setMerchantId] = useState<string>("");
   const [fromDate, setFromDate] = useState<Date | undefined>();
   const [toDate, setToDate] = useState<Date | undefined>();
@@ -116,7 +104,6 @@ export default function ProductionBatchesPage() {
   const { data, isLoading, refetch } = useProductionBatches({
     get_all: true,
     search: debouncedSearch,
-    status: selectedStatus,
     merchant_id: merchantId || undefined,
     from_date: toLocalDateString(fromDate),
     to_date: toLocalDateString(toDate),
@@ -211,45 +198,6 @@ export default function ProductionBatchesPage() {
             )}
           </TouchableOpacity>
         </View>
-
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.filterContainer}
-        >
-          <Pressable
-            onPress={() => setSelectedStatus(undefined)}
-            style={[styles.chip, !selectedStatus && styles.chipSelected]}
-          >
-            <AppText
-              style={[
-                styles.chipText,
-                !selectedStatus && styles.chipTextSelected,
-              ]}
-            >
-              All
-            </AppText>
-          </Pressable>
-          {STATUSES.map((status) => (
-            <Pressable
-              key={status}
-              onPress={() => setSelectedStatus(status)}
-              style={[
-                styles.chip,
-                selectedStatus === status && styles.chipSelected,
-              ]}
-            >
-              <AppText
-                style={[
-                  styles.chipText,
-                  selectedStatus === status && styles.chipTextSelected,
-                ]}
-              >
-                {status.replace("_", " ")}
-              </AppText>
-            </Pressable>
-          ))}
-        </ScrollView>
       </View>
 
       {renderContent()}

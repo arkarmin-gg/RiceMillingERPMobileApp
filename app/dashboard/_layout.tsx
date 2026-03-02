@@ -99,6 +99,25 @@ export default function DashboardLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="activity-log/index"
+        options={{
+          href: null,
+          header: () => (
+            <CustomHeader
+              title="Activity Logs"
+              showBack
+              onLeftPress={() => router.back()}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="activity-log/[id]"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }

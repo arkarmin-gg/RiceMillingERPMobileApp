@@ -1,0 +1,427 @@
+{
+    "data": [
+        {
+            "id": "019cacc4-fe77-7240-8b69-d4fb2a4249ad",
+            "user_id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+            "admin_id": null,
+            "action": "UPDATE",
+            "description": "Update Party (U Kaung Myat Chit)",
+            "ip_address": "192.168.1.4",
+            "user_agent": "okhttp/4.12.0",
+            "created_at": "2026-03-02T04:18:37.000000Z",
+            "subject_id": "019cacc3-c81c-70a0-84ec-2912550b8d0d",
+            "subject_type": "App\\Models\\Party",
+            "properties": {
+                "old": {
+                    "phone": "09212839234",
+                    "address": "Yangon - Updated",
+                    "nrc": "12/KATANA(N)192311221",
+                    "updated_at": "2026-03-02T04:18:06.000000Z"
+                },
+                "new": {
+                    "phone": "09212839212",
+                    "address": "No - 001, Yangon",
+                    "nrc": "12/KATANA(N)19231124",
+                    "updated_at": "2026-03-02 04:18:37"
+                }
+            },
+            "user": {
+                "id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+                "full_name": "Kaung Kaung",
+                "profile_image_url": "users/profile/dNWpx3GUcZyhAGWElcbG6QWUm6QBcI9qiVwgGjCL.jpg",
+                "email": "kaungkaung@gmail.com",
+                "phone": "095085730",
+                "date_of_birth": null,
+                "gender": null,
+                "user_type": "owner",
+                "is_banned": false,
+                "last_login_at": null,
+                "deleted_at": null,
+                "created_at": "2026-02-21T11:03:35.000000Z",
+                "updated_at": "2026-02-25T14:51:13.000000Z"
+            },
+            "admin": null
+        },
+        {
+            "id": "019cacc4-880f-7256-9c25-674fe9c503a9",
+            "user_id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+            "admin_id": null,
+            "action": "UPDATE",
+            "description": "Update Party (U Kaung Myat Chit)",
+            "ip_address": "192.168.1.4",
+            "user_agent": "okhttp/4.12.0",
+            "created_at": "2026-03-02T04:18:07.000000Z",
+            "subject_id": "019cacc3-c81c-70a0-84ec-2912550b8d0d",
+            "subject_type": "App\\Models\\Party",
+            "properties": {
+                "old": {
+                    "nrc": "12/KATANA(N)192311234",
+                    "updated_at": "2026-03-02T04:17:44.000000Z"
+                },
+                "new": {
+                    "nrc": "12/KATANA(N)192311221",
+                    "updated_at": "2026-03-02 04:18:06"
+                }
+            },
+            "user": {
+                "id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+                "full_name": "Kaung Kaung",
+                "profile_image_url": "users/profile/dNWpx3GUcZyhAGWElcbG6QWUm6QBcI9qiVwgGjCL.jpg",
+                "email": "kaungkaung@gmail.com",
+                "phone": "095085730",
+                "date_of_birth": null,
+                "gender": null,
+                "user_type": "owner",
+                "is_banned": false,
+                "last_login_at": null,
+                "deleted_at": null,
+                "created_at": "2026-02-21T11:03:35.000000Z",
+                "updated_at": "2026-02-25T14:51:13.000000Z"
+            },
+            "admin": null
+        },
+        {
+            "id": "019cacc4-2e96-7332-bf48-41b17e2643b9",
+            "user_id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+            "admin_id": null,
+            "action": "UPDATE",
+            "description": "Update Party (U Kaung Myat Chit)",
+            "ip_address": "192.168.1.4",
+            "user_agent": "okhttp/4.12.0",
+            "created_at": "2026-03-02T04:17:44.000000Z",
+            "subject_id": "019cacc3-c81c-70a0-84ec-2912550b8d0d",
+            "subject_type": "App\\Models\\Party",
+            "properties": {
+                "old": {
+                    "address": "Yangon",
+                    "updated_at": "2026-03-02T04:17:17.000000Z"
+                },
+                "new": {
+                    "address": "Yangon - Updated",
+                    "updated_at": "2026-03-02 04:17:44"
+                }
+            },
+            "user": {
+                "id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+                "full_name": "Kaung Kaung",
+                "profile_image_url": "users/profile/dNWpx3GUcZyhAGWElcbG6QWUm6QBcI9qiVwgGjCL.jpg",
+                "email": "kaungkaung@gmail.com",
+                "phone": "095085730",
+                "date_of_birth": null,
+                "gender": null,
+                "user_type": "owner",
+                "is_banned": false,
+                "last_login_at": null,
+                "deleted_at": null,
+                "created_at": "2026-02-21T11:03:35.000000Z",
+                "updated_at": "2026-02-25T14:51:13.000000Z"
+            },
+            "admin": null
+        },
+        {
+            "id": "019cacc3-c81e-7028-9c54-f4f260118975",
+            "user_id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+            "admin_id": null,
+            "action": "CREATE",
+            "description": "Create Party (U Kaung Myat Chit)",
+            "ip_address": "192.168.1.4",
+            "user_agent": "okhttp/4.12.0",
+            "created_at": "2026-03-02T04:17:18.000000Z",
+            "subject_id": "019cacc3-c81c-70a0-84ec-2912550b8d0d",
+            "subject_type": "App\\Models\\Party",
+            "properties": {
+                "old": null,
+                "new": {
+                    "full_name": "U Kaung Myat Chit",
+                    "type": "MERCHANT",
+                    "phone": "09212839234",
+                    "address": "Yangon",
+                    "nrc": "12/KATANA(N)192311234",
+                    "id": "019cacc3-c81c-70a0-84ec-2912550b8d0d",
+                    "updated_at": "2026-03-02 04:17:17",
+                    "created_at": "2026-03-02 04:17:17"
+                }
+            },
+            "user": {
+                "id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+                "full_name": "Kaung Kaung",
+                "profile_image_url": "users/profile/dNWpx3GUcZyhAGWElcbG6QWUm6QBcI9qiVwgGjCL.jpg",
+                "email": "kaungkaung@gmail.com",
+                "phone": "095085730",
+                "date_of_birth": null,
+                "gender": null,
+                "user_type": "owner",
+                "is_banned": false,
+                "last_login_at": null,
+                "deleted_at": null,
+                "created_at": "2026-02-21T11:03:35.000000Z",
+                "updated_at": "2026-02-25T14:51:13.000000Z"
+            },
+            "admin": null
+        },
+        {
+            "id": "019cacc3-0eb6-7242-800c-5a722bb52441",
+            "user_id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+            "admin_id": null,
+            "action": "CREATE",
+            "description": "Create Output (RICE 1) in Batch (PB-20260302041630-ROL0)",
+            "ip_address": "192.168.1.4",
+            "user_agent": "okhttp/4.12.0",
+            "created_at": "2026-03-02T04:16:30.000000Z",
+            "subject_id": "019cacc3-0eb2-7215-a6f8-fb3de4a3b73e",
+            "subject_type": "App\\Models\\ProductionOutput",
+            "properties": {
+                "old": null,
+                "new": {
+                    "batch_id": "019cacc3-0eaa-70d3-85b8-cf834a7997bb",
+                    "item_id": "019c7fe0-8089-7317-ad70-d4d4463ad561",
+                    "quantity": 108050,
+                    "id": "019cacc3-0eb2-7215-a6f8-fb3de4a3b73e",
+                    "bags": 1000,
+                    "loose_lb": 50
+                },
+                "item_name": "RICE 1",
+                "batch_number": "PB-20260302041630-ROL0",
+                "stock_impact": {
+                    "change": 108050,
+                    "unit": "BAG",
+                    "bags": 1000,
+                    "loose_lb": 50
+                }
+            },
+            "user": {
+                "id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+                "full_name": "Kaung Kaung",
+                "profile_image_url": "users/profile/dNWpx3GUcZyhAGWElcbG6QWUm6QBcI9qiVwgGjCL.jpg",
+                "email": "kaungkaung@gmail.com",
+                "phone": "095085730",
+                "date_of_birth": null,
+                "gender": null,
+                "user_type": "owner",
+                "is_banned": false,
+                "last_login_at": null,
+                "deleted_at": null,
+                "created_at": "2026-02-21T11:03:35.000000Z",
+                "updated_at": "2026-02-25T14:51:13.000000Z"
+            },
+            "admin": null
+        },
+        {
+            "id": "019cacc3-0ead-7215-8abd-1746fb8d33a4",
+            "user_id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+            "admin_id": null,
+            "action": "CREATE",
+            "description": "Create Production Batch (PB-20260302041630-ROL0)",
+            "ip_address": "192.168.1.4",
+            "user_agent": "okhttp/4.12.0",
+            "created_at": "2026-03-02T04:16:30.000000Z",
+            "subject_id": "019cacc3-0eaa-70d3-85b8-cf834a7997bb",
+            "subject_type": "App\\Models\\ProductionBatch",
+            "properties": {
+                "old": null,
+                "new": {
+                    "merchant_id": "019ca3a3-ea2b-705e-9a54-677d986515e6",
+                    "production_date": "2026-03-02",
+                    "status": "COMPLETED",
+                    "id": "019cacc3-0eaa-70d3-85b8-cf834a7997bb",
+                    "batch_number": "PB-20260302041630-ROL0"
+                }
+            },
+            "user": {
+                "id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+                "full_name": "Kaung Kaung",
+                "profile_image_url": "users/profile/dNWpx3GUcZyhAGWElcbG6QWUm6QBcI9qiVwgGjCL.jpg",
+                "email": "kaungkaung@gmail.com",
+                "phone": "095085730",
+                "date_of_birth": null,
+                "gender": null,
+                "user_type": "owner",
+                "is_banned": false,
+                "last_login_at": null,
+                "deleted_at": null,
+                "created_at": "2026-02-21T11:03:35.000000Z",
+                "updated_at": "2026-02-25T14:51:13.000000Z"
+            },
+            "admin": null
+        },
+        {
+            "id": "019cacc2-0d28-70bc-b2f3-6459173b3ada",
+            "user_id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+            "admin_id": null,
+            "action": "UPDATE",
+            "description": "Update Item (RICE 1) in Dispatch (DP-20260302041440-CNFL)",
+            "ip_address": "192.168.1.4",
+            "user_agent": "okhttp/4.12.0",
+            "created_at": "2026-03-02T04:15:24.000000Z",
+            "subject_id": "019cacc1-6150-71f8-8d9a-ac0016f0f428",
+            "subject_type": "App\\Models\\DispatchItem",
+            "properties": {
+                "old": {
+                    "quantity": 1080,
+                    "bags": 10,
+                    "loose_lb": 0
+                },
+                "new": {
+                    "quantity": 2160,
+                    "bags": 20,
+                    "loose_lb": 0
+                },
+                "item_name": "RICE 1",
+                "dispatch_number": "DP-20260302041440-CNFL",
+                "stock_impact": {
+                    "change": -1080,
+                    "unit": "BAG",
+                    "bags": 10,
+                    "loose_lb": 0
+                }
+            },
+            "user": {
+                "id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+                "full_name": "Kaung Kaung",
+                "profile_image_url": "users/profile/dNWpx3GUcZyhAGWElcbG6QWUm6QBcI9qiVwgGjCL.jpg",
+                "email": "kaungkaung@gmail.com",
+                "phone": "095085730",
+                "date_of_birth": null,
+                "gender": null,
+                "user_type": "owner",
+                "is_banned": false,
+                "last_login_at": null,
+                "deleted_at": null,
+                "created_at": "2026-02-21T11:03:35.000000Z",
+                "updated_at": "2026-02-25T14:51:13.000000Z"
+            },
+            "admin": null
+        },
+        {
+            "id": "019cacc2-0d1e-7164-a37b-4ef54dff6bc5",
+            "user_id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+            "admin_id": null,
+            "action": "UPDATE",
+            "description": "Update Dispatch (DP-20260302041440-CNFL)",
+            "ip_address": "192.168.1.4",
+            "user_agent": "okhttp/4.12.0",
+            "created_at": "2026-03-02T04:15:24.000000Z",
+            "subject_id": "019cacc1-6149-719f-bb5d-41194bbb3f3a",
+            "subject_type": "App\\Models\\Dispatch",
+            "properties": {
+                "old": {
+                    "dispatch_date": "2026-03-02 00:00:00"
+                },
+                "new": {
+                    "dispatch_date": "2026-03-02"
+                },
+                "merchant_name": "U Aung Aung",
+                "dispatch_number": "DP-20260302041440-CNFL"
+            },
+            "user": {
+                "id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+                "full_name": "Kaung Kaung",
+                "profile_image_url": "users/profile/dNWpx3GUcZyhAGWElcbG6QWUm6QBcI9qiVwgGjCL.jpg",
+                "email": "kaungkaung@gmail.com",
+                "phone": "095085730",
+                "date_of_birth": null,
+                "gender": null,
+                "user_type": "owner",
+                "is_banned": false,
+                "last_login_at": null,
+                "deleted_at": null,
+                "created_at": "2026-02-21T11:03:35.000000Z",
+                "updated_at": "2026-02-25T14:51:13.000000Z"
+            },
+            "admin": null
+        },
+        {
+            "id": "019cacc1-614e-710c-9cf4-54226e92a4e5",
+            "user_id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+            "admin_id": null,
+            "action": "CREATE",
+            "description": "Create Dispatch (DP-20260302041440-CNFL)",
+            "ip_address": "192.168.1.4",
+            "user_agent": "okhttp/4.12.0",
+            "created_at": "2026-03-02T04:14:40.000000Z",
+            "subject_id": "019cacc1-6149-719f-bb5d-41194bbb3f3a",
+            "subject_type": "App\\Models\\Dispatch",
+            "properties": {
+                "old": null,
+                "new": {
+                    "merchant_id": "019c7fe0-4419-7121-84f3-9e3b53213f4b",
+                    "dispatch_date": "2026-03-02",
+                    "description": "second",
+                    "id": "019cacc1-6149-719f-bb5d-41194bbb3f3a",
+                    "dispatch_number": "DP-20260302041440-CNFL"
+                },
+                "merchant_name": "U Aung Aung",
+                "dispatch_number": "DP-20260302041440-CNFL"
+            },
+            "user": {
+                "id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+                "full_name": "Kaung Kaung",
+                "profile_image_url": "users/profile/dNWpx3GUcZyhAGWElcbG6QWUm6QBcI9qiVwgGjCL.jpg",
+                "email": "kaungkaung@gmail.com",
+                "phone": "095085730",
+                "date_of_birth": null,
+                "gender": null,
+                "user_type": "owner",
+                "is_banned": false,
+                "last_login_at": null,
+                "deleted_at": null,
+                "created_at": "2026-02-21T11:03:35.000000Z",
+                "updated_at": "2026-02-25T14:51:13.000000Z"
+            },
+            "admin": null
+        },
+        {
+            "id": "019cacc1-6154-7246-8840-912835d93060",
+            "user_id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+            "admin_id": null,
+            "action": "CREATE",
+            "description": "Create Item (RICE 1) in Dispatch (DP-20260302041440-CNFL)",
+            "ip_address": "192.168.1.4",
+            "user_agent": "okhttp/4.12.0",
+            "created_at": "2026-03-02T04:14:40.000000Z",
+            "subject_id": "019cacc1-6150-71f8-8d9a-ac0016f0f428",
+            "subject_type": "App\\Models\\DispatchItem",
+            "properties": {
+                "old": null,
+                "new": {
+                    "dispatch_id": "019cacc1-6149-719f-bb5d-41194bbb3f3a",
+                    "item_id": "019c7fe0-8089-7317-ad70-d4d4463ad561",
+                    "quantity": 1080,
+                    "id": "019cacc1-6150-71f8-8d9a-ac0016f0f428",
+                    "bags": 10,
+                    "loose_lb": 0
+                },
+                "item_name": "RICE 1",
+                "dispatch_number": "DP-20260302041440-CNFL",
+                "stock_impact": {
+                    "change": -1080,
+                    "unit": "BAG",
+                    "bags": 10,
+                    "loose_lb": 0
+                }
+            },
+            "user": {
+                "id": "019c7fde-8381-70f4-b96a-7bb9d0093b6c",
+                "full_name": "Kaung Kaung",
+                "profile_image_url": "users/profile/dNWpx3GUcZyhAGWElcbG6QWUm6QBcI9qiVwgGjCL.jpg",
+                "email": "kaungkaung@gmail.com",
+                "phone": "095085730",
+                "date_of_birth": null,
+                "gender": null,
+                "user_type": "owner",
+                "is_banned": false,
+                "last_login_at": null,
+                "deleted_at": null,
+                "created_at": "2026-02-21T11:03:35.000000Z",
+                "updated_at": "2026-02-25T14:51:13.000000Z"
+            },
+            "admin": null
+        }
+    ],
+    "pagination": {
+        "total": 10,
+        "page": 1,
+        "limit": 10
+    },
+    "message": "Activity logs retrieved successfully"
+}

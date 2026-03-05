@@ -1,15 +1,12 @@
 import { Platform } from "react-native";
 
-// const API_BASE_URL = "http://192.168.1.4:8000/api/v1";
-// const API_BASE_URL = "http://192.168.0.205:8000/api/v1";
-
 // Android Emulator uses 10.0.2.2 for localhost
 // For physical device, use your machine's LAN IP (e.g. 192.168.x.x)
+// https://shwe-tharaphu-rice-milling-erp.shwecode.xyz/admin/items
 const API_BASE_URL = Platform.select({
-  // android: "http://10.0.2.2:8000/api/v1",
-  android: "http://192.168.1.2:8000/api/v1",
-  ios: "http://localhost:8000/api/v1",
-  default: "http://localhost:8000/api/v1",
+  android: "https://shwe-tharaphu-rice-milling-erp.shwecode.xyz/api/v1",
+  ios: "https://shwe-tharaphu-rice-milling-erp.shwecode.xyz/api/v1",
+  default: "https://shwe-tharaphu-rice-milling-erp.shwecode.xyz/api/v1",
 });
 
 type ApiFetchOptions = RequestInit & {
@@ -21,7 +18,7 @@ async function apiFetch<TResponse = unknown>(
   path: string,
   options: ApiFetchOptions = {},
 ): Promise<TResponse> {
-  const { authToken, headers, body, timeout = 15000, ...rest } = options;
+  const { authToken, headers, body, timeout = 30000, ...rest } = options;
 
   const mergedHeaders: Record<string, string> = {
     Accept: "application/json",
@@ -50,9 +47,10 @@ async function apiFetch<TResponse = unknown>(
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") {
       throw new Error(
-        "Request timed out. Please check your network connection.",
+        `Request timed out (${timeout}ms). Please check your network connection.`,
       );
     }
+    console.error("API Request Error:", error);
     throw error;
   } finally {
     clearTimeout(id);

@@ -4,7 +4,7 @@
     "slug": "RiceMillingMobileApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/app-icon.svg",
+    "icon": "./assets/images/app-icon.png",
     "scheme": "ricemillingmobileapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,10 +14,11 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#F8FAFC",
-        "foregroundImage": "./assets/images/app-icon-adaptive-foreground.svg"
+        "foregroundImage": "./assets/images/app-icon-adaptive-foreground.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.keik23.RiceMillingMobileApp"
     },
     "web": {
       "output": "static",
@@ -43,6 +44,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "15a1e1ea-a952-413c-83ac-4d4e146abd29"
+      }
     }
   }
 }

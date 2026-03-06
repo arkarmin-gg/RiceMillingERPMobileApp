@@ -22,6 +22,7 @@ async function apiFetch<TResponse = unknown>(
 
   const mergedHeaders: Record<string, string> = {
     Accept: "application/json",
+    "User-Agent": "RiceMillingMobileApp/1.0.0",
     ...(headers as Record<string, string> | undefined),
   };
 

@@ -1,6 +1,7 @@
 import { ActivityLogList } from "@/components/activity-log/activity-log-list";
 import { QuickActions } from "@/components/home/quick-actions";
 import { StockOverviewList } from "@/components/items/stock-overview-list";
+import i18n from "@/config/i18n";
 import { AppText, Screen } from "@/design-system/components";
 import { colors, spacing } from "@/design-system/tokens";
 import { useActivityLogs } from "@/hooks/use-activity-logs";
@@ -41,7 +42,7 @@ export default function Home() {
     return (
       <Screen style={styles.center}>
         <AppText variant="body" style={{ color: colors.danger }}>
-          Failed to load items stock or activity logs.
+          {i18n.t("failed_to_load_data")}
         </AppText>
         <AppText variant="caption" style={{ marginTop: spacing.s }}>
           {stockError?.message || activityError?.message}
@@ -58,7 +59,7 @@ export default function Home() {
       <StockOverviewList items={items} />
       <QuickActions />
       <View>
-        <AppText variant="caption">Recent Activity</AppText>
+        <AppText variant="caption">{i18n.t("recent_activity")}</AppText>
       </View>
     </View>
   );

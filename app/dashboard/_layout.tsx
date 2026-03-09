@@ -1,4 +1,5 @@
 import { CustomHeader } from "@/components/ui/custom-header";
+import i18n from "@/config/i18n";
 import { useAuth } from "@/hooks/use-auth";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
@@ -22,7 +23,7 @@ export default function DashboardLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: "Home",
+          title: i18n.t("home"),
           header: () => (
             <CustomHeader
               title="RiceMill ERP"
@@ -60,7 +61,7 @@ export default function DashboardLayout() {
       <Tabs.Screen
         name="parties"
         options={{
-          title: "Parties",
+          title: i18n.t("parties"),
           headerTitle: "",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -74,7 +75,7 @@ export default function DashboardLayout() {
       <Tabs.Screen
         name="production-batch"
         options={{
-          title: "Production Batches",
+          title: i18n.t("production_batches"),
           headerTitle: "",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -88,7 +89,7 @@ export default function DashboardLayout() {
       <Tabs.Screen
         name="dispatches"
         options={{
-          title: "Dispatches",
+          title: i18n.t("dispatches"),
           headerTitle: "",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (

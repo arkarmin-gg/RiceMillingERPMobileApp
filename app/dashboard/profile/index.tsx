@@ -1,7 +1,9 @@
 import InfoRow from "@/components/ui/info-row";
+import i18n from "@/config/i18n";
 import { AppText, DangerButton, Screen } from "@/design-system/components";
 import { colors, radii, spacing } from "@/design-system/tokens";
 import { useAuth } from "@/hooks/use-auth";
+import { useLanguageStore } from "@/hooks/use-language";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
@@ -10,6 +12,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 
 export default function Profile() {
   const { user, logout } = useAuth();
+  const { locale, setLocale } = useLanguageStore();
 
   const handleLogout = async () => {
     await logout();
@@ -58,21 +61,66 @@ export default function Profile() {
             </AppText>
           </View>
 
-          {/* <AppText variant="bodySecondary" style={styles.contactInfo}>
-            {user?.email || "---"}
-          </AppText> */}
-
           <View style={styles.infoSection}>
             <InfoRow
               icon="call-outline"
-              label="Phone"
+              label={i18n.t("phone")}
               value={user?.phone || "---"}
             />
             <InfoRow
               icon="mail-outline"
-              label="Email"
+              label={i18n.t("email")}
               value={user?.email || "---"}
             />
+          </View>
+
+          <View style={[styles.infoSection, { marginTop: spacing.m }]}>
+            <View style={styles.row}>
+              <View style={styles.rowLabel}>
+                <Ionicons
+                  name="language-outline"
+                  size={20}
+                  color={colors.textSecondary}
+                />
+                <AppText variant="body" style={{ marginLeft: spacing.s }}>
+                  {i18n.t("language")}
+                </AppText>
+              </View>
+              <View style={styles.langToggle}>
+                <Pressable
+                  style={[
+                    styles.langOption,
+                    locale === "en" && styles.langOptionActive,
+                  ]}
+                  onPress={() => setLocale("en")}
+                >
+                  <AppText
+                    style={[
+                      styles.langText,
+                      locale === "en" && styles.langTextActive,
+                    ]}
+                  >
+                    EN
+                  </AppText>
+                </Pressable>
+                <Pressable
+                  style={[
+                    styles.langOption,
+                    locale === "my" && styles.langOptionActive,
+                  ]}
+                  onPress={() => setLocale("my")}
+                >
+                  <AppText
+                    style={[
+                      styles.langText,
+                      locale === "my" && styles.langTextActive,
+                    ]}
+                  >
+                    MY
+                  </AppText>
+                </Pressable>
+              </View>
+            </View>
           </View>
         </View>
 
@@ -80,7 +128,7 @@ export default function Profile() {
 
         <DangerButton
           onPress={handleLogout}
-          label="Logout"
+          label={i18n.t("logout")}
           rightIcon={
             <Ionicons
               name="log-out-outline"
@@ -145,5 +193,36 @@ const styles = StyleSheet.create({
     borderRadius: radii.card,
     padding: spacing.m,
     gap: spacing.m,
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  rowLabel: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  langToggle: {
+    flexDirection: "row",
+    backgroundColor: colors.background,
+    borderRadius: radii.pill,
+    padding: 2,
+  },
+  langOption: {
+    paddingHorizontal: spacing.m,
+    paddingVertical: spacing.xs,
+    borderRadius: radii.pill,
+  },
+  langOptionActive: {
+    backgroundColor: colors.primary,
+  },
+  langText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: colors.textSecondary,
+  },
+  langTextActive: {
+    color: "#FFFFFF",
   },
 });

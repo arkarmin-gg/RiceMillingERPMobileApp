@@ -4,6 +4,7 @@ import { ToastHost } from "@/design-system/toast";
 import { colors, spacing } from "@/design-system/tokens";
 import { useAppState } from "@/hooks/use-app-status";
 import { useAuthHydration } from "@/hooks/use-auth";
+import { useLanguageStore } from "@/hooks/use-language";
 import { useOnlineManager } from "@/hooks/use-online-manager";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
@@ -13,11 +14,12 @@ export default function RootLayout() {
   useOnlineManager();
   useAppState();
   const hasHydrated = useAuthHydration();
+  const locale = useLanguageStore((state) => state.locale);
 
   const showAuthLoading = !hasHydrated;
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient} key={locale}>
       {showAuthLoading ? (
         <Screen>
           <View

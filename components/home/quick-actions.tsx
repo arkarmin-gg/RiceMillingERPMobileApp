@@ -1,3 +1,4 @@
+import i18n from "@/config/i18n";
 import { AppText } from "@/design-system/components";
 import { colors, radii, shadows, spacing } from "@/design-system/tokens";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -34,7 +35,7 @@ export function QuickActions() {
   return (
     <View style={styles.container}>
       <AppText variant="caption" style={styles.sectionTitle}>
-        Quick Actions
+        {i18n.t("quick_actions")}
       </AppText>
       <ScrollView
         horizontal
@@ -43,7 +44,7 @@ export function QuickActions() {
       >
         <ActionButton
           icon={<Ionicons name="add" size={24} color={colors.surface} />}
-          label="New Batch"
+          label={i18n.t("new_batch")}
           onPress={() => router.push("/dashboard/production-batch/create")}
         />
         <ActionButton
@@ -54,7 +55,7 @@ export function QuickActions() {
               color={colors.surface}
             />
           }
-          label="Dispatch"
+          label={i18n.t("dispatch")}
           onPress={() => router.push("/dashboard/dispatches/create")}
         />
         <ActionButton
@@ -65,7 +66,7 @@ export function QuickActions() {
               color={colors.surface}
             />
           }
-          label="Check Stock"
+          label={i18n.t("check_stock")}
           onPress={() => {
             router.push("/dashboard/check-stock");
           }}
@@ -74,7 +75,7 @@ export function QuickActions() {
           icon={
             <Ionicons name="time-outline" size={24} color={colors.surface} />
           }
-          label="Activity Log"
+          label={i18n.t("activity_log")}
           onPress={() => router.push("/dashboard/activity-log")}
         />
       </ScrollView>

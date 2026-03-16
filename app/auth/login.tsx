@@ -8,6 +8,7 @@ import { colors, spacing } from "@/design-system/tokens";
 import { useAuth } from "@/hooks/use-auth";
 import { useToastActions } from "@/hooks/use-toast";
 import { Ionicons } from "@expo/vector-icons";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import React from "react";
 import { KeyboardAvoidingView, Platform, View } from "react-native";
@@ -91,10 +92,17 @@ export default function Login() {
                 marginBottom: spacing.m,
               }}
             >
-              <Ionicons
+              {/* <Ionicons
                 name="construct-outline"
                 size={32}
                 color={colors.primary}
+              /> */}
+              <Image
+                source={require("@/assets/images/splash-icon.png")}
+                style={{
+                  height: 68,
+                  width: 68,
+                }}
               />
             </View>
             <AppText variant="h1" style={{ marginBottom: spacing.xs }}>

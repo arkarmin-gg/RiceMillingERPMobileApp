@@ -67,6 +67,13 @@ export default function ActivityLogDetail() {
 
   // Helper to render property changes
   const renderPropertyChanges = () => {
+    // For DispatchItem and ProductionOutput, combine bags and loose_lb into quantity
+    const subjectType = log.subject_type?.split("\\").pop();
+    const isQuantityItem =
+      subjectType && ["DispatchItem", "ProductionOutput"].includes(subjectType);
+
+    if (!isQuantityItem) return null;
+
     if (!log.properties) return null;
 
     const oldProps = log.properties.old || {};
@@ -81,20 +88,15 @@ export default function ActivityLogDetail() {
       (key) => !["updated_at", "created_at", "id"].includes(key),
     );
 
-    // For DispatchItem and ProductionOutput, combine bags and loose_lb into quantity
-    const subjectType = log.subject_type?.split("\\").pop();
-    const isQuantityItem =
-      subjectType && ["DispatchItem", "ProductionOutput"].includes(subjectType);
+    // Only show quantity changes for these items
+    const hasQuantityChanges = relevantKeys.some((key) =>
+      ["bags", "loose_lb", "quantity"].includes(key),
+    );
 
-    if (isQuantityItem) {
-      // Show only quantity, hide separate bags and loose_lb
-      relevantKeys = relevantKeys.filter(
-        (key) => !["bags", "loose_lb"].includes(key),
-      );
-      // Ensure quantity is in the list if it's not already (though it usually is if bags/loose_lb changed)
-      if (!relevantKeys.includes("quantity")) {
-        relevantKeys.push("quantity");
-      }
+    if (hasQuantityChanges) {
+      relevantKeys = ["quantity"];
+    } else {
+      relevantKeys = [];
     }
 
     if (relevantKeys.length === 0) {
@@ -121,7 +123,7 @@ export default function ActivityLogDetail() {
           let newValueDisplay = JSON.stringify(newProps[key]) ?? "-";
 
           // Custom formatting for quantity
-          if (isQuantityItem && key === "quantity") {
+          if (key === "quantity") {
             const oldBags = oldProps["bags"] ?? 0;
             const oldLb = oldProps["loose_lb"] ?? 0;
             const newBags = newProps["bags"] ?? 0;

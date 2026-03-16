@@ -7,7 +7,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 
 interface ActivityLogItemProps {
   item: ActivityLog;
-  onPress?: () => void;
+  onPress?: (item: ActivityLog) => void;
 }
 
 const ACTION_COLORS: Record<string, string> = {
@@ -24,7 +24,10 @@ const ACTION_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
   LOGIN: "log-in-outline",
 };
 
-export function ActivityLogItem({ item, onPress }: ActivityLogItemProps) {
+export const ActivityLogItem = React.memo(function ActivityLogItem({
+  item,
+  onPress,
+}: ActivityLogItemProps) {
   const actionColor = ACTION_COLORS[item.action] || colors.textSecondary;
   const actionIcon =
     ACTION_ICONS[item.action] ||
@@ -32,10 +35,14 @@ export function ActivityLogItem({ item, onPress }: ActivityLogItemProps) {
 
   const formattedDate = new Date(item.created_at).toLocaleString();
 
+  const handlePress = () => {
+    onPress?.(item);
+  };
+
   return (
     <Pressable
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}
-      onPress={onPress}
+      onPress={handlePress}
     >
       <View style={styles.header}>
         <View style={styles.userInfo}>
@@ -76,7 +83,7 @@ export function ActivityLogItem({ item, onPress }: ActivityLogItemProps) {
       </View>
     </Pressable>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

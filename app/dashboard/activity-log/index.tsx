@@ -11,6 +11,7 @@ import {
 import { colors, radii, spacing } from "@/design-system/tokens";
 import { useActivityLogs } from "@/hooks/use-activity-logs";
 import { useUsers } from "@/hooks/use-users";
+import { ActivityLog } from "@/types/activity-log";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Stack, useRouter } from "expo-router";
@@ -128,6 +129,16 @@ export default function ActivityLogIndex() {
     activityRefetch();
   }, [activityRefetch]);
 
+  const handleItemPress = useCallback(
+    (item: ActivityLog) => {
+      router.push({
+        pathname: "/dashboard/activity-log/[id]",
+        params: { id: item.id },
+      });
+    },
+    [router],
+  );
+
   const renderContent = () => {
     if (activityIsLoading && !activityLogsData) {
       return (
@@ -167,12 +178,7 @@ export default function ActivityLogIndex() {
         logs={logs}
         isLoading={activityIsLoading}
         onRefresh={onRefresh}
-        onItemPress={(item) =>
-          router.push({
-            pathname: "/dashboard/activity-log/[id]",
-            params: { id: item.id },
-          })
-        }
+        onItemPress={handleItemPress}
         contentContainerStyle={styles.listContent}
       />
     );

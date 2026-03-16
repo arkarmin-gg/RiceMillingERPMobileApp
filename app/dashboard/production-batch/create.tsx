@@ -14,8 +14,8 @@ import { useToastActions } from "@/hooks/use-toast";
 import { CreateProductionBatchRequest } from "@/types/production-batch";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import { useFocusEffect, useRouter } from "expo-router";
+import React, { useCallback, useState } from "react";
 import {
   KeyboardAvoidingView,
   Modal,
@@ -92,11 +92,24 @@ export default function CreateNewProductionBatchPage() {
   });
 
   const [outputs, setOutputs] = useState<OutputForm[]>([
-    { item_id: "", bags: "", loose_lb: "" },
+    { item_id: "", bags: "", loose_lb: "0.0" },
   ]);
 
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [errors, setErrors] = useState<any>({});
+
+  useFocusEffect(
+    useCallback(() => {
+      // Clear state when the screen is focused
+      setFormData({
+        merchant_id: "",
+        production_date: toLocalDateString(new Date()),
+      });
+      setOutputs([{ item_id: "", bags: "", loose_lb: "0.0" }]);
+      setShowDatePicker(false);
+      setErrors({});
+    }, []),
+  );
 
   const validate = () => {
     try {
@@ -152,7 +165,7 @@ export default function CreateNewProductionBatchPage() {
   };
 
   const addOutput = () => {
-    setOutputs([...outputs, { item_id: "", bags: "", loose_lb: "" }]);
+    setOutputs([...outputs, { item_id: "", bags: "", loose_lb: "0.0" }]);
   };
 
   const removeOutput = (index: number) => {

@@ -23,7 +23,7 @@ export default function Home() {
     isLoading: activityIsLoading,
     error: activityError,
     refetch: activityRefetch,
-  } = useActivityLogs();
+  } = useActivityLogs({ limit: 10 });
 
   const onRefresh = useCallback(() => {
     activityRefetch();

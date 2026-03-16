@@ -17,8 +17,13 @@ import { useToastActions } from "@/hooks/use-toast";
 import { UpdateProductionBatchRequest } from "@/types/production-batch";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
+import {
+  Stack,
+  useFocusEffect,
+  useLocalSearchParams,
+  useRouter,
+} from "expo-router";
+import React, { useCallback, useState } from "react";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -108,31 +113,37 @@ export default function EditProductionBatchPage() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [errors, setErrors] = useState<any>({});
 
-  useEffect(() => {
-    if (batchResponse?.data) {
-      const batch = batchResponse.data;
-      // Convert API date (likely ISO) to YYYY-MM-DD
-      // Assuming batch.production_date is "YYYY-MM-DD" or ISO string
-      let dateStr = batch.production_date;
-      if (dateStr.includes("T")) {
-        dateStr = dateStr.split("T")[0];
+  useFocusEffect(
+    useCallback(() => {
+      if (batchResponse?.data) {
+        const batch = batchResponse.data;
+        // Convert API date (likely ISO) to YYYY-MM-DD
+        // Assuming batch.production_date is "YYYY-MM-DD" or ISO string
+        let dateStr = batch.production_date;
+        if (dateStr.includes("T")) {
+          dateStr = dateStr.split("T")[0];
+        }
+
+        setFormData({
+          merchant_id: batch.merchant_id,
+          production_date: dateStr,
+        });
+
+        setOutputs(
+          batch.outputs.map((o) => ({
+            id: o.id,
+            item_id: o.item_id,
+            bags: o.bags.toString(),
+            loose_lb: o.loose_lb.toString(),
+          })),
+        );
+
+        // Clear errors and date picker state
+        setErrors({});
+        setShowDatePicker(false);
       }
-
-      setFormData({
-        merchant_id: batch.merchant_id,
-        production_date: dateStr,
-      });
-
-      setOutputs(
-        batch.outputs.map((o) => ({
-          id: o.id,
-          item_id: o.item_id,
-          bags: o.bags.toString(),
-          loose_lb: o.loose_lb.toString(),
-        })),
-      );
-    }
-  }, [batchResponse]);
+    }, [batchResponse]),
+  );
 
   const validate = () => {
     try {
@@ -189,7 +200,7 @@ export default function EditProductionBatchPage() {
   };
 
   const addOutput = () => {
-    setOutputs([...outputs, { item_id: "", bags: "", loose_lb: "" }]);
+    setOutputs([...outputs, { item_id: "", bags: "", loose_lb: "0.0" }]);
   };
 
   const removeOutput = (index: number) => {

@@ -13,8 +13,13 @@ import { useToastActions } from "@/hooks/use-toast";
 import { UpdateDispatchRequest } from "@/types/dispatch";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
+import {
+  Stack,
+  useFocusEffect,
+  useLocalSearchParams,
+  useRouter,
+} from "expo-router";
+import React, { useCallback, useState } from "react";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -145,33 +150,38 @@ export default function EditDispatchPage() {
     return new Date(year, month - 1, day);
   };
 
-  useEffect(() => {
-    if (dispatchResponse?.data) {
-      const dispatch = dispatchResponse.data;
-      // Convert API date (likely ISO) to YYYY-MM-DD
-      let dateStr = dispatch.dispatch_date;
-      if (dateStr.includes("T")) {
-        dateStr = dateStr.split("T")[0];
-      } else if (dateStr.includes(" ")) {
-        dateStr = dateStr.split(" ")[0];
+  useFocusEffect(
+    useCallback(() => {
+      if (dispatchResponse?.data) {
+        const dispatch = dispatchResponse.data;
+        // Convert API date (likely ISO) to YYYY-MM-DD
+        let dateStr = dispatch.dispatch_date;
+        if (dateStr.includes("T")) {
+          dateStr = dateStr.split("T")[0];
+        } else if (dateStr.includes(" ")) {
+          dateStr = dateStr.split(" ")[0];
+        }
+
+        setFormData({
+          merchant_id: dispatch.merchant_id,
+          dispatch_date: dateStr,
+          description: dispatch.description || "",
+        });
+
+        setItems(
+          dispatch.items.map((i) => ({
+            id: i.id,
+            item_id: i.item_id,
+            bags: i.bags.toString(),
+            loose_lb: i.loose_lb.toString(),
+          })),
+        );
+
+        setShowDatePicker(false);
+        setErrors({});
       }
-
-      setFormData({
-        merchant_id: dispatch.merchant_id,
-        dispatch_date: dateStr,
-        description: dispatch.description || "",
-      });
-
-      setItems(
-        dispatch.items.map((i) => ({
-          id: i.id,
-          item_id: i.item_id,
-          bags: i.bags.toString(),
-          loose_lb: i.loose_lb.toString(),
-        })),
-      );
-    }
-  }, [dispatchResponse]);
+    }, [dispatchResponse]),
+  );
 
   const validate = () => {
     try {
@@ -281,7 +291,7 @@ export default function EditDispatchPage() {
   };
 
   const addItem = () => {
-    setItems([...items, { item_id: "", bags: "", loose_lb: "" }]);
+    setItems([...items, { item_id: "", bags: "", loose_lb: "0.0" }]);
   };
 
   const removeItem = (index: number) => {

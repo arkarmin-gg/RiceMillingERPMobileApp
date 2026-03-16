@@ -29,16 +29,18 @@ export function ActivityLogList({
   onItemPress,
   contentContainerStyle,
 }: ActivityLogListProps) {
+  const renderItem = React.useCallback(
+    ({ item }: { item: ActivityLog }) => (
+      <ActivityLogItem item={item} onPress={onItemPress} />
+    ),
+    [onItemPress],
+  );
+
   return (
     <FlatList
       data={logs}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <ActivityLogItem
-          item={item}
-          onPress={onItemPress ? () => onItemPress(item) : undefined}
-        />
-      )}
+      renderItem={renderItem}
       refreshControl={
         onRefresh ? (
           <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />

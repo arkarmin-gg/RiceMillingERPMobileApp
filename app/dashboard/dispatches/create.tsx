@@ -13,8 +13,8 @@ import { useToastActions } from "@/hooks/use-toast";
 import { CreateDispatchRequest } from "@/types/dispatch";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Stack, useRouter } from "expo-router";
-import React, { useState } from "react";
+import { Stack, useFocusEffect, useRouter } from "expo-router";
+import React, { useCallback, useState } from "react";
 import {
   KeyboardAvoidingView,
   Modal,
@@ -81,11 +81,24 @@ export default function CreateDispatchPage() {
   });
 
   const [items, setItems] = useState<ItemForm[]>([
-    { item_id: "", bags: "", loose_lb: "" },
+    { item_id: "", bags: "", loose_lb: "0.0" },
   ]);
 
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [errors, setErrors] = useState<any>({});
+
+  useFocusEffect(
+    useCallback(() => {
+      setFormData({
+        merchant_id: "",
+        dispatch_date: toLocalDateString(new Date()),
+        description: "",
+      });
+      setItems([{ item_id: "", bags: "", loose_lb: "0.0" }]);
+      setShowDatePicker(false);
+      setErrors({});
+    }, []),
+  );
 
   // Get selected merchant's dispatchable items
   const selectedMerchant = dispatchablePartiesData?.data.find(
@@ -186,7 +199,7 @@ export default function CreateDispatchPage() {
   };
 
   const addItem = () => {
-    setItems([...items, { item_id: "", bags: "", loose_lb: "" }]);
+    setItems([...items, { item_id: "", bags: "", loose_lb: "0.0" }]);
   };
 
   const removeItem = (index: number) => {

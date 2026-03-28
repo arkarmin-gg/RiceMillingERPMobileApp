@@ -2,6 +2,8 @@ import { Pagination } from "./type";
 
 export type PartyType = "MERCHANT" | "FARMER" | "BROKER" | "CUSTOMER";
 
+export const PARTY_TYPES: PartyType[] = ["MERCHANT", "FARMER", "BROKER", "CUSTOMER"];
+
 export interface Party {
   id: string;
   full_name: string;

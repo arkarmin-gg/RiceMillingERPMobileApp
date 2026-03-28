@@ -20,12 +20,12 @@ const loginSchema = z.object({
 });
 
 export default function Login() {
-  const [email, setEmail] = React.useState("kaungkaung@gmail.com");
-  const [password, setPassword] = React.useState("passwordD123!@#");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [emailError, setEmailError] = React.useState("");
   const [passwordError, setPasswordError] = React.useState("");
-  const { login, isLoading, error } = useAuth();
+  const { login, isLoading } = useAuth();
   const { show } = useToastActions();
   const router = useRouter();
 
@@ -50,14 +50,14 @@ export default function Login() {
         message: "Welcome back!",
       });
       router.replace("/dashboard/home");
-    } catch {
-      if (error) {
-        show({
-          type: "error",
-          title: "Login Failed",
-          message: error,
-        });
-      }
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Login failed. Please try again.";
+      show({
+        type: "error",
+        title: "Login Failed",
+        message,
+      });
     }
   }
 

@@ -1,3 +1,4 @@
+import { DatePickerField } from "@/components/ui/date-picker-field";
 import { SelectField } from "@/components/ui/select-field";
 import {
   AppText,
@@ -12,13 +13,12 @@ import { useParties } from "@/hooks/use-parties";
 import { useCreateProductionBatch } from "@/hooks/use-production-batches";
 import { useToastActions } from "@/hooks/use-toast";
 import { CreateProductionBatchRequest } from "@/types/production-batch";
+import { toLocalDateString } from "@/utils/date";
 import { Ionicons } from "@expo/vector-icons";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { useFocusEffect, useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
 import {
   KeyboardAvoidingView,
-  Modal,
   Platform,
   ScrollView,
   StyleSheet,
@@ -43,9 +43,14 @@ const batchSchema = z.object({
 });
 
 interface OutputForm {
+  id: string;
   item_id: string;
   bags: string;
   loose_lb: string;
+}
+
+function makeOutput(): OutputForm {
+  return { id: Math.random().toString(36).slice(2), item_id: "", bags: "", loose_lb: "0.0" };
 }
 
 export default function CreateNewProductionBatchPage() {
@@ -53,75 +58,42 @@ export default function CreateNewProductionBatchPage() {
   const { mutate, isPending } = useCreateProductionBatch();
   const { show } = useToastActions();
 
-  // Fetch data for selectors
-  const { data: merchantsData } = useParties({
-    get_all: true,
-  });
-
-  const { data: itemsData } = useItems({
-    get_all: true,
-  });
+  const { data: merchantsData } = useParties({ get_all: true });
+  const { data: itemsData } = useItems({ get_all: true });
 
   const merchantOptions =
-    merchantsData?.data.map((m) => ({
-      label: m.full_name,
-      value: m.id,
-    })) || [];
+    merchantsData?.data.map((m) => ({ label: m.full_name, value: m.id })) ?? [];
 
   const itemOptions =
-    itemsData?.data.map((i) => ({
-      label: i.name,
-      value: i.id,
-    })) || [];
-
-  const toLocalDateString = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-
-  const fromLocalDateString = (dateString: string) => {
-    const [year, month, day] = dateString.split("-").map(Number);
-    return new Date(year, month - 1, day);
-  };
+    itemsData?.data.map((i) => ({ label: i.name, value: i.id })) ?? [];
 
   const [formData, setFormData] = useState({
     merchant_id: "",
     production_date: toLocalDateString(new Date()),
   });
 
-  const [outputs, setOutputs] = useState<OutputForm[]>([
-    { item_id: "", bags: "", loose_lb: "0.0" },
-  ]);
-
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [errors, setErrors] = useState<any>({});
+  const [outputs, setOutputs] = useState<OutputForm[]>([makeOutput()]);
+  const [errors, setErrors] = useState<Record<string, string | undefined>>({});
 
   useFocusEffect(
     useCallback(() => {
-      // Clear state when the screen is focused
       setFormData({
         merchant_id: "",
         production_date: toLocalDateString(new Date()),
       });
-      setOutputs([{ item_id: "", bags: "", loose_lb: "0.0" }]);
-      setShowDatePicker(false);
+      setOutputs([makeOutput()]);
       setErrors({});
     }, []),
   );
 
   const validate = () => {
     try {
-      batchSchema.parse({
-        ...formData,
-        outputs,
-      });
+      batchSchema.parse({ ...formData, outputs });
       setErrors({});
       return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const fieldErrors: any = {};
+        const fieldErrors: Record<string, string> = {};
         error.issues.forEach((err) => {
           const path = err.path.join(".");
           fieldErrors[path] = err.message;
@@ -148,70 +120,40 @@ export default function CreateNewProductionBatchPage() {
 
     mutate(payload, {
       onSuccess: () => {
-        show({
-          type: "success",
-          title: "Production Batch created successfully",
-        });
+        show({ type: "success", title: "Production Batch created successfully" });
         router.back();
       },
-      onError: (error: any) => {
+      onError: (error: Error) => {
         show({
           type: "error",
           title: "Failed to create batch",
-          message: error?.message || "Unknown error",
+          message: error.message,
         });
       },
     });
   };
 
-  const addOutput = () => {
-    setOutputs([...outputs, { item_id: "", bags: "", loose_lb: "0.0" }]);
-  };
+  const addOutput = () => setOutputs((prev) => [...prev, makeOutput()]);
 
-  const removeOutput = (index: number) => {
+  const removeOutput = (id: string) => {
     if (outputs.length > 1) {
-      const newOutputs = [...outputs];
-      newOutputs.splice(index, 1);
-      setOutputs(newOutputs);
+      setOutputs((prev) => prev.filter((o) => o.id !== id));
     }
   };
 
-  const updateOutput = (
-    index: number,
-    field: keyof OutputForm,
-    value: string,
-  ) => {
-    const newOutputs = [...outputs];
-    newOutputs[index] = { ...newOutputs[index], [field]: value };
-    setOutputs(newOutputs);
-
-    // Clear error for this field if it exists
+  const updateOutput = (id: string, field: keyof Omit<OutputForm, "id">, value: string) => {
+    setOutputs((prev) =>
+      prev.map((o) => (o.id === id ? { ...o, [field]: value } : o)),
+    );
+    const index = outputs.findIndex((o) => o.id === id);
     const errorKey = `outputs.${index}.${field}`;
     if (errors[errorKey]) {
-      setErrors((prev: any) => {
-        const newErrors = { ...prev };
-        delete newErrors[errorKey];
-        return newErrors;
-      });
+      setErrors((prev) => ({ ...prev, [errorKey]: undefined }));
     }
   };
 
-  const handleDateChange = (event: any, selectedDate?: Date) => {
-    if (Platform.OS === "android") {
-      setShowDatePicker(false);
-    }
-
-    if (selectedDate) {
-      const dateString = toLocalDateString(selectedDate);
-      setFormData((prev) => ({ ...prev, production_date: dateString }));
-      if (errors.production_date) {
-        setErrors((prev: any) => ({
-          ...prev,
-          production_date: undefined,
-        }));
-      }
-    }
-  };
+  // Compute once per render, not per output row
+  const selectedItemIds = new Set(outputs.map((o) => o.item_id).filter(Boolean));
 
   return (
     <Screen>
@@ -230,70 +172,23 @@ export default function CreateNewProductionBatchPage() {
               onChange={(value) => {
                 setFormData((prev) => ({ ...prev, merchant_id: value }));
                 if (errors.merchant_id) {
-                  setErrors((prev: any) => ({
-                    ...prev,
-                    merchant_id: undefined,
-                  }));
+                  setErrors((prev) => ({ ...prev, merchant_id: undefined }));
                 }
               }}
               error={errors.merchant_id}
             />
 
-            <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-              <View pointerEvents="none">
-                <TextField
-                  label="Production Date"
-                  placeholder="YYYY-MM-DD"
-                  value={formData.production_date}
-                  editable={false}
-                  error={errors.production_date}
-                  rightIcon={
-                    <Ionicons
-                      name="calendar-outline"
-                      size={20}
-                      color={colors.textSecondary}
-                    />
-                  }
-                />
-              </View>
-            </TouchableOpacity>
-
-            {showDatePicker &&
-              (Platform.OS === "ios" ? (
-                <Modal
-                  transparent={true}
-                  animationType="slide"
-                  visible={showDatePicker}
-                  onRequestClose={() => setShowDatePicker(false)}
-                >
-                  <View style={styles.modalOverlay}>
-                    <View style={styles.modalContent}>
-                      <View style={styles.modalHeader}>
-                        <TouchableOpacity
-                          onPress={() => setShowDatePicker(false)}
-                          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                        >
-                          <AppText style={styles.doneButtonText}>Done</AppText>
-                        </TouchableOpacity>
-                      </View>
-                      <DateTimePicker
-                        value={fromLocalDateString(formData.production_date)}
-                        mode="date"
-                        display="spinner"
-                        onChange={handleDateChange}
-                        textColor={colors.textPrimary}
-                      />
-                    </View>
-                  </View>
-                </Modal>
-              ) : (
-                <DateTimePicker
-                  value={fromLocalDateString(formData.production_date)}
-                  mode="date"
-                  display="default"
-                  onChange={handleDateChange}
-                />
-              ))}
+            <DatePickerField
+              label="Production Date"
+              value={formData.production_date}
+              onChange={(dateString) => {
+                setFormData((prev) => ({ ...prev, production_date: dateString }));
+                if (errors.production_date) {
+                  setErrors((prev) => ({ ...prev, production_date: undefined }));
+                }
+              }}
+              error={errors.production_date}
+            />
 
             <View style={styles.sectionHeader}>
               <AppText variant="h2" style={styles.sectionTitle}>
@@ -302,29 +197,23 @@ export default function CreateNewProductionBatchPage() {
             </View>
 
             {outputs.map((output, index) => {
-              // Get IDs selected in other rows to filter them out
-              const otherSelectedIds = outputs
-                .filter((_, i) => i !== index)
-                .map((o) => o.item_id)
-                .filter((id) => id !== "");
-
               const availableOptions = itemOptions.filter(
-                (opt) => !otherSelectedIds.includes(opt.value),
+                (opt) => opt.value === output.item_id || !selectedItemIds.has(opt.value),
               );
 
               return (
-                <View key={index} style={styles.outputCard}>
+                <View key={output.id} style={styles.outputCard}>
                   <View style={styles.outputHeader}>
                     <AppText variant="body" style={styles.outputIndex}>
                       Item {index + 1}
                     </AppText>
                     {outputs.length > 1 && (
-                      <TouchableOpacity onPress={() => removeOutput(index)}>
-                        <Ionicons
-                          name="trash-outline"
-                          size={20}
-                          color={colors.danger}
-                        />
+                      <TouchableOpacity
+                        onPress={() => removeOutput(output.id)}
+                        accessibilityLabel={`Remove item ${index + 1}`}
+                        accessibilityRole="button"
+                      >
+                        <Ionicons name="trash-outline" size={20} color={colors.danger} />
                       </TouchableOpacity>
                     )}
                   </View>
@@ -334,7 +223,7 @@ export default function CreateNewProductionBatchPage() {
                     placeholder="Select Item"
                     value={output.item_id}
                     options={availableOptions}
-                    onChange={(value) => updateOutput(index, "item_id", value)}
+                    onChange={(value) => updateOutput(output.id, "item_id", value)}
                     error={errors[`outputs.${index}.item_id`]}
                   />
 
@@ -344,9 +233,7 @@ export default function CreateNewProductionBatchPage() {
                         label="Bags"
                         placeholder="0"
                         value={output.bags}
-                        onChangeText={(text) =>
-                          updateOutput(index, "bags", text)
-                        }
+                        onChangeText={(text) => updateOutput(output.id, "bags", text)}
                         keyboardType="numeric"
                         error={errors[`outputs.${index}.bags`]}
                       />
@@ -356,9 +243,7 @@ export default function CreateNewProductionBatchPage() {
                         label="Loose (lb)"
                         placeholder="0.0"
                         value={output.loose_lb}
-                        onChangeText={(text) =>
-                          updateOutput(index, "loose_lb", text)
-                        }
+                        onChangeText={(text) => updateOutput(output.id, "loose_lb", text)}
                         keyboardType="numeric"
                         error={errors[`outputs.${index}.loose_lb`]}
                       />
@@ -372,9 +257,7 @@ export default function CreateNewProductionBatchPage() {
               label="Add Item"
               onPress={addOutput}
               style={styles.addButton}
-              rightIcon={
-                <Ionicons name="add" size={18} color={colors.primary} />
-              }
+              rightIcon={<Ionicons name="add" size={18} color={colors.primary} />}
             />
 
             <PrimaryButton
@@ -394,9 +277,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: spacing["2xl"],
   },
-  title: {
-    marginBottom: spacing.l,
-  },
   form: {
     gap: spacing.m,
   },
@@ -411,7 +291,7 @@ const styles = StyleSheet.create({
   outputCard: {
     backgroundColor: colors.surface,
     padding: spacing.m,
-    borderRadius: 12, // radii.card
+    borderRadius: radii.card,
     borderWidth: 1,
     borderColor: colors.borderSubtle,
     gap: spacing.m,
@@ -438,28 +318,5 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     marginTop: spacing.l,
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "flex-end",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    backgroundColor: colors.surface,
-    borderTopLeftRadius: radii.card,
-    borderTopRightRadius: radii.card,
-    paddingBottom: spacing["2xl"], // Safe area padding
-  },
-  modalHeader: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    padding: spacing.m,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderSubtle,
-  },
-  doneButtonText: {
-    color: colors.primary,
-    fontWeight: "600",
-    fontSize: 16,
   },
 });

@@ -1,13 +1,6 @@
-import { Platform } from "react-native";
-
-// Android Emulator uses 10.0.2.2 for localhost
-// For physical device, use your machine's LAN IP (e.g. 192.168.x.x)
-// https://shwe-tharaphu-rice-milling-erp.shwecode.xyz/admin/items
-const API_BASE_URL = Platform.select({
-  android: "https://shwe-tharaphu-rice-milling-erp.shwecode.xyz/api/v1",
-  ios: "https://shwe-tharaphu-rice-milling-erp.shwecode.xyz/api/v1",
-  default: "https://shwe-tharaphu-rice-milling-erp.shwecode.xyz/api/v1",
-});
+const API_BASE_URL =
+  process.env.EXPO_PUBLIC_API_URL ??
+  "https://shwe-tharaphu-rice-milling-erp.shwecode.xyz/api/v1";
 
 type ApiFetchOptions = RequestInit & {
   authToken?: string | null;
@@ -51,7 +44,9 @@ async function apiFetch<TResponse = unknown>(
         `Request timed out (${timeout}ms). Please check your network connection.`,
       );
     }
-    console.error("API Request Error:", error);
+    if (__DEV__) {
+      console.error("API Request Error:", error);
+    }
     throw error;
   } finally {
     clearTimeout(id);
@@ -63,6 +58,13 @@ async function apiFetch<TResponse = unknown>(
     data = await response.json();
   } catch {
     data = null;
+  }
+
+  if (response.status === 401) {
+    // Lazy import to avoid circular dependency
+    const { useAuthStore } = await import("@/hooks/use-auth");
+    useAuthStore.getState().logout();
+    throw new Error("Your session has expired. Please sign in again.");
   }
 
   if (!response.ok) {

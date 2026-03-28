@@ -8,13 +8,14 @@ import {
 import { colors, radii, spacing } from "@/design-system/tokens";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useParties } from "@/hooks/use-parties";
-import { PartyType } from "@/types/party";
+import { PARTY_TYPES, Party, PartyType } from "@/types/party";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  ListRenderItemInfo,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -28,53 +29,26 @@ export default function PartiesPage() {
   const [selectedType, setSelectedType] = useState<PartyType | undefined>();
   const debouncedSearch = useDebounce(search, 500);
 
-  // Fetching
   const { data, isLoading, refetch } = useParties({
     get_all: true,
     search: debouncedSearch,
     type: selectedType,
   });
 
-  const renderContent = () => {
-    if (isLoading && !data) {
-      return (
-        <View style={styles.center}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      );
-    }
-
-    if (!data?.data?.length) {
-      return (
-        <View style={styles.center}>
-          <AppText variant="h2" style={{ color: colors.textSecondary }}>
-            No parties found
-          </AppText>
-        </View>
-      );
-    }
-
-    return (
-      <FlatList
-        data={data.data}
-        renderItem={({ item }) => (
-          <PartyItem
-            party={item}
-            onPress={() =>
-              router.push({
-                pathname: "/dashboard/parties/detail",
-                params: { partyId: item.id },
-              })
-            }
-          />
-        )}
-        keyExtractor={(item) => item.id.toString()}
-        refreshControl={
-          <RefreshControl refreshing={isLoading} onRefresh={refetch} />
+  const renderItem = useCallback(
+    ({ item }: ListRenderItemInfo<Party>) => (
+      <PartyItem
+        party={item}
+        onPress={() =>
+          router.push({
+            pathname: "/dashboard/parties/detail",
+            params: { partyId: item.id },
+          })
         }
       />
-    );
-  };
+    ),
+    [router],
+  );
 
   return (
     <Screen style={styles.container}>
@@ -108,39 +82,50 @@ export default function PartiesPage() {
             style={[styles.chip, !selectedType && styles.chipSelected]}
           >
             <AppText
-              style={[
-                styles.chipText,
-                !selectedType && styles.chipTextSelected,
-              ]}
+              style={[styles.chipText, !selectedType && styles.chipTextSelected]}
             >
               All
             </AppText>
           </Pressable>
-          {(["MERCHANT", "FARMER", "BROKER", "CUSTOMER"] as PartyType[]).map(
-            (type) => (
-              <Pressable
-                key={type}
-                onPress={() => setSelectedType(type)}
+          {PARTY_TYPES.map((type) => (
+            <Pressable
+              key={type}
+              onPress={() => setSelectedType(type)}
+              style={[styles.chip, selectedType === type && styles.chipSelected]}
+            >
+              <AppText
                 style={[
-                  styles.chip,
-                  selectedType === type && styles.chipSelected,
+                  styles.chipText,
+                  selectedType === type && styles.chipTextSelected,
                 ]}
               >
-                <AppText
-                  style={[
-                    styles.chipText,
-                    selectedType === type && styles.chipTextSelected,
-                  ]}
-                >
-                  {type}
-                </AppText>
-              </Pressable>
-            ),
-          )}
+                {type}
+              </AppText>
+            </Pressable>
+          ))}
         </ScrollView>
       </View>
 
-      {renderContent()}
+      {isLoading && !data ? (
+        <View style={styles.center}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      ) : !data?.data?.length ? (
+        <View style={styles.center}>
+          <AppText variant="h2" style={{ color: colors.textSecondary }}>
+            No parties found
+          </AppText>
+        </View>
+      ) : (
+        <FlatList
+          data={data.data}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          refreshControl={
+            <RefreshControl refreshing={isLoading} onRefresh={refetch} />
+          }
+        />
+      )}
 
       <IconButton
         icon={<Ionicons name="add" size={32} color="white" />}
@@ -148,6 +133,8 @@ export default function PartiesPage() {
         size="large"
         style={styles.fab}
         onPress={() => router.push("/dashboard/parties/create")}
+        accessibilityLabel="Create new party"
+        accessibilityRole="button"
       />
     </Screen>
   );

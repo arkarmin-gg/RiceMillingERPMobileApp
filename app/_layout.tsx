@@ -7,8 +7,49 @@ import { useAuthHydration } from "@/hooks/use-auth";
 import { useLanguageStore } from "@/hooks/use-language";
 import { useOnlineManager } from "@/hooks/use-online-manager";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { Stack } from "expo-router";
-import { ActivityIndicator, View } from "react-native";
+import { ErrorBoundaryProps, Stack } from "expo-router";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
+
+export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
+  return (
+    <Screen style={errorStyles.container}>
+      <AppText variant="h2" style={errorStyles.title}>
+        Something went wrong
+      </AppText>
+      <AppText variant="bodySecondary" style={errorStyles.message}>
+        {error.message}
+      </AppText>
+      <AppText
+        variant="body"
+        style={errorStyles.retry}
+        onPress={retry}
+      >
+        Try again
+      </AppText>
+    </Screen>
+  );
+}
+
+const errorStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: spacing.l,
+  },
+  title: {
+    marginBottom: spacing.s,
+    textAlign: "center",
+  },
+  message: {
+    textAlign: "center",
+    marginBottom: spacing.l,
+  },
+  retry: {
+    color: colors.primary,
+    fontWeight: "600",
+  },
+});
 
 export default function RootLayout() {
   useOnlineManager();

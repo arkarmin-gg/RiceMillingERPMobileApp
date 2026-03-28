@@ -88,7 +88,6 @@ export const useAuthStore = create<AuthContextValue>()(
             user: null,
             token: null,
             isAuthenticated: false,
-            isLoading: false,
             error: message,
           });
           throw err;
@@ -155,7 +154,6 @@ export const useAuthStore = create<AuthContextValue>()(
             user: null,
             token: null,
             isAuthenticated: false,
-            isLoading: false,
           });
         } finally {
           set({ isLoading: false });
@@ -191,12 +189,10 @@ export const useAuthStore = create<AuthContextValue>()(
             const match = /\.(\w+)$/.exec(filename);
             const type = match ? `image/${match[1]}` : `image/jpeg`;
 
-            // @ts-ignore
-            formData.append("profile_image", {
-              uri,
-              name: filename,
-              type,
-            });
+            formData.append(
+              "profile_image",
+              { uri, name: filename, type } as unknown as Blob,
+            );
           }
 
           const { data: updatedUser } = await apiFetch<{
@@ -214,7 +210,7 @@ export const useAuthStore = create<AuthContextValue>()(
             err instanceof Error
               ? err.message
               : "Unable to update profile. Please try again.";
-          set({ error: message, isLoading: false });
+          set({ error: message });
           throw err;
         } finally {
           set({ isLoading: false });

@@ -1,3 +1,4 @@
+import { DatePickerField } from "@/components/ui/date-picker-field";
 import { SelectField } from "@/components/ui/select-field";
 import {
   AppText,
@@ -12,18 +13,17 @@ import { useDispatchableParties } from "@/hooks/use-parties";
 import { useToastActions } from "@/hooks/use-toast";
 import { CreateDispatchRequest } from "@/types/dispatch";
 import { Ionicons } from "@expo/vector-icons";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { Stack, useFocusEffect, useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
 import {
   KeyboardAvoidingView,
-  Modal,
   Platform,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   View,
 } from "react-native";
+import { toLocalDateString } from "@/utils/date";
 import { z } from "zod";
 
 const itemSchema = z.object({
@@ -43,9 +43,14 @@ const dispatchSchema = z.object({
 });
 
 interface ItemForm {
+  id: string;
   item_id: string;
   bags: string;
   loose_lb: string;
+}
+
+function makeItem(): ItemForm {
+  return { id: Math.random().toString(36).slice(2), item_id: "", bags: "", loose_lb: "0.0" };
 }
 
 export default function CreateDispatchPage() {
@@ -53,26 +58,13 @@ export default function CreateDispatchPage() {
   const { mutate, isPending } = useCreateDispatch();
   const { show } = useToastActions();
 
-  // Fetch dispatchable parties
   const { data: dispatchablePartiesData } = useDispatchableParties();
 
   const merchantOptions =
     dispatchablePartiesData?.data.map((m) => ({
       label: m.full_name,
       value: m.id,
-    })) || [];
-
-  const toLocalDateString = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-
-  const fromLocalDateString = (dateString: string) => {
-    const [year, month, day] = dateString.split("-").map(Number);
-    return new Date(year, month - 1, day);
-  };
+    })) ?? [];
 
   const [formData, setFormData] = useState({
     merchant_id: "",
@@ -80,12 +72,8 @@ export default function CreateDispatchPage() {
     description: "",
   });
 
-  const [items, setItems] = useState<ItemForm[]>([
-    { item_id: "", bags: "", loose_lb: "0.0" },
-  ]);
-
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [errors, setErrors] = useState<any>({});
+  const [items, setItems] = useState<ItemForm[]>([makeItem()]);
+  const [errors, setErrors] = useState<Record<string, string | undefined>>({});
 
   useFocusEffect(
     useCallback(() => {
@@ -94,13 +82,11 @@ export default function CreateDispatchPage() {
         dispatch_date: toLocalDateString(new Date()),
         description: "",
       });
-      setItems([{ item_id: "", bags: "", loose_lb: "0.0" }]);
-      setShowDatePicker(false);
+      setItems([makeItem()]);
       setErrors({});
     }, []),
   );
 
-  // Get selected merchant's dispatchable items
   const selectedMerchant = dispatchablePartiesData?.data.find(
     (p) => p.id === formData.merchant_id,
   );
@@ -109,37 +95,26 @@ export default function CreateDispatchPage() {
     selectedMerchant?.dispatchable_items.map((i) => ({
       label: i.item_name,
       value: i.item_id,
-    })) || [];
+    })) ?? [];
 
   const validate = () => {
     try {
-      dispatchSchema.parse({
-        ...formData,
-        items,
-      });
+      dispatchSchema.parse({ ...formData, items });
 
-      // Additional validation for quantities
-      const newErrors: any = {};
+      const newErrors: Record<string, string> = {};
       let hasError = false;
 
       items.forEach((item, index) => {
         const dispatchableItem = selectedMerchant?.dispatchable_items.find(
           (di) => di.item_id === item.item_id,
         );
-
         if (dispatchableItem) {
-          const bags = Number(item.bags);
-          const looseLb = Number(item.loose_lb);
-
-          if (bags > dispatchableItem.bags) {
-            newErrors[`items.${index}.bags`] =
-              `Max ${dispatchableItem.bags} bags`;
+          if (Number(item.bags) > dispatchableItem.bags) {
+            newErrors[`items.${index}.bags`] = `Max ${dispatchableItem.bags} bags`;
             hasError = true;
           }
-
-          if (looseLb > dispatchableItem.loose_lb) {
-            newErrors[`items.${index}.loose_lb`] =
-              `Max ${dispatchableItem.loose_lb} lb`;
+          if (Number(item.loose_lb) > dispatchableItem.loose_lb) {
+            newErrors[`items.${index}.loose_lb`] = `Max ${dispatchableItem.loose_lb} lb`;
             hasError = true;
           }
         }
@@ -154,7 +129,7 @@ export default function CreateDispatchPage() {
       return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const fieldErrors: any = {};
+        const fieldErrors: Record<string, string> = {};
         error.issues.forEach((err) => {
           const path = err.path.join(".");
           fieldErrors[path] = err.message;
@@ -182,74 +157,45 @@ export default function CreateDispatchPage() {
 
     mutate(payload, {
       onSuccess: () => {
-        show({
-          type: "success",
-          title: "Dispatch created successfully",
-        });
+        show({ type: "success", title: "Dispatch created successfully" });
         router.back();
       },
-      onError: (error: any) => {
+      onError: (error: Error) => {
         show({
           type: "error",
           title: "Failed to create dispatch",
-          message: error?.message || "Unknown error",
+          message: error.message,
         });
       },
     });
   };
 
-  const addItem = () => {
-    setItems([...items, { item_id: "", bags: "", loose_lb: "0.0" }]);
-  };
+  const addItem = () => setItems((prev) => [...prev, makeItem()]);
 
-  const removeItem = (index: number) => {
+  const removeItem = (id: string) => {
     if (items.length > 1) {
-      const newItems = [...items];
-      newItems.splice(index, 1);
-      setItems(newItems);
+      setItems((prev) => prev.filter((item) => item.id !== id));
     }
   };
 
-  const updateItem = (index: number, field: keyof ItemForm, value: string) => {
-    const newItems = [...items];
-    newItems[index] = { ...newItems[index], [field]: value };
-    setItems(newItems);
-
-    // Clear error for this field if it exists
+  const updateItem = (id: string, field: keyof Omit<ItemForm, "id">, value: string) => {
+    setItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, [field]: value } : item)),
+    );
+    const index = items.findIndex((item) => item.id === id);
     const errorKey = `items.${index}.${field}`;
     if (errors[errorKey]) {
-      setErrors((prev: any) => {
-        const newErrors = { ...prev };
-        delete newErrors[errorKey];
-        return newErrors;
-      });
+      setErrors((prev) => ({ ...prev, [errorKey]: undefined }));
     }
   };
 
-  const handleDateChange = (event: any, selectedDate?: Date) => {
-    if (Platform.OS === "android") {
-      setShowDatePicker(false);
-    }
-
-    if (selectedDate) {
-      const dateString = toLocalDateString(selectedDate);
-      setFormData((prev) => ({ ...prev, dispatch_date: dateString }));
-      if (errors.dispatch_date) {
-        setErrors((prev: any) => ({
-          ...prev,
-          dispatch_date: undefined,
-        }));
-      }
-    }
-  };
+  // Compute once per render, not per item
+  const selectedItemIds = new Set(items.map((i) => i.item_id).filter(Boolean));
 
   return (
     <Screen>
       <Stack.Screen
-        options={{
-          title: "New Dispatch",
-          headerTitleAlign: "center",
-        }}
+        options={{ title: "New Dispatch", headerTitleAlign: "center" }}
       />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -266,70 +212,23 @@ export default function CreateDispatchPage() {
               onChange={(value) => {
                 setFormData((prev) => ({ ...prev, merchant_id: value }));
                 if (errors.merchant_id) {
-                  setErrors((prev: any) => ({
-                    ...prev,
-                    merchant_id: undefined,
-                  }));
+                  setErrors((prev) => ({ ...prev, merchant_id: undefined }));
                 }
               }}
               error={errors.merchant_id}
             />
 
-            <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-              <View pointerEvents="none">
-                <TextField
-                  label="Dispatch Date"
-                  placeholder="YYYY-MM-DD"
-                  value={formData.dispatch_date}
-                  editable={false}
-                  error={errors.dispatch_date}
-                  rightIcon={
-                    <Ionicons
-                      name="calendar-outline"
-                      size={20}
-                      color={colors.textSecondary}
-                    />
-                  }
-                />
-              </View>
-            </TouchableOpacity>
-
-            {showDatePicker &&
-              (Platform.OS === "ios" ? (
-                <Modal
-                  transparent={true}
-                  animationType="slide"
-                  visible={showDatePicker}
-                  onRequestClose={() => setShowDatePicker(false)}
-                >
-                  <View style={styles.modalOverlay}>
-                    <View style={styles.modalContent}>
-                      <View style={styles.modalHeader}>
-                        <TouchableOpacity
-                          onPress={() => setShowDatePicker(false)}
-                          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                        >
-                          <AppText style={styles.doneButtonText}>Done</AppText>
-                        </TouchableOpacity>
-                      </View>
-                      <DateTimePicker
-                        value={fromLocalDateString(formData.dispatch_date)}
-                        mode="date"
-                        display="spinner"
-                        onChange={handleDateChange}
-                        textColor={colors.textPrimary}
-                      />
-                    </View>
-                  </View>
-                </Modal>
-              ) : (
-                <DateTimePicker
-                  value={fromLocalDateString(formData.dispatch_date)}
-                  mode="date"
-                  display="default"
-                  onChange={handleDateChange}
-                />
-              ))}
+            <DatePickerField
+              label="Dispatch Date"
+              value={formData.dispatch_date}
+              onChange={(dateString) => {
+                setFormData((prev) => ({ ...prev, dispatch_date: dateString }));
+                if (errors.dispatch_date) {
+                  setErrors((prev) => ({ ...prev, dispatch_date: undefined }));
+                }
+              }}
+              error={errors.dispatch_date}
+            />
 
             <TextField
               label="Description"
@@ -348,29 +247,26 @@ export default function CreateDispatchPage() {
             </View>
 
             {items.map((item, index) => {
-              // Get IDs selected in other rows to filter them out
-              const otherSelectedIds = items
-                .filter((_, i) => i !== index)
-                .map((o) => o.item_id)
-                .filter((id) => id !== "");
-
               const availableOptions = itemOptions.filter(
-                (opt) => !otherSelectedIds.includes(opt.value),
+                (opt) => opt.value === item.item_id || !selectedItemIds.has(opt.value),
+              );
+              const dispatchableItem = selectedMerchant?.dispatchable_items.find(
+                (di) => di.item_id === item.item_id,
               );
 
               return (
-                <View key={index} style={styles.itemCard}>
+                <View key={item.id} style={styles.itemCard}>
                   <View style={styles.itemHeader}>
                     <AppText variant="body" style={styles.itemIndex}>
                       Item {index + 1}
                     </AppText>
                     {items.length > 1 && (
-                      <TouchableOpacity onPress={() => removeItem(index)}>
-                        <Ionicons
-                          name="trash-outline"
-                          size={20}
-                          color={colors.danger}
-                        />
+                      <TouchableOpacity
+                        onPress={() => removeItem(item.id)}
+                        accessibilityLabel={`Remove item ${index + 1}`}
+                        accessibilityRole="button"
+                      >
+                        <Ionicons name="trash-outline" size={20} color={colors.danger} />
                       </TouchableOpacity>
                     )}
                   </View>
@@ -380,32 +276,16 @@ export default function CreateDispatchPage() {
                     placeholder="Select Item"
                     value={item.item_id}
                     options={availableOptions}
-                    onChange={(value) => updateItem(index, "item_id", value)}
+                    onChange={(value) => updateItem(item.id, "item_id", value)}
                     error={errors[`items.${index}.item_id`]}
                   />
 
-                  {/* Show available balance */}
-                  {item.item_id && selectedMerchant && (
+                  {item.item_id && dispatchableItem && (
                     <AppText
                       variant="caption"
-                      style={{
-                        color: colors.textSecondary,
-                        marginBottom: spacing.xs,
-                      }}
+                      style={{ color: colors.textSecondary, marginBottom: spacing.xs }}
                     >
-                      Available:{" "}
-                      {
-                        selectedMerchant.dispatchable_items.find(
-                          (di) => di.item_id === item.item_id,
-                        )?.bags
-                      }{" "}
-                      bags,{" "}
-                      {
-                        selectedMerchant.dispatchable_items.find(
-                          (di) => di.item_id === item.item_id,
-                        )?.loose_lb
-                      }{" "}
-                      lb
+                      Available: {dispatchableItem.bags} bags, {dispatchableItem.loose_lb} lb
                     </AppText>
                   )}
 
@@ -415,7 +295,7 @@ export default function CreateDispatchPage() {
                         label="Bags"
                         placeholder="0"
                         value={item.bags}
-                        onChangeText={(text) => updateItem(index, "bags", text)}
+                        onChangeText={(text) => updateItem(item.id, "bags", text)}
                         keyboardType="numeric"
                         error={errors[`items.${index}.bags`]}
                       />
@@ -425,9 +305,7 @@ export default function CreateDispatchPage() {
                         label="Loose (lb)"
                         placeholder="0.0"
                         value={item.loose_lb}
-                        onChangeText={(text) =>
-                          updateItem(index, "loose_lb", text)
-                        }
+                        onChangeText={(text) => updateItem(item.id, "loose_lb", text)}
                         keyboardType="numeric"
                         error={errors[`items.${index}.loose_lb`]}
                       />
@@ -441,9 +319,7 @@ export default function CreateDispatchPage() {
               label="Add Item"
               onPress={addItem}
               style={styles.addButton}
-              rightIcon={
-                <Ionicons name="add" size={18} color={colors.primary} />
-              }
+              rightIcon={<Ionicons name="add" size={18} color={colors.primary} />}
             />
 
             <PrimaryButton
@@ -477,7 +353,7 @@ const styles = StyleSheet.create({
   itemCard: {
     backgroundColor: colors.surface,
     padding: spacing.m,
-    borderRadius: 12, // radii.card
+    borderRadius: radii.card,
     borderWidth: 1,
     borderColor: colors.borderSubtle,
     gap: spacing.m,
@@ -504,28 +380,5 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     marginTop: spacing.l,
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "flex-end",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    backgroundColor: colors.surface,
-    borderTopLeftRadius: radii.card,
-    borderTopRightRadius: radii.card,
-    paddingBottom: spacing["2xl"], // Safe area padding
-  },
-  modalHeader: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    padding: spacing.m,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderSubtle,
-  },
-  doneButtonText: {
-    color: colors.primary,
-    fontWeight: "600",
-    fontSize: 16,
   },
 });

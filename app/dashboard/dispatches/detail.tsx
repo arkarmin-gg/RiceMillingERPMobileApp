@@ -1,3 +1,4 @@
+import i18n from "@/config/i18n";
 import { AppText, Screen } from "@/design-system/components";
 import { colors, radii, shadows, spacing } from "@/design-system/tokens";
 import { useDispatch } from "@/hooks/use-dispatches";
@@ -29,7 +30,7 @@ export default function DispatchDetailPage() {
     return (
       <Screen style={styles.center}>
         <AppText variant="h2" style={{ color: colors.danger }}>
-          Failed to load dispatch details
+          {i18n.t("error")}
         </AppText>
       </Screen>
     );
@@ -42,7 +43,7 @@ export default function DispatchDetailPage() {
     <Screen>
       <Stack.Screen
         options={{
-          title: `Dispatch #${dispatch.dispatch_number}`,
+          title: `${i18n.t("dispatch")} #${dispatch.dispatch_number}`,
           headerTitleAlign: "center",
           headerRight: () => (
             <TouchableOpacity
@@ -68,7 +69,7 @@ export default function DispatchDetailPage() {
         <View style={styles.card}>
           <View style={styles.headerRow}>
             <View>
-              <AppText variant="caption">Dispatch Number</AppText>
+              <AppText variant="caption">{i18n.t("dispatch")}</AppText>
               <AppText variant="h2" style={styles.dispatchNumber}>
                 #{dispatch.dispatch_number}
               </AppText>
@@ -79,13 +80,13 @@ export default function DispatchDetailPage() {
 
           <View style={styles.infoRow}>
             <View style={styles.infoItem}>
-              <AppText variant="caption">Merchant</AppText>
+              <AppText variant="caption">{i18n.t("merchant")}</AppText>
               <AppText variant="body" style={styles.infoValue}>
                 {dispatch.merchant_name}
               </AppText>
             </View>
             <View style={styles.infoItem}>
-              <AppText variant="caption">Date</AppText>
+              <AppText variant="caption">{i18n.t("dispatch_date")}</AppText>
               <AppText variant="body" style={styles.infoValue}>
                 {date}
               </AppText>
@@ -94,7 +95,7 @@ export default function DispatchDetailPage() {
 
           {dispatch.description && (
             <View style={{ marginTop: spacing.m }}>
-              <AppText variant="caption">Description</AppText>
+              <AppText variant="caption">{i18n.t("description")}</AppText>
               <AppText variant="body" style={styles.infoValue}>
                 {dispatch.description}
               </AppText>
@@ -105,7 +106,7 @@ export default function DispatchDetailPage() {
         {/* Stats Card */}
         <View style={styles.card}>
           <AppText variant="h2" style={styles.sectionTitle}>
-            Summary
+            {i18n.t("information")}
           </AppText>
           <View style={styles.statsRow}>
             <View style={styles.statItem}>
@@ -116,14 +117,14 @@ export default function DispatchDetailPage() {
             </View>
             <View style={styles.statDivider} />
             <View style={styles.statItem}>
-              <AppText variant="caption">Total Bags</AppText>
+              <AppText variant="caption">Total {i18n.t("bags")}</AppText>
               <AppText variant="h1" style={styles.statValue}>
                 {dispatch.total_bags}
               </AppText>
             </View>
             <View style={styles.statDivider} />
             <View style={styles.statItem}>
-              <AppText variant="caption">Loose (lb)</AppText>
+              <AppText variant="caption">{i18n.t("loose_lb")}</AppText>
               <AppText variant="h1" style={styles.statValue}>
                 {dispatch.total_loose_lb}
               </AppText>
@@ -133,7 +134,7 @@ export default function DispatchDetailPage() {
 
         {/* Items Section */}
         <AppText variant="h2" style={styles.sectionHeader}>
-          Items ({dispatch.items?.length || 0})
+          {i18n.t("items")} ({dispatch.items?.length || 0})
         </AppText>
 
         <View style={styles.itemsList}>
@@ -144,7 +145,7 @@ export default function DispatchDetailPage() {
                   {item.item_name}
                 </AppText>
                 <AppText variant="h2" style={styles.itemQuantity}>
-                  {item.bags} Bags • {item.loose_lb} lb Loose
+                  {item.bags} {i18n.t("bags")} • {item.loose_lb} lb Loose
                 </AppText>
               </View>
               <View style={styles.itemDetails}>

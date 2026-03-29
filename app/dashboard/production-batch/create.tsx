@@ -1,5 +1,6 @@
 import { DatePickerField } from "@/components/ui/date-picker-field";
 import { SelectField } from "@/components/ui/select-field";
+import i18n from "@/config/i18n";
 import {
   AppText,
   PrimaryButton,
@@ -50,7 +51,12 @@ interface OutputForm {
 }
 
 function makeOutput(): OutputForm {
-  return { id: Math.random().toString(36).slice(2), item_id: "", bags: "", loose_lb: "0.0" };
+  return {
+    id: Math.random().toString(36).slice(2),
+    item_id: "",
+    bags: "",
+    loose_lb: "0.0",
+  };
 }
 
 export default function CreateNewProductionBatchPage() {
@@ -120,7 +126,10 @@ export default function CreateNewProductionBatchPage() {
 
     mutate(payload, {
       onSuccess: () => {
-        show({ type: "success", title: "Production Batch created successfully" });
+        show({
+          type: "success",
+          title: "Production Batch created successfully",
+        });
         router.back();
       },
       onError: (error: Error) => {
@@ -141,7 +150,11 @@ export default function CreateNewProductionBatchPage() {
     }
   };
 
-  const updateOutput = (id: string, field: keyof Omit<OutputForm, "id">, value: string) => {
+  const updateOutput = (
+    id: string,
+    field: keyof Omit<OutputForm, "id">,
+    value: string,
+  ) => {
     setOutputs((prev) =>
       prev.map((o) => (o.id === id ? { ...o, [field]: value } : o)),
     );
@@ -153,7 +166,9 @@ export default function CreateNewProductionBatchPage() {
   };
 
   // Compute once per render, not per output row
-  const selectedItemIds = new Set(outputs.map((o) => o.item_id).filter(Boolean));
+  const selectedItemIds = new Set(
+    outputs.map((o) => o.item_id).filter(Boolean),
+  );
 
   return (
     <Screen>
@@ -165,8 +180,8 @@ export default function CreateNewProductionBatchPage() {
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.form}>
             <SelectField
-              label="Merchant"
-              placeholder="Select Merchant"
+              label={i18n.t("merchant")}
+              placeholder={i18n.t("merchant")}
               value={formData.merchant_id}
               options={merchantOptions}
               onChange={(value) => {
@@ -179,12 +194,18 @@ export default function CreateNewProductionBatchPage() {
             />
 
             <DatePickerField
-              label="Production Date"
+              label={i18n.t("production_date")}
               value={formData.production_date}
               onChange={(dateString) => {
-                setFormData((prev) => ({ ...prev, production_date: dateString }));
+                setFormData((prev) => ({
+                  ...prev,
+                  production_date: dateString,
+                }));
                 if (errors.production_date) {
-                  setErrors((prev) => ({ ...prev, production_date: undefined }));
+                  setErrors((prev) => ({
+                    ...prev,
+                    production_date: undefined,
+                  }));
                 }
               }}
               error={errors.production_date}
@@ -192,20 +213,22 @@ export default function CreateNewProductionBatchPage() {
 
             <View style={styles.sectionHeader}>
               <AppText variant="h2" style={styles.sectionTitle}>
-                Outputs
+                {i18n.t("items")}
               </AppText>
             </View>
 
             {outputs.map((output, index) => {
               const availableOptions = itemOptions.filter(
-                (opt) => opt.value === output.item_id || !selectedItemIds.has(opt.value),
+                (opt) =>
+                  opt.value === output.item_id ||
+                  !selectedItemIds.has(opt.value),
               );
 
               return (
                 <View key={output.id} style={styles.outputCard}>
                   <View style={styles.outputHeader}>
                     <AppText variant="body" style={styles.outputIndex}>
-                      Item {index + 1}
+                      {i18n.t("item")} {index + 1}
                     </AppText>
                     {outputs.length > 1 && (
                       <TouchableOpacity
@@ -213,37 +236,47 @@ export default function CreateNewProductionBatchPage() {
                         accessibilityLabel={`Remove item ${index + 1}`}
                         accessibilityRole="button"
                       >
-                        <Ionicons name="trash-outline" size={20} color={colors.danger} />
+                        <Ionicons
+                          name="trash-outline"
+                          size={20}
+                          color={colors.danger}
+                        />
                       </TouchableOpacity>
                     )}
                   </View>
 
                   <SelectField
-                    label="Item"
-                    placeholder="Select Item"
+                    label={i18n.t("item")}
+                    placeholder={i18n.t("item")}
                     value={output.item_id}
                     options={availableOptions}
-                    onChange={(value) => updateOutput(output.id, "item_id", value)}
+                    onChange={(value) =>
+                      updateOutput(output.id, "item_id", value)
+                    }
                     error={errors[`outputs.${index}.item_id`]}
                   />
 
                   <View style={styles.row}>
                     <View style={styles.halfWidth}>
                       <TextField
-                        label="Bags"
+                        label={i18n.t("bags")}
                         placeholder="0"
                         value={output.bags}
-                        onChangeText={(text) => updateOutput(output.id, "bags", text)}
+                        onChangeText={(text) =>
+                          updateOutput(output.id, "bags", text)
+                        }
                         keyboardType="numeric"
                         error={errors[`outputs.${index}.bags`]}
                       />
                     </View>
                     <View style={styles.halfWidth}>
                       <TextField
-                        label="Loose (lb)"
+                        label={i18n.t("loose_lb")}
                         placeholder="0.0"
                         value={output.loose_lb}
-                        onChangeText={(text) => updateOutput(output.id, "loose_lb", text)}
+                        onChangeText={(text) =>
+                          updateOutput(output.id, "loose_lb", text)
+                        }
                         keyboardType="numeric"
                         error={errors[`outputs.${index}.loose_lb`]}
                       />
@@ -254,14 +287,16 @@ export default function CreateNewProductionBatchPage() {
             })}
 
             <SecondaryButton
-              label="Add Item"
+              label={i18n.t("add_item")}
               onPress={addOutput}
               style={styles.addButton}
-              rightIcon={<Ionicons name="add" size={18} color={colors.primary} />}
+              rightIcon={
+                <Ionicons name="add" size={18} color={colors.primary} />
+              }
             />
 
             <PrimaryButton
-              label={isPending ? "Creating..." : "Create Batch"}
+              label={isPending ? i18n.t("loading") : i18n.t("create_new_batch")}
               onPress={handleSubmit}
               disabled={isPending}
               style={styles.submitButton}

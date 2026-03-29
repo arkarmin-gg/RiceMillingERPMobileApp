@@ -150,7 +150,6 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   valueText: {
-    fontSize: 16,
     color: colors.textPrimary,
   },
   placeholderText: {
@@ -197,7 +196,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   optionText: {
-    fontSize: 16,
     color: colors.textPrimary,
   },
   optionTextSelected: {

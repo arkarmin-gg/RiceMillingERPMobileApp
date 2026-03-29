@@ -1,5 +1,6 @@
 import { DatePickerField } from "@/components/ui/date-picker-field";
 import { SelectField } from "@/components/ui/select-field";
+import i18n from "@/config/i18n";
 import {
   AppText,
   PrimaryButton,
@@ -12,8 +13,9 @@ import { useCreateDispatch } from "@/hooks/use-dispatches";
 import { useDispatchableParties } from "@/hooks/use-parties";
 import { useToastActions } from "@/hooks/use-toast";
 import { CreateDispatchRequest } from "@/types/dispatch";
+import { toLocalDateString } from "@/utils/date";
 import { Ionicons } from "@expo/vector-icons";
-import { Stack, useFocusEffect, useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -23,7 +25,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { toLocalDateString } from "@/utils/date";
 import { z } from "zod";
 
 const itemSchema = z.object({
@@ -50,7 +51,12 @@ interface ItemForm {
 }
 
 function makeItem(): ItemForm {
-  return { id: Math.random().toString(36).slice(2), item_id: "", bags: "", loose_lb: "0.0" };
+  return {
+    id: Math.random().toString(36).slice(2),
+    item_id: "",
+    bags: "",
+    loose_lb: "0.0",
+  };
 }
 
 export default function CreateDispatchPage() {
@@ -110,11 +116,13 @@ export default function CreateDispatchPage() {
         );
         if (dispatchableItem) {
           if (Number(item.bags) > dispatchableItem.bags) {
-            newErrors[`items.${index}.bags`] = `Max ${dispatchableItem.bags} bags`;
+            newErrors[`items.${index}.bags`] =
+              `Max ${dispatchableItem.bags} ${i18n.t("bags").toLowerCase()}`;
             hasError = true;
           }
           if (Number(item.loose_lb) > dispatchableItem.loose_lb) {
-            newErrors[`items.${index}.loose_lb`] = `Max ${dispatchableItem.loose_lb} lb`;
+            newErrors[`items.${index}.loose_lb`] =
+              `Max ${dispatchableItem.loose_lb} lb`;
             hasError = true;
           }
         }
@@ -157,13 +165,16 @@ export default function CreateDispatchPage() {
 
     mutate(payload, {
       onSuccess: () => {
-        show({ type: "success", title: "Dispatch created successfully" });
+        show({
+          type: "success",
+          title: `${i18n.t("dispatch")} ${i18n.t("create")} ${i18n.t("success")}`,
+        });
         router.back();
       },
       onError: (error: Error) => {
         show({
           type: "error",
-          title: "Failed to create dispatch",
+          title: i18n.t("error"),
           message: error.message,
         });
       },
@@ -178,7 +189,11 @@ export default function CreateDispatchPage() {
     }
   };
 
-  const updateItem = (id: string, field: keyof Omit<ItemForm, "id">, value: string) => {
+  const updateItem = (
+    id: string,
+    field: keyof Omit<ItemForm, "id">,
+    value: string,
+  ) => {
     setItems((prev) =>
       prev.map((item) => (item.id === id ? { ...item, [field]: value } : item)),
     );
@@ -194,9 +209,6 @@ export default function CreateDispatchPage() {
 
   return (
     <Screen>
-      <Stack.Screen
-        options={{ title: "New Dispatch", headerTitleAlign: "center" }}
-      />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
@@ -205,8 +217,8 @@ export default function CreateDispatchPage() {
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.form}>
             <SelectField
-              label="Merchant"
-              placeholder="Select Merchant"
+              label={i18n.t("merchant")}
+              placeholder={i18n.t("merchant")}
               value={formData.merchant_id}
               options={merchantOptions}
               onChange={(value) => {
@@ -219,7 +231,7 @@ export default function CreateDispatchPage() {
             />
 
             <DatePickerField
-              label="Dispatch Date"
+              label={i18n.t("dispatch_date")}
               value={formData.dispatch_date}
               onChange={(dateString) => {
                 setFormData((prev) => ({ ...prev, dispatch_date: dateString }));
@@ -231,8 +243,8 @@ export default function CreateDispatchPage() {
             />
 
             <TextField
-              label="Description"
-              placeholder="Enter description"
+              label={i18n.t("description")}
+              placeholder={i18n.t("description")}
               value={formData.description}
               onChangeText={(text) =>
                 setFormData((prev) => ({ ...prev, description: text }))
@@ -242,23 +254,25 @@ export default function CreateDispatchPage() {
 
             <View style={styles.sectionHeader}>
               <AppText variant="h2" style={styles.sectionTitle}>
-                Items
+                {i18n.t("items")}
               </AppText>
             </View>
 
             {items.map((item, index) => {
               const availableOptions = itemOptions.filter(
-                (opt) => opt.value === item.item_id || !selectedItemIds.has(opt.value),
+                (opt) =>
+                  opt.value === item.item_id || !selectedItemIds.has(opt.value),
               );
-              const dispatchableItem = selectedMerchant?.dispatchable_items.find(
-                (di) => di.item_id === item.item_id,
-              );
+              const dispatchableItem =
+                selectedMerchant?.dispatchable_items.find(
+                  (di) => di.item_id === item.item_id,
+                );
 
               return (
                 <View key={item.id} style={styles.itemCard}>
                   <View style={styles.itemHeader}>
                     <AppText variant="body" style={styles.itemIndex}>
-                      Item {index + 1}
+                      {i18n.t("item")} {index + 1}
                     </AppText>
                     {items.length > 1 && (
                       <TouchableOpacity
@@ -266,14 +280,18 @@ export default function CreateDispatchPage() {
                         accessibilityLabel={`Remove item ${index + 1}`}
                         accessibilityRole="button"
                       >
-                        <Ionicons name="trash-outline" size={20} color={colors.danger} />
+                        <Ionicons
+                          name="trash-outline"
+                          size={20}
+                          color={colors.danger}
+                        />
                       </TouchableOpacity>
                     )}
                   </View>
 
                   <SelectField
-                    label="Item"
-                    placeholder="Select Item"
+                    label={i18n.t("item")}
+                    placeholder={i18n.t("item")}
                     value={item.item_id}
                     options={availableOptions}
                     onChange={(value) => updateItem(item.id, "item_id", value)}
@@ -283,29 +301,38 @@ export default function CreateDispatchPage() {
                   {item.item_id && dispatchableItem && (
                     <AppText
                       variant="caption"
-                      style={{ color: colors.textSecondary, marginBottom: spacing.xs }}
+                      style={{
+                        color: colors.textSecondary,
+                        marginBottom: spacing.xs,
+                      }}
                     >
-                      Available: {dispatchableItem.bags} bags, {dispatchableItem.loose_lb} lb
+                      Available: {dispatchableItem.bags}{" "}
+                      {i18n.t("bags").toLowerCase()},{" "}
+                      {dispatchableItem.loose_lb} lb
                     </AppText>
                   )}
 
                   <View style={styles.row}>
                     <View style={styles.halfWidth}>
                       <TextField
-                        label="Bags"
+                        label={i18n.t("bags")}
                         placeholder="0"
                         value={item.bags}
-                        onChangeText={(text) => updateItem(item.id, "bags", text)}
+                        onChangeText={(text) =>
+                          updateItem(item.id, "bags", text)
+                        }
                         keyboardType="numeric"
                         error={errors[`items.${index}.bags`]}
                       />
                     </View>
                     <View style={styles.halfWidth}>
                       <TextField
-                        label="Loose (lb)"
+                        label={i18n.t("loose_lb")}
                         placeholder="0.0"
                         value={item.loose_lb}
-                        onChangeText={(text) => updateItem(item.id, "loose_lb", text)}
+                        onChangeText={(text) =>
+                          updateItem(item.id, "loose_lb", text)
+                        }
                         keyboardType="numeric"
                         error={errors[`items.${index}.loose_lb`]}
                       />
@@ -316,14 +343,18 @@ export default function CreateDispatchPage() {
             })}
 
             <SecondaryButton
-              label="Add Item"
+              label={i18n.t("add_item")}
               onPress={addItem}
               style={styles.addButton}
-              rightIcon={<Ionicons name="add" size={18} color={colors.primary} />}
+              rightIcon={
+                <Ionicons name="add" size={18} color={colors.primary} />
+              }
             />
 
             <PrimaryButton
-              label={isPending ? "Creating..." : "Create Dispatch"}
+              label={
+                isPending ? i18n.t("loading") : i18n.t("create_new_dispatch")
+              }
               onPress={handleSubmit}
               disabled={isPending}
               style={styles.submitButton}

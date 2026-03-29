@@ -31,7 +31,7 @@ export default function Profile() {
               <Image
                 source={
                   user?.profile_image_url ??
-                  require("../../../assets/images/react-logo.png")
+                  require("@/assets/images/placeholder-profile-pic.svg")
                 }
                 style={styles.avatar}
                 contentFit="cover"

@@ -1,3 +1,4 @@
+import i18n from "@/config/i18n";
 import {
   AppText,
   PrimaryButton,
@@ -46,8 +47,8 @@ export default function Login() {
       await login(email, password);
       show({
         type: "success",
-        title: "Login Successful",
-        message: "Welcome back!",
+        title: `${i18n.t("login")} ${i18n.t("success")}`,
+        message: i18n.t("welcome"),
       });
       router.replace("/dashboard/home");
     } catch (err) {
@@ -55,7 +56,7 @@ export default function Login() {
         err instanceof Error ? err.message : "Login failed. Please try again.";
       show({
         type: "error",
-        title: "Login Failed",
+        title: `${i18n.t("login")} ${i18n.t("error")}`,
         message,
       });
     }
@@ -118,7 +119,7 @@ export default function Login() {
               marginBottom: spacing.m,
             }}
           >
-            <AppText variant="h2">Sign In</AppText>
+            <AppText variant="h2">{i18n.t("login")}</AppText>
           </View>
 
           <View
@@ -127,7 +128,7 @@ export default function Login() {
             }}
           >
             <TextField
-              label="Email"
+              label={i18n.t("email")}
               keyboardType="email-address"
               autoCapitalize="none"
               value={email.trim()}
@@ -147,7 +148,7 @@ export default function Login() {
               }
             />
             <TextField
-              label="Password"
+              label={i18n.t("password")}
               secureTextEntry={!showPassword}
               value={password.trim()}
               autoCapitalize="none"
@@ -182,7 +183,7 @@ export default function Login() {
             }}
           >
             <PrimaryButton
-              label={isLoading ? "Logging in..." : "Log In"}
+              label={isLoading ? i18n.t("loading") : i18n.t("login")}
               rightIcon={
                 !isLoading ? (
                   <Ionicons name="arrow-forward" size={18} color="#FFFFFF" />

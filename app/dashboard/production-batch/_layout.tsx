@@ -1,4 +1,5 @@
 import { CustomHeader } from "@/components/ui/custom-header";
+import i18n from "@/config/i18n";
 import { colors } from "@/design-system/tokens";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
@@ -18,7 +19,7 @@ export default function ProductionLayout() {
       <Stack.Screen
         name="index"
         options={{
-          header: () => <CustomHeader title="Production Batches" />,
+          header: () => <CustomHeader title={i18n.t("production_batches")} />,
         }}
       />
       <Stack.Screen
@@ -26,7 +27,7 @@ export default function ProductionLayout() {
         options={{
           header: () => (
             <CustomHeader
-              title="Create New Production Batch"
+              title={i18n.t("create_new_batch")}
               showBack
               onLeftPress={() => router.back()}
             />

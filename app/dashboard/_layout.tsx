@@ -33,7 +33,7 @@ export default function DashboardLayout() {
                   <Image
                     source={
                       user?.profile_image_url ??
-                      require("../../assets/images/react-logo.png")
+                      require("@/assets/images/placeholder-profile-pic.svg")
                     }
                     style={styles.avatar}
                     contentFit="cover"
@@ -106,7 +106,7 @@ export default function DashboardLayout() {
           href: null,
           header: () => (
             <CustomHeader
-              title="Activity Logs"
+              title={i18n.t("activity_logs")}
               showBack
               onLeftPress={() => router.back()}
             />
@@ -127,7 +127,7 @@ export default function DashboardLayout() {
           href: null,
           header: () => (
             <CustomHeader
-              title="Stock Balances"
+              title={i18n.t("stock_balances")}
               showBack
               onLeftPress={() => router.back()}
             />

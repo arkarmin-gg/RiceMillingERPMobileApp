@@ -1,4 +1,5 @@
 import { CustomHeader } from "@/components/ui/custom-header";
+import i18n from "@/config/i18n";
 import { colors } from "@/design-system/tokens";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
@@ -18,7 +19,7 @@ export default function PartiesLayout() {
       <Stack.Screen
         name="index"
         options={{
-          header: () => <CustomHeader title="Parties List" />,
+          header: () => <CustomHeader title={i18n.t("parties")} />,
         }}
       />
       <Stack.Screen
@@ -26,7 +27,7 @@ export default function PartiesLayout() {
         options={{
           header: () => (
             <CustomHeader
-              title="Create New Party"
+              title={i18n.t("create_new_party")}
               showBack
               onLeftPress={() => router.back()}
             />

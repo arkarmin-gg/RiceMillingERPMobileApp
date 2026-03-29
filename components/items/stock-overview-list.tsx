@@ -1,3 +1,4 @@
+import i18n from "@/config/i18n";
 import { AppText } from "@/design-system/components";
 import { colors, radii, shadows, spacing } from "@/design-system/tokens";
 import { ItemWithStock } from "@/types/item";
@@ -15,7 +16,7 @@ export function StockOverviewList({ items }: StockOverviewListProps) {
   return (
     <View>
       <View style={styles.header}>
-        <AppText variant="caption">Stock Overview</AppText>
+        <AppText variant="caption">{i18n.t("stock_overview")}</AppText>
       </View>
       <FlatList
         data={items}
@@ -48,13 +49,13 @@ export function StockOverviewList({ items }: StockOverviewListProps) {
                 </AppText>
               </View>
               <View style={styles.statItem}>
-                <AppText variant="caption">Bags</AppText>
+                <AppText variant="caption">{i18n.t("bags")}</AppText>
                 <AppText variant="body" style={styles.statValue}>
                   {item.total_bags.toLocaleString()}
                 </AppText>
               </View>
               <View style={styles.statItem}>
-                <AppText variant="caption">Loose</AppText>
+                <AppText variant="caption">{i18n.t("loose_lb")}</AppText>
                 <AppText variant="body" style={styles.statValue}>
                   {item.total_loose_lb.toLocaleString()}
                 </AppText>
@@ -64,7 +65,9 @@ export function StockOverviewList({ items }: StockOverviewListProps) {
         )}
         ListEmptyComponent={
           <View style={[styles.center, { width: width - spacing.xl }]}>
-            <AppText variant="bodySecondary">No items found.</AppText>
+            <AppText variant="bodySecondary">
+              {i18n.t("no_items_found")}
+            </AppText>
           </View>
         }
       />

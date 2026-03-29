@@ -2,6 +2,7 @@ import { StockBalanceList } from "@/components/check-stock/stock-balance-list";
 import PartyAvatar from "@/components/parties/party-avatar";
 import { CustomHeader } from "@/components/ui/custom-header";
 import InfoRow from "@/components/ui/info-row";
+import i18n from "@/config/i18n";
 import { AppText, Screen } from "@/design-system/components";
 import { colors, radii, spacing } from "@/design-system/tokens";
 import { useParty } from "@/hooks/use-parties";
@@ -54,7 +55,7 @@ const DetailPartyPage = () => {
   if (!party) {
     return (
       <Screen style={styles.center}>
-        <AppText>Party not found</AppText>
+        <AppText>{i18n.t("no_parties_found")}</AppText>
       </Screen>
     );
   }
@@ -67,7 +68,7 @@ const DetailPartyPage = () => {
         options={{
           header: () => (
             <CustomHeader
-              title={`${party.full_name}'s Details`}
+              title={`${party.full_name} ${i18n.t("details")}`}
               showBack
               onLeftPress={() => router.back()}
               rightIcon={
@@ -117,7 +118,7 @@ const DetailPartyPage = () => {
                 activeTab === "info" && styles.activeTabText,
               ]}
             >
-              Information
+              {i18n.t("information")}
             </AppText>
           </TouchableOpacity>
           <TouchableOpacity
@@ -130,17 +131,21 @@ const DetailPartyPage = () => {
                 activeTab === "stock" && styles.activeTabText,
               ]}
             >
-              Stock Balances
+              {i18n.t("stock_balances")}
             </AppText>
           </TouchableOpacity>
         </View>
 
         {activeTab === "info" ? (
           <View style={styles.infoSection}>
-            <InfoRow icon="call-outline" label="Phone" value={party.phone} />
+            <InfoRow
+              icon="call-outline"
+              label={i18n.t("phone")}
+              value={party.phone}
+            />
             <InfoRow
               icon="location-outline"
-              label="Address"
+              label={i18n.t("address")}
               value={party.address}
             />
             <InfoRow icon="card-outline" label="NRC" value={party.nrc} />

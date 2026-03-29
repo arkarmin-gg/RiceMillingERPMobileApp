@@ -1,4 +1,5 @@
 import { STATUS_STYLES } from "@/components/production-batch/production-batch-item";
+import i18n from "@/config/i18n";
 import { AppText, Screen } from "@/design-system/components";
 import { colors, radii, shadows, spacing } from "@/design-system/tokens";
 import { useProductionBatch } from "@/hooks/use-production-batches";
@@ -44,7 +45,7 @@ export default function ProductionBatchDetailPage() {
     <Screen>
       <Stack.Screen
         options={{
-          title: `Batch #${batch.batch_number}`,
+          title: `${i18n.t("batch")} #${batch.batch_number}`,
           headerTitleAlign: "center",
           headerRight: () => (
             <TouchableOpacity
@@ -86,13 +87,13 @@ export default function ProductionBatchDetailPage() {
 
           <View style={styles.infoRow}>
             <View style={styles.infoItem}>
-              <AppText variant="caption">Merchant</AppText>
+              <AppText variant="caption">{i18n.t("merchant")}</AppText>
               <AppText variant="body" style={styles.infoValue}>
                 {batch.merchant_name}
               </AppText>
             </View>
             <View style={styles.infoItem}>
-              <AppText variant="caption">Date</AppText>
+              <AppText variant="caption">{i18n.t("production_date")}</AppText>
               <AppText variant="body" style={styles.infoValue}>
                 {date}
               </AppText>
@@ -107,21 +108,21 @@ export default function ProductionBatchDetailPage() {
           </AppText>
           <View style={styles.statsRow}>
             <View style={styles.statItem}>
-              <AppText variant="caption">Total Qty</AppText>
+              <AppText variant="caption">Total {i18n.t("quantity")}</AppText>
               <AppText variant="h1" style={styles.statValue}>
                 {batch.total_quantity}
               </AppText>
             </View>
             <View style={styles.statDivider} />
             <View style={styles.statItem}>
-              <AppText variant="caption">Total Bags</AppText>
+              <AppText variant="caption">Total {i18n.t("bags")}</AppText>
               <AppText variant="h1" style={styles.statValue}>
                 {batch.total_bags}
               </AppText>
             </View>
             <View style={styles.statDivider} />
             <View style={styles.statItem}>
-              <AppText variant="caption">Loose (lb)</AppText>
+              <AppText variant="caption">{i18n.t("loose_lb")}</AppText>
               <AppText variant="h1" style={styles.statValue}>
                 {batch.total_loose_lb}
               </AppText>
@@ -131,7 +132,7 @@ export default function ProductionBatchDetailPage() {
 
         {/* Outputs Section */}
         <AppText variant="h2" style={styles.sectionHeader}>
-          Outputs ({batch.outputs?.length || 0})
+          {i18n.t("items")} ({batch.outputs?.length || 0})
         </AppText>
 
         <View style={styles.outputsList}>

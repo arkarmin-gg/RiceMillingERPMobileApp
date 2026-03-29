@@ -1,4 +1,5 @@
 import { CustomHeader } from "@/components/ui/custom-header";
+import i18n from "@/config/i18n";
 import {
   AppText,
   PrimaryButton,
@@ -120,7 +121,7 @@ export default function EditPartiesPage() {
         options={{
           header: () => (
             <CustomHeader
-              title="Edit Party"
+              title={`${i18n.t("edit")} ${i18n.t("party")}`}
               showBack
               onLeftPress={() => router.back()}
             />
@@ -135,7 +136,7 @@ export default function EditPartiesPage() {
         <ScrollView>
           <View style={styles.form}>
             <TextField
-              label="Full Name"
+              label={i18n.t("full_name")}
               placeholder="e.g. Jonathon Jacobi"
               value={formData.full_name}
               onChangeText={(text) => handleChange("full_name", text)}
@@ -145,7 +146,7 @@ export default function EditPartiesPage() {
 
             <View style={styles.fieldContainer}>
               <AppText variant="bodySecondary" style={styles.fieldLabel}>
-                Party Type
+                {i18n.t("party_type")}
               </AppText>
               <View style={styles.chipContainer}>
                 {(
@@ -182,7 +183,7 @@ export default function EditPartiesPage() {
             </View>
 
             <TextField
-              label="Phone"
+              label={i18n.t("phone")}
               placeholder="e.g. 09123456789"
               value={formData.phone}
               onChangeText={(text) => handleChange("phone", text)}
@@ -191,7 +192,7 @@ export default function EditPartiesPage() {
             />
 
             <TextField
-              label="Address"
+              label={i18n.t("address")}
               placeholder="e.g. 123 Main St"
               value={formData.address}
               onChangeText={(text) => handleChange("address", text)}
@@ -210,7 +211,7 @@ export default function EditPartiesPage() {
             />
 
             <PrimaryButton
-              label={isUpdating ? "Updating..." : "Update Party"}
+              label={isUpdating ? i18n.t("loading") : i18n.t("update")}
               onPress={handleSubmit}
               disabled={isUpdating}
               style={styles.submitButton}

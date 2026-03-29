@@ -1,3 +1,4 @@
+import i18n from "@/config/i18n";
 import { AppText } from "@/design-system/components";
 import { spacing } from "@/design-system/tokens";
 import { StockBalance } from "@/types/stock-balance";
@@ -53,7 +54,9 @@ export function StockBalanceList({
       ListEmptyComponent={
         !isLoading ? (
           <View style={styles.emptyContainer}>
-            <AppText variant="bodySecondary">No stock balances found.</AppText>
+            <AppText variant="bodySecondary">
+              {i18n.t("no_items_found")}
+            </AppText>
           </View>
         ) : null
       }

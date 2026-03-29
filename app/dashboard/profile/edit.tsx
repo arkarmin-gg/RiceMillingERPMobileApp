@@ -1,9 +1,5 @@
-import {
-  AppText,
-  PrimaryButton,
-  Screen,
-  TextField,
-} from "@/design-system/components";
+import i18n from "@/config/i18n";
+import { PrimaryButton, Screen, TextField } from "@/design-system/components";
 import { colors, spacing } from "@/design-system/tokens";
 import { useAuth } from "@/hooks/use-auth";
 import { useToastActions } from "@/hooks/use-toast";
@@ -81,8 +77,7 @@ export default function EditProfile() {
 
       show({
         type: "success",
-        title: "Profile Updated",
-        message: "Your profile has been updated successfully.",
+        title: `${i18n.t("profile")} ${i18n.t("update")} ${i18n.t("success")}`,
       });
       router.back();
     } catch (error) {
@@ -108,7 +103,7 @@ export default function EditProfile() {
                 source={
                   profileImage
                     ? { uri: profileImage }
-                    : require("../../../assets/images/react-logo.png")
+                    : require("@/assets/images/placeholder-profile-pic.svg")
                 }
                 style={styles.avatar}
                 contentFit="cover"
@@ -117,26 +112,23 @@ export default function EditProfile() {
                 <Ionicons name="camera" size={20} color="#FFFFFF" />
               </View>
             </Pressable>
-            <AppText variant="bodySecondary" style={{ marginTop: spacing.s }}>
-              Tap to change photo
-            </AppText>
           </View>
 
           <View style={styles.form}>
             <TextField
-              label="Full Name"
+              label={i18n.t("full_name")}
               value={fullName}
               onChangeText={setFullName}
               error={errors.full_name}
-              placeholder="Enter your full name"
+              placeholder={i18n.t("full_name")}
               editable={!isLoading}
             />
             <TextField
-              label="Phone Number"
+              label={i18n.t("phone")}
               value={phone}
               onChangeText={setPhone}
               error={errors.phone}
-              placeholder="Enter your phone number"
+              placeholder={i18n.t("phone")}
               keyboardType="phone-pad"
               editable={!isLoading}
             />
@@ -144,7 +136,7 @@ export default function EditProfile() {
 
           <View style={styles.footer}>
             <PrimaryButton
-              label={isLoading ? "Saving..." : "Save Changes"}
+              label={isLoading ? i18n.t("loading") : i18n.t("save")}
               onPress={handleSave}
               disabled={isLoading}
             />

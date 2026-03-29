@@ -1,4 +1,5 @@
 import { SelectField } from "@/components/ui/select-field";
+import i18n from "@/config/i18n";
 import {
   AppText,
   PrimaryButton,
@@ -226,7 +227,8 @@ export default function EditDispatchPage() {
         const looseLb = Number(item.loose_lb);
 
         if (bags > maxBags) {
-          newErrors[`items.${index}.bags`] = `Max ${maxBags} bags`;
+          newErrors[`items.${index}.bags`] =
+            `Max ${maxBags} ${i18n.t("bags").toLowerCase()}`;
           hasError = true;
         }
 
@@ -276,14 +278,14 @@ export default function EditDispatchPage() {
       onSuccess: () => {
         show({
           type: "success",
-          title: "Dispatch updated successfully",
+          title: `${i18n.t("dispatch")} ${i18n.t("update")} ${i18n.t("success")}`,
         });
         router.back();
       },
       onError: (error: any) => {
         show({
           type: "error",
-          title: "Failed to update dispatch",
+          title: i18n.t("error"),
           message: error?.message || "Unknown error",
         });
       },
@@ -347,7 +349,7 @@ export default function EditDispatchPage() {
     <Screen>
       <Stack.Screen
         options={{
-          title: "Edit Dispatch",
+          title: `${i18n.t("edit")} ${i18n.t("dispatch")}`,
           headerTitleAlign: "center",
         }}
       />
@@ -359,8 +361,8 @@ export default function EditDispatchPage() {
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.form}>
             <SelectField
-              label="Merchant"
-              placeholder="Select Merchant"
+              label={i18n.t("merchant")}
+              placeholder={i18n.t("merchant")}
               value={formData.merchant_id}
               options={merchantOptions}
               onChange={(value) => {
@@ -378,7 +380,7 @@ export default function EditDispatchPage() {
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
               <View pointerEvents="none">
                 <TextField
-                  label="Dispatch Date"
+                  label={i18n.t("dispatch_date")}
                   placeholder="YYYY-MM-DD"
                   value={formData.dispatch_date}
                   editable={false}
@@ -409,7 +411,9 @@ export default function EditDispatchPage() {
                           onPress={() => setShowDatePicker(false)}
                           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                         >
-                          <AppText style={styles.doneButtonText}>Done</AppText>
+                          <AppText style={styles.doneButtonText}>
+                            {i18n.t("done")}
+                          </AppText>
                         </TouchableOpacity>
                       </View>
                       <DateTimePicker
@@ -432,8 +436,8 @@ export default function EditDispatchPage() {
               ))}
 
             <TextField
-              label="Description"
-              placeholder="Enter description"
+              label={i18n.t("description")}
+              placeholder={i18n.t("description")}
               value={formData.description}
               onChangeText={(text) =>
                 setFormData((prev) => ({ ...prev, description: text }))
@@ -443,7 +447,7 @@ export default function EditDispatchPage() {
 
             <View style={styles.sectionHeader}>
               <AppText variant="h2" style={styles.sectionTitle}>
-                Items
+                {i18n.t("items")}
               </AppText>
             </View>
 
@@ -486,7 +490,7 @@ export default function EditDispatchPage() {
                 <View key={index} style={styles.itemCard}>
                   <View style={styles.itemHeader}>
                     <AppText variant="body" style={styles.itemIndex}>
-                      Item {index + 1}
+                      {i18n.t("item")} {index + 1}
                     </AppText>
                     {items.length > 1 && (
                       <TouchableOpacity onPress={() => removeItem(index)}>
@@ -500,8 +504,8 @@ export default function EditDispatchPage() {
                   </View>
 
                   <SelectField
-                    label="Item"
-                    placeholder="Select Item"
+                    label={i18n.t("item")}
+                    placeholder={i18n.t("item")}
                     value={item.item_id}
                     options={availableOptions}
                     onChange={(value) => updateItem(index, "item_id", value)}
@@ -514,7 +518,8 @@ export default function EditDispatchPage() {
                         variant="caption"
                         style={styles.availableBalanceText}
                       >
-                        Available: {maxBags} bags, {maxLooseLb} lb
+                        Available: {maxBags} {i18n.t("bags").toLowerCase()},{" "}
+                        {maxLooseLb} lb
                       </AppText>
                     </View>
                   )}
@@ -522,7 +527,7 @@ export default function EditDispatchPage() {
                   <View style={styles.row}>
                     <View style={styles.halfWidth}>
                       <TextField
-                        label="Bags"
+                        label={i18n.t("bags")}
                         placeholder="0"
                         value={item.bags}
                         onChangeText={(text) => updateItem(index, "bags", text)}
@@ -532,7 +537,7 @@ export default function EditDispatchPage() {
                     </View>
                     <View style={styles.halfWidth}>
                       <TextField
-                        label="Loose (lb)"
+                        label={i18n.t("loose_lb")}
                         placeholder="0.0"
                         value={item.loose_lb}
                         onChangeText={(text) =>
@@ -548,7 +553,7 @@ export default function EditDispatchPage() {
             })}
 
             <SecondaryButton
-              label="Add Item"
+              label={i18n.t("add_item")}
               onPress={addItem}
               style={styles.addButton}
               rightIcon={
@@ -557,7 +562,11 @@ export default function EditDispatchPage() {
             />
 
             <PrimaryButton
-              label={isUpdating ? "Updating..." : "Update Dispatch"}
+              label={
+                isUpdating
+                  ? i18n.t("loading")
+                  : `${i18n.t("update")} ${i18n.t("dispatch")}`
+              }
               onPress={handleSubmit}
               disabled={isUpdating}
               style={styles.submitButton}

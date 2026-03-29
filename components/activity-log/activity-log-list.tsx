@@ -1,3 +1,4 @@
+import i18n from "@/config/i18n";
 import { AppText } from "@/design-system/components";
 import { spacing } from "@/design-system/tokens";
 import { ActivityLog } from "@/types/activity-log";
@@ -50,7 +51,7 @@ export function ActivityLogList({
       ListEmptyComponent={
         !isLoading ? (
           <View style={styles.emptyContainer}>
-            <AppText variant="bodySecondary">No activity logs found.</AppText>
+            <AppText variant="bodySecondary">{i18n.t("no_logs_found")}</AppText>
           </View>
         ) : null
       }

@@ -1,4 +1,5 @@
 import PartyItem from "@/components/parties/party-item";
+import i18n from "@/config/i18n";
 import {
   AppText,
   IconButton,
@@ -54,7 +55,7 @@ export default function PartiesPage() {
     <Screen style={styles.container}>
       <View style={styles.header}>
         <TextField
-          placeholder="Search parties..."
+          placeholder={i18n.t("search_parties")}
           value={search}
           onChangeText={setSearch}
           leftIcon={
@@ -82,16 +83,22 @@ export default function PartiesPage() {
             style={[styles.chip, !selectedType && styles.chipSelected]}
           >
             <AppText
-              style={[styles.chipText, !selectedType && styles.chipTextSelected]}
+              style={[
+                styles.chipText,
+                !selectedType && styles.chipTextSelected,
+              ]}
             >
-              All
+              {i18n.t("all")}
             </AppText>
           </Pressable>
           {PARTY_TYPES.map((type) => (
             <Pressable
               key={type}
               onPress={() => setSelectedType(type)}
-              style={[styles.chip, selectedType === type && styles.chipSelected]}
+              style={[
+                styles.chip,
+                selectedType === type && styles.chipSelected,
+              ]}
             >
               <AppText
                 style={[
@@ -113,7 +120,7 @@ export default function PartiesPage() {
       ) : !data?.data?.length ? (
         <View style={styles.center}>
           <AppText variant="h2" style={{ color: colors.textSecondary }}>
-            No parties found
+            {i18n.t("no_parties_found")}
           </AppText>
         </View>
       ) : (
@@ -133,7 +140,7 @@ export default function PartiesPage() {
         size="large"
         style={styles.fab}
         onPress={() => router.push("/dashboard/parties/create")}
-        accessibilityLabel="Create new party"
+        accessibilityLabel={i18n.t("create_new_party")}
         accessibilityRole="button"
       />
     </Screen>

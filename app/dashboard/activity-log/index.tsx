@@ -1,6 +1,7 @@
 import { ActivityLogList } from "@/components/activity-log/activity-log-list";
 import { CustomHeader } from "@/components/ui/custom-header";
 import { SelectField } from "@/components/ui/select-field";
+import i18n from "@/config/i18n";
 import {
   AppText,
   PrimaryButton,
@@ -95,7 +96,7 @@ export default function ActivityLogIndex() {
   });
 
   const userOptions = [
-    { label: "All Users", value: "" },
+    { label: i18n.t("all_users"), value: "" },
     ...(usersData?.data.map((u) => ({
       label: u.full_name,
       value: u.id,
@@ -103,12 +104,12 @@ export default function ActivityLogIndex() {
   ];
 
   const actionOptions = [
-    { label: "All Actions", value: "" },
-    { label: "Create", value: "CREATE" },
-    { label: "Update", value: "UPDATE" },
-    { label: "Delete", value: "DELETE" },
-    { label: "Login", value: "LOGIN" },
-    { label: "Logout", value: "LOGOUT" },
+    { label: i18n.t("all_actions"), value: "" },
+    { label: i18n.t("create"), value: "CREATE" },
+    { label: i18n.t("update"), value: "UPDATE" },
+    { label: i18n.t("delete"), value: "DELETE" },
+    { label: i18n.t("login"), value: "LOGIN" },
+    { label: i18n.t("logout"), value: "LOGOUT" },
   ];
 
   const {
@@ -152,7 +153,7 @@ export default function ActivityLogIndex() {
       return (
         <View style={styles.center}>
           <AppText variant="body" style={{ color: colors.danger }}>
-            Failed to load activity logs.
+            {i18n.t("failed_to_load_data")}
           </AppText>
           <AppText variant="caption" style={{ marginTop: 8 }}>
             {activityError?.message}
@@ -167,7 +168,7 @@ export default function ActivityLogIndex() {
       return (
         <View style={styles.center}>
           <AppText variant="h2" style={{ color: colors.textSecondary }}>
-            No activity logs found
+            {i18n.t("no_logs_found")}
           </AppText>
         </View>
       );
@@ -190,7 +191,7 @@ export default function ActivityLogIndex() {
         options={{
           header: () => (
             <CustomHeader
-              title="Activity Logs"
+              title={i18n.t("activity_logs")}
               showBack
               onLeftPress={() => router.back()}
             />
@@ -223,7 +224,7 @@ export default function ActivityLogIndex() {
                 activeFiltersCount > 0 && { color: "white" },
               ]}
             >
-              Filters
+              {i18n.t("filters")}
             </AppText>
           </TouchableOpacity>
         </View>
@@ -241,7 +242,7 @@ export default function ActivityLogIndex() {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <AppText variant="h2">Filters</AppText>
+              <AppText variant="h2">{i18n.t("filters")}</AppText>
               <TouchableOpacity onPress={() => setIsFilterModalVisible(false)}>
                 <Ionicons name="close" size={24} color={colors.textPrimary} />
               </TouchableOpacity>
@@ -250,8 +251,8 @@ export default function ActivityLogIndex() {
             <ScrollView style={styles.modalBody}>
               <View style={styles.filterSection}>
                 <SelectField
-                  label="Action"
-                  placeholder="All Actions"
+                  label={i18n.t("action")}
+                  placeholder={i18n.t("all_actions")}
                   value={tempAction}
                   options={actionOptions}
                   onChange={setTempAction}
@@ -260,8 +261,8 @@ export default function ActivityLogIndex() {
 
               <View style={styles.filterSection}>
                 <SelectField
-                  label="User"
-                  placeholder="All Users"
+                  label={i18n.t("user")}
+                  placeholder={i18n.t("all_users")}
                   value={tempUserId}
                   options={userOptions}
                   onChange={setTempUserId}
@@ -270,14 +271,14 @@ export default function ActivityLogIndex() {
 
               <View style={styles.filterSection}>
                 <AppText variant="bodySecondary" style={styles.sectionLabel}>
-                  Date Range
+                  {i18n.t("date_range")}
                 </AppText>
                 <View style={styles.dateRow}>
                   <View style={styles.dateInput}>
                     <TouchableOpacity onPress={() => setShowFromPicker(true)}>
                       <View pointerEvents="none">
                         <TextField
-                          label="From Date"
+                          label={i18n.t("from_date")}
                           placeholder="YYYY-MM-DD"
                           value={toLocalDateString(tempFromDate) || ""}
                           editable={false}
@@ -309,7 +310,7 @@ export default function ActivityLogIndex() {
                     <TouchableOpacity onPress={() => setShowToPicker(true)}>
                       <View pointerEvents="none">
                         <TextField
-                          label="To Date"
+                          label={i18n.t("to_date")}
                           placeholder="YYYY-MM-DD"
                           value={toLocalDateString(tempToDate) || ""}
                           editable={false}
@@ -342,12 +343,12 @@ export default function ActivityLogIndex() {
 
             <View style={styles.modalFooter}>
               <SecondaryButton
-                label="Reset"
+                label={i18n.t("reset")}
                 onPress={resetFilters}
                 style={styles.modalButton}
               />
               <PrimaryButton
-                label="Apply Filters"
+                label={i18n.t("apply_filters")}
                 onPress={applyFilters}
                 style={styles.modalButton}
               />
@@ -370,7 +371,9 @@ export default function ActivityLogIndex() {
                 <View style={styles.modalHeader}>
                   <View style={{ flex: 1 }} />
                   <TouchableOpacity onPress={() => setShowFromPicker(false)}>
-                    <AppText style={styles.doneButtonText}>Done</AppText>
+                    <AppText style={styles.doneButtonText}>
+                      {i18n.t("done")}
+                    </AppText>
                   </TouchableOpacity>
                 </View>
                 <DateTimePicker
@@ -405,7 +408,9 @@ export default function ActivityLogIndex() {
                 <View style={styles.modalHeader}>
                   <View style={{ flex: 1 }} />
                   <TouchableOpacity onPress={() => setShowToPicker(false)}>
-                    <AppText style={styles.doneButtonText}>Done</AppText>
+                    <AppText style={styles.doneButtonText}>
+                      {i18n.t("done")}
+                    </AppText>
                   </TouchableOpacity>
                 </View>
                 <DateTimePicker

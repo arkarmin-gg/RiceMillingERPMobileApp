@@ -1,4 +1,5 @@
 import { SelectField } from "@/components/ui/select-field";
+import i18n from "@/config/i18n";
 import {
   AppText,
   PrimaryButton,
@@ -260,7 +261,7 @@ export default function EditProductionBatchPage() {
     <Screen>
       <Stack.Screen
         options={{
-          title: "Edit Production Batch",
+          title: `${i18n.t("edit")} ${i18n.t("production_batch")}`,
           headerTitleAlign: "center",
         }}
       />
@@ -272,8 +273,8 @@ export default function EditProductionBatchPage() {
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.form}>
             <SelectField
-              label="Merchant"
-              placeholder="Select Merchant"
+              label={i18n.t("merchant")}
+              placeholder={i18n.t("merchant")}
               value={formData.merchant_id}
               options={merchantOptions}
               onChange={(value) => {
@@ -291,7 +292,7 @@ export default function EditProductionBatchPage() {
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
               <View pointerEvents="none">
                 <TextField
-                  label="Production Date"
+                  label={i18n.t("production_date")}
                   placeholder="YYYY-MM-DD"
                   value={formData.production_date}
                   editable={false}
@@ -322,7 +323,9 @@ export default function EditProductionBatchPage() {
                           onPress={() => setShowDatePicker(false)}
                           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                         >
-                          <AppText style={styles.doneButtonText}>Done</AppText>
+                          <AppText style={styles.doneButtonText}>
+                            {i18n.t("done")}
+                          </AppText>
                         </TouchableOpacity>
                       </View>
                       <DateTimePicker
@@ -346,7 +349,7 @@ export default function EditProductionBatchPage() {
 
             <View style={styles.sectionHeader}>
               <AppText variant="h2" style={styles.sectionTitle}>
-                Outputs
+                {i18n.t("items")}
               </AppText>
             </View>
 
@@ -365,7 +368,7 @@ export default function EditProductionBatchPage() {
                 <View key={index} style={styles.outputCard}>
                   <View style={styles.outputHeader}>
                     <AppText variant="body" style={styles.outputIndex}>
-                      Item {index + 1}
+                      {i18n.t("item")} {index + 1}
                     </AppText>
                     {outputs.length > 1 && (
                       <TouchableOpacity onPress={() => removeOutput(index)}>
@@ -379,8 +382,8 @@ export default function EditProductionBatchPage() {
                   </View>
 
                   <SelectField
-                    label="Item"
-                    placeholder="Select Item"
+                    label={i18n.t("item")}
+                    placeholder={i18n.t("item")}
                     value={output.item_id}
                     options={availableOptions}
                     onChange={(value) => updateOutput(index, "item_id", value)}
@@ -390,7 +393,7 @@ export default function EditProductionBatchPage() {
                   <View style={styles.row}>
                     <View style={styles.halfWidth}>
                       <TextField
-                        label="Bags"
+                        label={i18n.t("bags")}
                         placeholder="0"
                         value={output.bags}
                         onChangeText={(text) =>
@@ -402,7 +405,7 @@ export default function EditProductionBatchPage() {
                     </View>
                     <View style={styles.halfWidth}>
                       <TextField
-                        label="Loose (lb)"
+                        label={i18n.t("loose_lb")}
                         placeholder="0.0"
                         value={output.loose_lb}
                         onChangeText={(text) =>
@@ -418,7 +421,7 @@ export default function EditProductionBatchPage() {
             })}
 
             <SecondaryButton
-              label="Add Item"
+              label={i18n.t("add_item")}
               onPress={addOutput}
               style={styles.addButton}
               rightIcon={
@@ -427,7 +430,7 @@ export default function EditProductionBatchPage() {
             />
 
             <PrimaryButton
-              label={isUpdating ? "Updating..." : "Update Batch"}
+              label={isUpdating ? i18n.t("loading") : i18n.t("update")}
               onPress={handleSubmit}
               disabled={isUpdating}
               style={styles.submitButton}

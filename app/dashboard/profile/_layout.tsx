@@ -1,4 +1,5 @@
 import { CustomHeader } from "@/components/ui/custom-header";
+import i18n from "@/config/i18n";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
 
@@ -12,7 +13,7 @@ export default function ProfileLayout() {
         options={{
           header: () => (
             <CustomHeader
-              title="Profile"
+              title={i18n.t("profile")}
               showBack
               onLeftPress={() => router.back()}
             />
@@ -24,7 +25,7 @@ export default function ProfileLayout() {
         options={{
           header: () => (
             <CustomHeader
-              title="Edit Profile"
+              title={`${i18n.t("edit")} ${i18n.t("profile")}`}
               showBack
               onLeftPress={() => router.back()}
             />

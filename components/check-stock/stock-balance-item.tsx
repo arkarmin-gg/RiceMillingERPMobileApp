@@ -1,3 +1,4 @@
+import i18n from "@/config/i18n";
 import { AppText } from "@/design-system/components";
 import { colors, radii, shadows, spacing } from "@/design-system/tokens";
 import { StockBalance } from "@/types/stock-balance";
@@ -92,7 +93,9 @@ export function StockBalanceItem({
 
         <View style={styles.row}>
           <View style={styles.badge}>
-            <AppText style={styles.badgeText}>{item.bags} BAGS</AppText>
+            <AppText style={styles.badgeText}>
+              {item.bags} {i18n.t("bags")}
+            </AppText>
           </View>
           {item.loose_lb > 0 && (
             <AppText

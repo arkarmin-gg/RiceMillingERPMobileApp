@@ -1,5 +1,6 @@
 import { StockBalanceList } from "@/components/check-stock/stock-balance-list";
 import { SelectField } from "@/components/ui/select-field";
+import i18n from "@/config/i18n";
 import {
   AppText,
   PrimaryButton,
@@ -64,7 +65,7 @@ export default function CheckStockIndex() {
   });
 
   const ownerOptions = [
-    { label: "All Owners", value: "" },
+    { label: i18n.t("all_merchants"), value: "" },
     ...(partiesData?.data.map((p) => ({
       label: p.full_name,
       value: p.id,
@@ -111,7 +112,7 @@ export default function CheckStockIndex() {
       return (
         <View style={styles.center}>
           <AppText variant="body" style={{ color: colors.danger }}>
-            Failed to load stock balances.
+            {i18n.t("failed_to_load_data")}
           </AppText>
           <AppText variant="caption" style={{ marginTop: 8 }}>
             {error?.message}
@@ -126,7 +127,7 @@ export default function CheckStockIndex() {
       return (
         <View style={styles.center}>
           <AppText variant="h2" style={{ color: colors.textSecondary }}>
-            No stock balances found
+            {i18n.t("no_items_found")}
           </AppText>
         </View>
       );
@@ -148,7 +149,7 @@ export default function CheckStockIndex() {
         <View style={styles.searchContainer}>
           <View style={{ flex: 1 }}>
             <TextField
-              placeholder="Search stock..."
+              placeholder={i18n.t("search_items")}
               value={search}
               onChangeText={setSearch}
               leftIcon={
@@ -203,7 +204,7 @@ export default function CheckStockIndex() {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <AppText variant="h2">Filters</AppText>
+              <AppText variant="h2">{i18n.t("filters")}</AppText>
               <TouchableOpacity onPress={() => setIsFilterModalVisible(false)}>
                 <Ionicons name="close" size={24} color={colors.textPrimary} />
               </TouchableOpacity>
@@ -212,8 +213,8 @@ export default function CheckStockIndex() {
             <ScrollView style={styles.modalBody}>
               <View style={styles.filterSection}>
                 <SelectField
-                  label="Owner"
-                  placeholder="All Owners"
+                  label={i18n.t("merchant")}
+                  placeholder={i18n.t("all_merchants")}
                   value={tempOwnerId}
                   options={ownerOptions}
                   onChange={setTempOwnerId}
@@ -235,12 +236,12 @@ export default function CheckStockIndex() {
 
             <View style={styles.modalFooter}>
               <SecondaryButton
-                label="Reset"
+                label={i18n.t("reset")}
                 onPress={resetFilters}
                 style={styles.modalButton}
               />
               <PrimaryButton
-                label="Apply Filters"
+                label={i18n.t("apply_filters")}
                 onPress={applyFilters}
                 style={styles.modalButton}
               />

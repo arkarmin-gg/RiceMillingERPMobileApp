@@ -1,5 +1,6 @@
 import ProductionBatchItem from "@/components/production-batch/production-batch-item";
 import { SelectField } from "@/components/ui/select-field";
+import i18n from "@/config/i18n";
 import {
   AppText,
   IconButton,
@@ -75,7 +76,7 @@ export default function ProductionBatchesPage() {
   });
 
   const merchantOptions = [
-    { label: "All Merchants", value: "" },
+    { label: i18n.t("all_merchants"), value: "" },
     ...(merchantsData?.data.map((m) => ({
       label: m.full_name,
       value: m.id,
@@ -122,7 +123,7 @@ export default function ProductionBatchesPage() {
       return (
         <View style={styles.center}>
           <AppText variant="h2" style={{ color: colors.textSecondary }}>
-            No production batches found
+            {i18n.t("no_batches_found")}
           </AppText>
         </View>
       );
@@ -156,7 +157,7 @@ export default function ProductionBatchesPage() {
         <View style={styles.searchContainer}>
           <View style={{ flex: 1 }}>
             <TextField
-              placeholder="Search batches..."
+              placeholder={i18n.t("search_batches")}
               value={search}
               onChangeText={setSearch}
               leftIcon={
@@ -219,7 +220,7 @@ export default function ProductionBatchesPage() {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <AppText variant="h2">Filters</AppText>
+              <AppText variant="h2">{i18n.t("filters")}</AppText>
               <TouchableOpacity onPress={() => setIsFilterModalVisible(false)}>
                 <Ionicons name="close" size={24} color={colors.textPrimary} />
               </TouchableOpacity>
@@ -228,8 +229,8 @@ export default function ProductionBatchesPage() {
             <ScrollView style={styles.modalBody}>
               <View style={styles.filterSection}>
                 <SelectField
-                  label="Merchant"
-                  placeholder="All Merchants"
+                  label={i18n.t("merchant")}
+                  placeholder={i18n.t("all_merchants")}
                   value={tempMerchantId}
                   options={merchantOptions}
                   onChange={setTempMerchantId}
@@ -238,14 +239,14 @@ export default function ProductionBatchesPage() {
 
               <View style={styles.filterSection}>
                 <AppText variant="bodySecondary" style={styles.sectionLabel}>
-                  Date Range
+                  {i18n.t("date_range")}
                 </AppText>
                 <View style={styles.dateRow}>
                   <View style={styles.dateInput}>
                     <TouchableOpacity onPress={() => setShowFromPicker(true)}>
                       <View pointerEvents="none">
                         <TextField
-                          label="From Date"
+                          label={i18n.t("from_date")}
                           placeholder="YYYY-MM-DD"
                           value={toLocalDateString(tempFromDate) || ""}
                           editable={false}
@@ -277,7 +278,7 @@ export default function ProductionBatchesPage() {
                     <TouchableOpacity onPress={() => setShowToPicker(true)}>
                       <View pointerEvents="none">
                         <TextField
-                          label="To Date"
+                          label={i18n.t("to_date")}
                           placeholder="YYYY-MM-DD"
                           value={toLocalDateString(tempToDate) || ""}
                           editable={false}
@@ -313,13 +314,17 @@ export default function ProductionBatchesPage() {
                 style={styles.resetButton}
                 onPress={resetFilters}
               >
-                <AppText style={styles.resetButtonText}>Reset</AppText>
+                <AppText style={styles.resetButtonText}>
+                  {i18n.t("reset")}
+                </AppText>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.applyButton}
                 onPress={applyFilters}
               >
-                <AppText style={styles.applyButtonText}>Show Results</AppText>
+                <AppText style={styles.applyButtonText}>
+                  {i18n.t("apply_filters")}
+                </AppText>
               </TouchableOpacity>
             </View>
           </View>
@@ -339,7 +344,9 @@ export default function ProductionBatchesPage() {
               <View style={styles.datePickerContent}>
                 <View style={styles.modalHeader}>
                   <TouchableOpacity onPress={() => setShowFromPicker(false)}>
-                    <AppText style={styles.doneButtonText}>Done</AppText>
+                    <AppText style={styles.doneButtonText}>
+                      {i18n.t("done")}
+                    </AppText>
                   </TouchableOpacity>
                 </View>
                 <DateTimePicker
@@ -373,7 +380,9 @@ export default function ProductionBatchesPage() {
               <View style={styles.datePickerContent}>
                 <View style={styles.modalHeader}>
                   <TouchableOpacity onPress={() => setShowToPicker(false)}>
-                    <AppText style={styles.doneButtonText}>Done</AppText>
+                    <AppText style={styles.doneButtonText}>
+                      {i18n.t("done")}
+                    </AppText>
                   </TouchableOpacity>
                 </View>
                 <DateTimePicker

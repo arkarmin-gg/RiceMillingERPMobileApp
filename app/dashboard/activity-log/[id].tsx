@@ -1,4 +1,5 @@
 import { CustomHeader } from "@/components/ui/custom-header";
+import i18n from "@/config/i18n";
 import { AppText, Screen } from "@/design-system/components";
 import { colors, radii, spacing } from "@/design-system/tokens";
 import { useActivityLog } from "@/hooks/use-activity-logs";
@@ -44,14 +45,14 @@ export default function ActivityLogDetail() {
     return (
       <Screen style={styles.center}>
         <AppText variant="body" style={{ color: colors.danger }}>
-          Failed to load activity log details.
+          {i18n.t("failed_to_load_data")}
         </AppText>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => router.back()}
         >
           <AppText variant="button" style={{ color: colors.primary }}>
-            Go Back
+            {i18n.t("go_back")}
           </AppText>
         </TouchableOpacity>
       </Screen>
@@ -179,7 +180,7 @@ export default function ActivityLogDetail() {
         options={{
           header: () => (
             <CustomHeader
-              title="Activity Log Detail"
+              title={i18n.t("activity_log")}
               showBack
               onLeftPress={() => router.back()}
             />

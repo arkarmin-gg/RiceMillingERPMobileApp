@@ -1,3 +1,5 @@
+import { colors, radii, spacing } from "@/design-system/tokens";
+import { useLanguageStore } from "@/hooks/use-language";
 import React from "react";
 import {
   Pressable,
@@ -7,7 +9,6 @@ import {
   type TextInputProps,
   type ViewStyle,
 } from "react-native";
-import { colors, radii, spacing } from "@/design-system/tokens";
 import { AppText } from "./app-text";
 
 type TextFieldProps = TextInputProps & {
@@ -27,6 +28,8 @@ export function TextField({
   ...rest
 }: TextFieldProps) {
   const [focused, setFocused] = React.useState(false);
+  const { locale } = useLanguageStore();
+  const scale = locale === "my" ? 0.85 : 1;
 
   const borderStyle: ViewStyle = focused
     ? styles.inputFocused
@@ -44,7 +47,13 @@ export function TextField({
       <View style={[styles.inputWrapper, borderStyle]}>
         {leftIcon ? <View style={styles.inputIconLeft}>{leftIcon}</View> : null}
         <TextInput
-          style={styles.input}
+          style={[
+            styles.input,
+            {
+              fontSize: Math.round(16 * scale),
+              paddingBottom: locale === "my" ? spacing.xs : 0,
+            },
+          ]}
           placeholderTextColor={colors.textSecondary}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
@@ -106,6 +115,7 @@ const styles = StyleSheet.create({
   },
   inputIconLeft: {
     marginRight: spacing.s,
+    paddingBottom: 0,
   },
   inputIconRight: {
     marginLeft: spacing.s,

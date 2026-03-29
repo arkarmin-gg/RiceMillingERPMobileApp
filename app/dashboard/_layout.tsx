@@ -26,7 +26,7 @@ export default function DashboardLayout() {
           title: i18n.t("home"),
           header: () => (
             <CustomHeader
-              title="RiceMill ERP"
+              title="ShweTharaphu Mill Manager"
               titleAlign="left"
               rightIcon={
                 <View style={styles.avatarContainer}>

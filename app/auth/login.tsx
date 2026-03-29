@@ -107,7 +107,7 @@ export default function Login() {
               />
             </View>
             <AppText variant="h1" style={{ marginBottom: spacing.xs }}>
-              RiceMill ERP
+              ShweTharaphu Mill Manager
             </AppText>
             <AppText variant="bodySecondary">
               Production Management System

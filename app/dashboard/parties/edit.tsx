@@ -28,7 +28,7 @@ const partySchema = z.object({
   type: z.enum(["MERCHANT", "FARMER", "BROKER", "CUSTOMER"]),
   phone: z.string().min(1, "Phone is required"),
   address: z.string().min(1, "Address is required"),
-  nrc: z.string().min(1, "NRC is required"),
+  nrc: z.string().optional(),
 });
 
 export default function EditPartiesPage() {

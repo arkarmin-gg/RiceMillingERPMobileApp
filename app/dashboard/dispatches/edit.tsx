@@ -293,7 +293,7 @@ export default function EditDispatchPage() {
   };
 
   const addItem = () => {
-    setItems([...items, { item_id: "", bags: "", loose_lb: "0.0" }]);
+    setItems([...items, { item_id: "", bags: "", loose_lb: "" }]);
   };
 
   const removeItem = (index: number) => {

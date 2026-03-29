@@ -55,7 +55,7 @@ function makeOutput(): OutputForm {
     id: Math.random().toString(36).slice(2),
     item_id: "",
     bags: "",
-    loose_lb: "0.0",
+    loose_lb: "",
   };
 }
 

@@ -201,7 +201,7 @@ export default function EditProductionBatchPage() {
   };
 
   const addOutput = () => {
-    setOutputs([...outputs, { item_id: "", bags: "", loose_lb: "0.0" }]);
+    setOutputs([...outputs, { item_id: "", bags: "", loose_lb: "" }]);
   };
 
   const removeOutput = (index: number) => {

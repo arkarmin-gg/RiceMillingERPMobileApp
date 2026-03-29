@@ -16,7 +16,6 @@
         "backgroundColor": "#F8FAFC",
         "foregroundImage": "./assets/images/app-icon-adaptive-foreground.png"
       },
-      "usesCleartextTraffic": false,
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.keik23.RiceMillingMobileApp"

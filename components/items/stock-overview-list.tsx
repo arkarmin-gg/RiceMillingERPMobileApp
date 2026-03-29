@@ -1,17 +1,53 @@
 import i18n from "@/config/i18n";
-import { AppText } from "@/design-system/components";
+import { AppText, EmptyState, Skeleton } from "@/design-system/components";
 import { colors, radii, shadows, spacing } from "@/design-system/tokens";
 import { ItemWithStock } from "@/types/item";
 import React from "react";
-import { FlatList, StyleSheet, View, useWindowDimensions } from "react-native";
+import {
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  View,
+  useWindowDimensions,
+} from "react-native";
 
 interface StockOverviewListProps {
   items: ItemWithStock[];
+  isLoading?: boolean;
 }
 
-export function StockOverviewList({ items }: StockOverviewListProps) {
+export function StockOverviewList({
+  items,
+  isLoading,
+}: StockOverviewListProps) {
   const { width } = useWindowDimensions();
   const cardWidth = width * 0.7; // Card takes 70% of screen width
+
+  if (isLoading) {
+    return (
+      <View>
+        <View style={styles.header}>
+          <AppText variant="caption">{i18n.t("stock_overview")}</AppText>
+        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.listContent}
+        >
+          <Skeleton
+            width={cardWidth}
+            height={120}
+            style={{ marginRight: spacing.m }}
+          />
+          <Skeleton
+            width={cardWidth}
+            height={120}
+            style={{ marginRight: spacing.m }}
+          />
+        </ScrollView>
+      </View>
+    );
+  }
 
   return (
     <View>
@@ -64,11 +100,11 @@ export function StockOverviewList({ items }: StockOverviewListProps) {
           </View>
         )}
         ListEmptyComponent={
-          <View style={[styles.center, { width: width - spacing.xl }]}>
-            <AppText variant="bodySecondary">
-              {i18n.t("no_items_found")}
-            </AppText>
-          </View>
+          <EmptyState
+            icon="cube-outline"
+            title={i18n.t("no_items_found")}
+            style={{ width: width - spacing.xl, padding: 0, minHeight: 120 }}
+          />
         }
       />
     </View>

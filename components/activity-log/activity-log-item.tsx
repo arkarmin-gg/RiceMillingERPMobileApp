@@ -2,6 +2,7 @@ import { AppText } from "@/design-system/components";
 import { colors, radii, shadows, spacing } from "@/design-system/tokens";
 import { ActivityLog } from "@/types/activity-log";
 import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
@@ -36,6 +37,7 @@ export const ActivityLogItem = React.memo(function ActivityLogItem({
   const formattedDate = new Date(item.created_at).toLocaleString();
 
   const handlePress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     onPress?.(item);
   };
 
@@ -97,6 +99,7 @@ const styles = StyleSheet.create({
   },
   pressed: {
     backgroundColor: colors.background,
+    transform: [{ scale: 0.98 }],
   },
   header: {
     flexDirection: "row",

@@ -80,7 +80,7 @@ export default function EditProfile() {
         title: `${i18n.t("profile")} ${i18n.t("update")} ${i18n.t("success")}`,
       });
       router.back();
-    } catch (error) {
+    } catch {
       // Error handled in updateProfile
     }
   };

@@ -8,7 +8,7 @@ import { useActivityLogs } from "@/hooks/use-activity-logs";
 import { useItemsWithStock } from "@/hooks/use-items";
 import { useRouter } from "expo-router";
 import React, { useCallback } from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export default function Home() {
   const router = useRouter();
@@ -30,14 +30,6 @@ export default function Home() {
     stockRefetch();
   }, [activityRefetch, stockRefetch]);
 
-  if (stockIsLoading || activityIsLoading) {
-    return (
-      <Screen style={styles.center}>
-        <ActivityIndicator size="large" color={colors.primary} />
-      </Screen>
-    );
-  }
-
   if (stockError || activityError) {
     return (
       <Screen style={styles.center}>
@@ -56,7 +48,7 @@ export default function Home() {
 
   const renderHeader = () => (
     <View style={styles.headerContainer}>
-      <StockOverviewList items={items} />
+      <StockOverviewList items={items} isLoading={stockIsLoading} />
       <QuickActions />
       <View>
         <AppText variant="caption">{i18n.t("recent_activity")}</AppText>
@@ -68,7 +60,7 @@ export default function Home() {
     <Screen>
       <ActivityLogList
         logs={logs}
-        isLoading={stockIsLoading || activityIsLoading}
+        isLoading={activityIsLoading}
         onRefresh={onRefresh}
         ListHeaderComponent={renderHeader()}
         onItemPress={(item) =>

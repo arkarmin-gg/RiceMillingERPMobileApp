@@ -3,7 +3,9 @@ import { SelectField } from "@/components/ui/select-field";
 import i18n from "@/config/i18n";
 import {
   AppText,
+  EmptyState,
   IconButton,
+  ListSkeleton,
   Screen,
   TextField,
 } from "@/design-system/components";
@@ -16,7 +18,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-  ActivityIndicator,
   FlatList,
   Modal,
   Platform,
@@ -112,20 +113,16 @@ export default function DispatchesPage() {
 
   const renderContent = () => {
     if (isLoading && !data) {
-      return (
-        <View style={styles.center}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      );
+      return <ListSkeleton />;
     }
 
     if (!data?.data?.length) {
       return (
-        <View style={styles.center}>
-          <AppText variant="h2" style={{ color: colors.textSecondary }}>
-            {i18n.t("no_dispatches_found")}
-          </AppText>
-        </View>
+        <EmptyState
+          icon="send-outline"
+          title={i18n.t("no_dispatches_found")}
+          description="Create a new dispatch to get started."
+        />
       );
     }
 

@@ -2,6 +2,7 @@ import { AppText } from "@/design-system/components";
 import { colors, radii, shadows, spacing } from "@/design-system/tokens";
 import { Dispatch } from "@/types/dispatch";
 import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
@@ -13,12 +14,17 @@ interface DispatchItemProps {
 export default function DispatchItem({ dispatch, onPress }: DispatchItemProps) {
   const date = new Date(dispatch.dispatch_date).toLocaleDateString();
 
+  const handlePress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    onPress();
+  };
+
   return (
     <Pressable
-      onPress={onPress}
+      onPress={handlePress}
       style={({ pressed }) => [
         styles.container,
-        pressed && { backgroundColor: colors.background },
+        pressed && styles.containerPressed,
       ]}
     >
       <View style={styles.content}>
@@ -63,6 +69,10 @@ const styles = StyleSheet.create({
     ...shadows.card,
     borderWidth: 1,
     borderColor: colors.borderSubtle,
+  },
+  containerPressed: {
+    backgroundColor: colors.background,
+    transform: [{ scale: 0.98 }],
   },
   content: {
     flex: 1,

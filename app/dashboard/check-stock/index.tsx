@@ -3,6 +3,8 @@ import { SelectField } from "@/components/ui/select-field";
 import i18n from "@/config/i18n";
 import {
   AppText,
+  EmptyState,
+  ListSkeleton,
   PrimaryButton,
   Screen,
   SecondaryButton,
@@ -16,7 +18,6 @@ import { ItemCategory } from "@/types/type";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useCallback, useState } from "react";
 import {
-  ActivityIndicator,
   Modal,
   ScrollView,
   StyleSheet,
@@ -101,11 +102,7 @@ export default function CheckStockIndex() {
 
   const renderContent = () => {
     if (isLoading && !stockBalancesData) {
-      return (
-        <View style={styles.center}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      );
+      return <ListSkeleton />;
     }
 
     if (error) {
@@ -125,11 +122,11 @@ export default function CheckStockIndex() {
 
     if (!balances.length) {
       return (
-        <View style={styles.center}>
-          <AppText variant="h2" style={{ color: colors.textSecondary }}>
-            {i18n.t("no_items_found")}
-          </AppText>
-        </View>
+        <EmptyState
+          icon="clipboard-outline"
+          title={i18n.t("no_items_found")}
+          description="Try adjusting your filters or wait for stock to be added."
+        />
       );
     }
 

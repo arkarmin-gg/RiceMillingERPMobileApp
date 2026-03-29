@@ -1,16 +1,8 @@
 import i18n from "@/config/i18n";
-import { AppText } from "@/design-system/components";
-import { spacing } from "@/design-system/tokens";
+import { EmptyState, ListSkeleton } from "@/design-system/components";
 import { ActivityLog } from "@/types/activity-log";
 import React from "react";
-import {
-  FlatList,
-  RefreshControl,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from "react-native";
+import { FlatList, RefreshControl, StyleProp, ViewStyle } from "react-native";
 import { ActivityLogItem } from "./activity-log-item";
 
 interface ActivityLogListProps {
@@ -49,21 +41,13 @@ export function ActivityLogList({
       }
       ListHeaderComponent={ListHeaderComponent}
       ListEmptyComponent={
-        !isLoading ? (
-          <View style={styles.emptyContainer}>
-            <AppText variant="bodySecondary">{i18n.t("no_logs_found")}</AppText>
-          </View>
-        ) : null
+        isLoading ? (
+          <ListSkeleton count={3} />
+        ) : (
+          <EmptyState icon="time-outline" title={i18n.t("no_logs_found")} />
+        )
       }
       contentContainerStyle={[contentContainerStyle]}
     />
   );
 }
-
-const styles = StyleSheet.create({
-  emptyContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: spacing.xl,
-  },
-});

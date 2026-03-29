@@ -1,11 +1,12 @@
 import i18n from "@/config/i18n";
 import {
   AppText,
+  Chip,
   PrimaryButton,
   Screen,
   TextField,
 } from "@/design-system/components";
-import { colors, radii, spacing } from "@/design-system/tokens";
+import { colors, spacing } from "@/design-system/tokens";
 import { useCreateParty } from "@/hooks/use-parties";
 import { useToastActions } from "@/hooks/use-toast";
 import { CreatePartyInput, PartyType } from "@/types/party";
@@ -14,7 +15,6 @@ import React, { useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
-  Pressable,
   ScrollView,
   StyleSheet,
   View,
@@ -113,27 +113,16 @@ export default function CreateNewPartiesPage() {
                 {(
                   ["MERCHANT", "FARMER", "BROKER", "CUSTOMER"] as PartyType[]
                 ).map((type) => (
-                  <Pressable
+                  <Chip
                     key={type}
+                    label={type}
+                    selected={formData.type === type}
                     onPress={() => {
                       setFormData((prev) => ({ ...prev, type }));
                       if (errors.type)
                         setErrors((prev) => ({ ...prev, type: undefined }));
                     }}
-                    style={[
-                      styles.chip,
-                      formData.type === type && styles.chipSelected,
-                    ]}
-                  >
-                    <AppText
-                      style={[
-                        styles.chipText,
-                        formData.type === type && styles.chipTextSelected,
-                      ]}
-                    >
-                      {type}
-                    </AppText>
-                  </Pressable>
+                  />
                 ))}
               </View>
               {errors.type ? (
@@ -206,26 +195,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: spacing.s,
-  },
-  chip: {
-    paddingHorizontal: spacing.m,
-    paddingVertical: spacing.s,
-    borderRadius: radii.pill,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.borderSubtle,
-  },
-  chipSelected: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  chipText: {
-    color: colors.textSecondary,
-    fontWeight: "500",
-    fontSize: 14,
-  },
-  chipTextSelected: {
-    color: "#FFFFFF",
   },
   submitButton: {
     marginTop: spacing.s,

@@ -5,9 +5,11 @@ import {
   View,
   type StyleProp,
   type ViewStyle,
+  GestureResponderEvent,
 } from "react-native";
 import { colors, radii, spacing } from "@/design-system/tokens";
 import { AppText } from "./app-text";
+import * as Haptics from "expo-haptics";
 
 type ButtonBaseProps = Omit<React.ComponentProps<typeof Pressable>, "style"> & {
   label: string;
@@ -19,8 +21,14 @@ export function PrimaryButton({
   label,
   rightIcon,
   style,
+  onPress,
   ...rest
 }: ButtonBaseProps) {
+  const handlePress = (e: GestureResponderEvent) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    onPress?.(e);
+  };
+
   return (
     <Pressable
       style={({ pressed }) => [
@@ -29,6 +37,7 @@ export function PrimaryButton({
         pressed && styles.buttonPressed,
         style,
       ]}
+      onPress={handlePress}
       {...rest}
     >
       <AppText variant="button" style={styles.primaryButtonLabel}>
@@ -45,8 +54,14 @@ export function SecondaryButton({
   label,
   rightIcon,
   style,
+  onPress,
   ...rest
 }: ButtonBaseProps) {
+  const handlePress = (e: GestureResponderEvent) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    onPress?.(e);
+  };
+
   return (
     <Pressable
       style={({ pressed }) => [
@@ -55,6 +70,7 @@ export function SecondaryButton({
         pressed && styles.buttonPressed,
         style,
       ]}
+      onPress={handlePress}
       {...rest}
     >
       <AppText variant="button" style={styles.secondaryButtonLabel}>
@@ -71,8 +87,14 @@ export function DangerButton({
   label,
   rightIcon,
   style,
+  onPress,
   ...rest
 }: ButtonBaseProps) {
+  const handlePress = (e: GestureResponderEvent) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    onPress?.(e);
+  };
+
   return (
     <Pressable
       style={({ pressed }) => [
@@ -81,6 +103,7 @@ export function DangerButton({
         pressed && styles.buttonPressed,
         style,
       ]}
+      onPress={handlePress}
       {...rest}
     >
       <AppText variant="button" style={styles.primaryButtonLabel}>
@@ -106,8 +129,16 @@ export function IconButton({
   size = "medium",
   style,
   disabled,
+  onPress,
   ...rest
 }: IconButtonProps) {
+  const handlePress = (e: GestureResponderEvent) => {
+    if (!disabled) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      onPress?.(e);
+    }
+  };
+
   let variantStyle: ViewStyle = {};
   if (variant === "primary") variantStyle = styles.primaryButton;
   else if (variant === "secondary") variantStyle = styles.secondaryButton;
@@ -130,11 +161,12 @@ export function IconButton({
         { width: "auto", paddingHorizontal: 0 },
         variantStyle,
         sizeStyle,
-        pressed && styles.buttonPressed,
+        pressed && !disabled && styles.buttonPressed,
         disabled && styles.fabDisabled,
         style,
       ]}
       disabled={disabled}
+      onPress={handlePress}
       {...rest}
     >
       {icon}
@@ -153,7 +185,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   buttonPressed: {
-    opacity: 0.7,
+    opacity: 0.85,
+    transform: [{ scale: 0.98 }],
   },
   primaryButton: {
     backgroundColor: colors.primary,

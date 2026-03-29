@@ -2,6 +2,7 @@ import i18n from "@/config/i18n";
 import { AppText } from "@/design-system/components";
 import { colors, radii, shadows, spacing } from "@/design-system/tokens";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
@@ -13,13 +14,18 @@ interface ActionButtonProps {
 }
 
 function ActionButton({ icon, label, onPress }: ActionButtonProps) {
+  const handlePress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    onPress();
+  };
+
   return (
     <Pressable
       style={({ pressed }) => [
         styles.actionButton,
         pressed && styles.actionButtonPressed,
       ]}
-      onPress={onPress}
+      onPress={handlePress}
     >
       <View style={styles.iconContainer}>{icon}</View>
       <AppText variant="body" style={styles.actionLabel}>
@@ -107,8 +113,9 @@ const styles = StyleSheet.create({
     minHeight: 100,
   },
   actionButtonPressed: {
-    opacity: 0.7,
     backgroundColor: colors.background,
+    transform: [{ scale: 0.98 }],
+    opacity: 0.85,
   },
   iconContainer: {
     width: 48,

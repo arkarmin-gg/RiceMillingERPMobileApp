@@ -1,12 +1,14 @@
 import PartyItem from "@/components/parties/party-item";
 import i18n from "@/config/i18n";
 import {
-  AppText,
+  Chip,
+  EmptyState,
   IconButton,
+  ListSkeleton,
   Screen,
   TextField,
 } from "@/design-system/components";
-import { colors, radii, spacing } from "@/design-system/tokens";
+import { colors, spacing } from "@/design-system/tokens";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useParties } from "@/hooks/use-parties";
 import { PARTY_TYPES, Party, PartyType } from "@/types/party";
@@ -14,10 +16,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
 import {
-  ActivityIndicator,
   FlatList,
   ListRenderItemInfo,
-  Pressable,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -78,51 +78,30 @@ export default function PartiesPage() {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.filterContainer}
         >
-          <Pressable
+          <Chip
+            label={i18n.t("all")}
+            selected={!selectedType}
             onPress={() => setSelectedType(undefined)}
-            style={[styles.chip, !selectedType && styles.chipSelected]}
-          >
-            <AppText
-              style={[
-                styles.chipText,
-                !selectedType && styles.chipTextSelected,
-              ]}
-            >
-              {i18n.t("all")}
-            </AppText>
-          </Pressable>
+          />
           {PARTY_TYPES.map((type) => (
-            <Pressable
+            <Chip
               key={type}
+              label={type}
+              selected={selectedType === type}
               onPress={() => setSelectedType(type)}
-              style={[
-                styles.chip,
-                selectedType === type && styles.chipSelected,
-              ]}
-            >
-              <AppText
-                style={[
-                  styles.chipText,
-                  selectedType === type && styles.chipTextSelected,
-                ]}
-              >
-                {type}
-              </AppText>
-            </Pressable>
+            />
           ))}
         </ScrollView>
       </View>
 
       {isLoading && !data ? (
-        <View style={styles.center}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
+        <ListSkeleton />
       ) : !data?.data?.length ? (
-        <View style={styles.center}>
-          <AppText variant="h2" style={{ color: colors.textSecondary }}>
-            {i18n.t("no_parties_found")}
-          </AppText>
-        </View>
+        <EmptyState
+          icon="people-outline"
+          title={i18n.t("no_parties_found")}
+          description="Try adjusting your filters or create a new party."
+        />
       ) : (
         <FlatList
           data={data.data}
@@ -160,26 +139,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: spacing.s,
     paddingVertical: spacing.xs,
-  },
-  chip: {
-    paddingHorizontal: spacing.m,
-    paddingVertical: 6,
-    borderRadius: radii.pill,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.borderSubtle,
-  },
-  chipSelected: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  chipText: {
-    color: colors.textSecondary,
-    fontWeight: "500",
-    fontSize: 14,
-  },
-  chipTextSelected: {
-    color: "#FFFFFF",
   },
   center: {
     flex: 1,

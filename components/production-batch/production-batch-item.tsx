@@ -5,6 +5,7 @@ import {
   ProductionBatchStatus,
 } from "@/types/production-batch";
 import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
@@ -30,12 +31,17 @@ export default function ProductionBatchItem({
   const statusStyle = STATUS_STYLES[batch.status] || STATUS_STYLES.PENDING;
   const date = new Date(batch.production_date).toLocaleDateString();
 
+  const handlePress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    onPress();
+  };
+
   return (
     <Pressable
-      onPress={onPress}
+      onPress={handlePress}
       style={({ pressed }) => [
         styles.container,
-        pressed && { backgroundColor: colors.background },
+        pressed && styles.containerPressed,
       ]}
     >
       <View style={styles.content}>
@@ -85,6 +91,10 @@ const styles = StyleSheet.create({
     ...shadows.card,
     borderWidth: 1,
     borderColor: colors.borderSubtle,
+  },
+  containerPressed: {
+    backgroundColor: colors.background,
+    transform: [{ scale: 0.98 }],
   },
   content: {
     flex: 1,

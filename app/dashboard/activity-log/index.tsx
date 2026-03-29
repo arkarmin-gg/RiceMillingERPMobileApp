@@ -4,6 +4,8 @@ import { SelectField } from "@/components/ui/select-field";
 import i18n from "@/config/i18n";
 import {
   AppText,
+  EmptyState,
+  ListSkeleton,
   PrimaryButton,
   Screen,
   SecondaryButton,
@@ -18,7 +20,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Stack, useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
 import {
-  ActivityIndicator,
   Modal,
   Platform,
   ScrollView,
@@ -142,11 +143,7 @@ export default function ActivityLogIndex() {
 
   const renderContent = () => {
     if (activityIsLoading && !activityLogsData) {
-      return (
-        <View style={styles.center}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      );
+      return <ListSkeleton />;
     }
 
     if (activityError) {
@@ -166,11 +163,11 @@ export default function ActivityLogIndex() {
 
     if (!logs.length) {
       return (
-        <View style={styles.center}>
-          <AppText variant="h2" style={{ color: colors.textSecondary }}>
-            {i18n.t("no_logs_found")}
-          </AppText>
-        </View>
+        <EmptyState
+          icon="time-outline"
+          title={i18n.t("no_logs_found")}
+          description="Try adjusting your filters or check back later."
+        />
       );
     }
 

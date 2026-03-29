@@ -27,21 +27,28 @@ import {
 } from "react-native";
 import { z } from "zod";
 
-const itemSchema = z.object({
-  item_id: z.string().min(1, "Item is required"),
-  bags: z.string().regex(/^\d+$/, "Must be a number").transform(Number),
-  loose_lb: z
-    .string()
-    .regex(/^\d+(\.\d+)?$/, "Must be a number")
-    .transform(Number),
-});
+const getDispatchSchema = () => {
+  const itemSchema = z.object({
+    item_id: z.string().min(1, i18n.t("validation_item_required")),
+    bags: z
+      .string()
+      .regex(/^\d+$/, i18n.t("validation_must_be_number"))
+      .transform(Number)
+      .refine((val) => val > 0, i18n.t("validation_must_be_greater_than_zero")),
+    loose_lb: z
+      .string()
+      .regex(/^\d+(\.\d+)?$/, i18n.t("validation_must_be_number"))
+      .optional()
+      .transform(Number),
+  });
 
-const dispatchSchema = z.object({
-  merchant_id: z.string().min(1, "Merchant is required"),
-  dispatch_date: z.string().min(1, "Date is required"),
-  description: z.string().optional(),
-  items: z.array(itemSchema).min(1, "At least one item is required"),
-});
+  return z.object({
+    merchant_id: z.string().min(1, i18n.t("validation_merchant_required")),
+    dispatch_date: z.string().min(1, i18n.t("validation_date_required")),
+    description: z.string().optional(),
+    items: z.array(itemSchema).min(1, i18n.t("validation_at_least_one_item")),
+  });
+};
 
 interface ItemForm {
   id: string;
@@ -105,7 +112,7 @@ export default function CreateDispatchPage() {
 
   const validate = () => {
     try {
-      dispatchSchema.parse({ ...formData, items });
+      getDispatchSchema().parse({ ...formData, items });
 
       const newErrors: Record<string, string> = {};
       let hasError = false;
@@ -116,13 +123,16 @@ export default function CreateDispatchPage() {
         );
         if (dispatchableItem) {
           if (Number(item.bags) > dispatchableItem.bags) {
-            newErrors[`items.${index}.bags`] =
-              `Max ${dispatchableItem.bags} ${i18n.t("bags").toLowerCase()}`;
+            newErrors[`items.${index}.bags`] = i18n.t("validation_max_bags", {
+              max: dispatchableItem.bags,
+            });
             hasError = true;
           }
           if (Number(item.loose_lb) > dispatchableItem.loose_lb) {
-            newErrors[`items.${index}.loose_lb`] =
-              `Max ${dispatchableItem.loose_lb} lb`;
+            newErrors[`items.${index}.loose_lb`] = i18n.t(
+              "validation_max_loose_lb",
+              { max: dispatchableItem.loose_lb },
+            );
             hasError = true;
           }
         }
@@ -167,14 +177,14 @@ export default function CreateDispatchPage() {
       onSuccess: () => {
         show({
           type: "success",
-          title: `${i18n.t("dispatch")} ${i18n.t("create")} ${i18n.t("success")}`,
+          title: i18n.t("dispatch_create_success"),
         });
         router.back();
       },
       onError: (error: Error) => {
         show({
           type: "error",
-          title: i18n.t("error"),
+          title: i18n.t("dispatch_create_failed"),
           message: error.message,
         });
       },
@@ -250,6 +260,8 @@ export default function CreateDispatchPage() {
                 setFormData((prev) => ({ ...prev, description: text }))
               }
               error={errors.description}
+              multiline={true}
+              style={{ minHeight: 100, textAlignVertical: "top" }}
             />
 
             <View style={styles.sectionHeader}>

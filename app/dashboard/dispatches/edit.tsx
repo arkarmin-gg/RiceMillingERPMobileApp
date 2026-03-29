@@ -33,21 +33,27 @@ import {
 } from "react-native";
 import { z } from "zod";
 
-const itemSchema = z.object({
-  item_id: z.string().min(1, "Item is required"),
-  bags: z.string().regex(/^\d+$/, "Must be a number").transform(Number),
-  loose_lb: z
-    .string()
-    .regex(/^\d+(\.\d+)?$/, "Must be a number")
-    .transform(Number),
-});
+const getDispatchSchema = () => {
+  const itemSchema = z.object({
+    item_id: z.string().min(1, i18n.t("validation_item_required")),
+    bags: z
+      .string()
+      .regex(/^\d+$/, i18n.t("validation_must_be_number"))
+      .transform(Number)
+      .refine((val) => val > 0, i18n.t("validation_must_be_greater_than_zero")),
+    loose_lb: z
+      .string()
+      .regex(/^\d+(\.\d+)?$/, i18n.t("validation_must_be_number"))
+      .transform(Number),
+  });
 
-const dispatchSchema = z.object({
-  merchant_id: z.string().min(1, "Merchant is required"),
-  dispatch_date: z.string().min(1, "Date is required"),
-  description: z.string().optional(),
-  items: z.array(itemSchema).min(1, "At least one item is required"),
-});
+  return z.object({
+    merchant_id: z.string().min(1, i18n.t("validation_merchant_required")),
+    dispatch_date: z.string().min(1, i18n.t("validation_date_required")),
+    description: z.string().optional(),
+    items: z.array(itemSchema).min(1, i18n.t("validation_at_least_one_item")),
+  });
+};
 
 interface ItemForm {
   id?: string;
@@ -186,7 +192,7 @@ export default function EditDispatchPage() {
 
   const validate = () => {
     try {
-      dispatchSchema.parse({
+      getDispatchSchema().parse({
         ...formData,
         items,
       });
@@ -227,13 +233,17 @@ export default function EditDispatchPage() {
         const looseLb = Number(item.loose_lb);
 
         if (bags > maxBags) {
-          newErrors[`items.${index}.bags`] =
-            `Max ${maxBags} ${i18n.t("bags").toLowerCase()}`;
+          newErrors[`items.${index}.bags`] = i18n.t("validation_max_bags", {
+            max: maxBags,
+          });
           hasError = true;
         }
 
         if (looseLb > maxLooseLb) {
-          newErrors[`items.${index}.loose_lb`] = `Max ${maxLooseLb} lb`;
+          newErrors[`items.${index}.loose_lb`] = i18n.t(
+            "validation_max_loose_lb",
+            { max: maxLooseLb },
+          );
           hasError = true;
         }
       });
@@ -278,15 +288,15 @@ export default function EditDispatchPage() {
       onSuccess: () => {
         show({
           type: "success",
-          title: `${i18n.t("dispatch")} ${i18n.t("update")} ${i18n.t("success")}`,
+          title: i18n.t("dispatch_update_success"),
         });
         router.back();
       },
       onError: (error: any) => {
         show({
           type: "error",
-          title: i18n.t("error"),
-          message: error?.message || "Unknown error",
+          title: i18n.t("dispatch_update_failed"),
+          message: error?.message || i18n.t("unknown_error"),
         });
       },
     });
@@ -443,6 +453,8 @@ export default function EditDispatchPage() {
                 setFormData((prev) => ({ ...prev, description: text }))
               }
               error={errors.description}
+              multiline={true}
+              style={{ minHeight: 100, textAlignVertical: "top" }}
             />
 
             <View style={styles.sectionHeader}>

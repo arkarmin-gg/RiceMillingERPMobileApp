@@ -29,7 +29,12 @@ export default function ProductionBatchItem({
   onPress,
 }: ProductionBatchItemProps) {
   const statusStyle = STATUS_STYLES[batch.status] || STATUS_STYLES.PENDING;
-  const date = new Date(batch.production_date).toLocaleDateString();
+  const dateObj = new Date(batch.production_date);
+  const date = dateObj.toLocaleDateString();
+  const time = dateObj.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   const handlePress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -50,7 +55,7 @@ export default function ProductionBatchItem({
             #{batch.batch_number}
           </AppText>
           <AppText variant="caption" style={styles.dateText}>
-            {date}
+            {date} {time}
           </AppText>
         </View>
 

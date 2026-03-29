@@ -12,7 +12,12 @@ interface DispatchItemProps {
 }
 
 export default function DispatchItem({ dispatch, onPress }: DispatchItemProps) {
-  const date = new Date(dispatch.dispatch_date).toLocaleDateString();
+  const dateObj = new Date(dispatch.dispatch_date);
+  const date = dateObj.toLocaleDateString();
+  const time = dateObj.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   const handlePress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -33,7 +38,7 @@ export default function DispatchItem({ dispatch, onPress }: DispatchItemProps) {
             #{dispatch.dispatch_number}
           </AppText>
           <AppText variant="caption" style={styles.dateText}>
-            {date}
+            {date} {time}
           </AppText>
         </View>
 

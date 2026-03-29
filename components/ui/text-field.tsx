@@ -44,7 +44,13 @@ export function TextField({
           {label}
         </AppText>
       ) : null}
-      <View style={[styles.inputWrapper, borderStyle]}>
+      <View
+        style={[
+          styles.inputWrapper,
+          borderStyle,
+          rest.multiline && styles.inputWrapperMultiline,
+        ]}
+      >
         {leftIcon ? <View style={styles.inputIconLeft}>{leftIcon}</View> : null}
         <TextInput
           style={[
@@ -53,6 +59,7 @@ export function TextField({
               fontSize: Math.round(16 * scale),
               paddingBottom: locale === "my" ? spacing.xs : 0,
             },
+            rest.style,
           ]}
           placeholderTextColor={colors.textSecondary}
           onFocus={() => setFocused(true)}
@@ -89,12 +96,16 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xs,
   },
   inputWrapper: {
-    height: 48,
+    minHeight: 48,
     borderRadius: radii.input,
     backgroundColor: colors.surface,
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: spacing.m,
+  },
+  inputWrapperMultiline: {
+    alignItems: "flex-start",
+    paddingVertical: spacing.s,
   },
   inputDefault: {
     borderWidth: 1,

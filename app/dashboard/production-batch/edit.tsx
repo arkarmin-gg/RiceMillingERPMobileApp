@@ -37,20 +37,28 @@ import {
 } from "react-native";
 import { z } from "zod";
 
-const outputSchema = z.object({
-  item_id: z.string().min(1, "Item is required"),
-  bags: z.string().regex(/^\d+$/, "Must be a number").transform(Number),
-  loose_lb: z
-    .string()
-    .regex(/^\d+(\.\d+)?$/, "Must be a number")
-    .transform(Number),
-});
+const getBatchSchema = () => {
+  const outputSchema = z.object({
+    item_id: z.string().min(1, i18n.t("validation_item_required")),
+    bags: z
+      .string()
+      .regex(/^\d+$/, i18n.t("validation_must_be_number"))
+      .transform(Number)
+      .refine((val) => val > 0, i18n.t("validation_must_be_greater_than_zero")),
+    loose_lb: z
+      .string()
+      .regex(/^\d+(\.\d+)?$/, i18n.t("validation_must_be_number"))
+      .transform(Number),
+  });
 
-const batchSchema = z.object({
-  merchant_id: z.string().min(1, "Merchant is required"),
-  production_date: z.string().min(1, "Date is required"),
-  outputs: z.array(outputSchema).min(1, "At least one output item is required"),
-});
+  return z.object({
+    merchant_id: z.string().min(1, i18n.t("validation_merchant_required")),
+    production_date: z.string().min(1, i18n.t("validation_date_required")),
+    outputs: z
+      .array(outputSchema)
+      .min(1, i18n.t("validation_at_least_one_item")),
+  });
+};
 
 interface OutputForm {
   id?: string;
@@ -148,7 +156,7 @@ export default function EditProductionBatchPage() {
 
   const validate = () => {
     try {
-      batchSchema.parse({
+      getBatchSchema().parse({
         ...formData,
         outputs,
       });
@@ -186,15 +194,15 @@ export default function EditProductionBatchPage() {
       onSuccess: () => {
         show({
           type: "success",
-          title: "Production Batch updated successfully",
+          title: i18n.t("batch_update_success"),
         });
         router.back();
       },
       onError: (error: any) => {
         show({
           type: "error",
-          title: "Failed to update batch",
-          message: error?.message || "Unknown error",
+          title: i18n.t("batch_update_failed"),
+          message: error?.message || i18n.t("unknown_error"),
         });
       },
     });

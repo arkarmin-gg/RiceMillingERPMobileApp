@@ -84,5 +84,22 @@
   "no": "No",
   "confirm_delete": "Are you sure you want to delete this?",
   "loading": "Loading...",
-  "please_wait": "Please wait..."
+  "please_wait": "Please wait...",
+  "validation_item_required": "Item is required",
+  "validation_must_be_number": "Must be a number",
+  "validation_must_be_greater_than_zero": "Must be greater than 0",
+  "validation_merchant_required": "Merchant is required",
+  "validation_date_required": "Date is required",
+  "validation_at_least_one_item": "At least one item is required",
+  "validation_max_bags": "Max %{max} bags",
+  "validation_max_loose_lb": "Max %{max} lb",
+  "batch_create_success": "Production Batch created successfully",
+  "batch_create_failed": "Failed to create batch",
+  "batch_update_success": "Production Batch updated successfully",
+  "batch_update_failed": "Failed to update batch",
+  "dispatch_create_success": "Dispatch created successfully",
+  "dispatch_create_failed": "Failed to create dispatch",
+  "dispatch_update_success": "Dispatch updated successfully",
+  "dispatch_update_failed": "Failed to update dispatch",
+  "unknown_error": "Unknown error"
 }

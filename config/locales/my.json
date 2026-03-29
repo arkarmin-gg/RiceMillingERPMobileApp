@@ -84,5 +84,22 @@
   "no": "မဟုတ်ပါ",
   "confirm_delete": "ဖျက်ရန် သေချာပါသလား?",
   "loading": "လုပ်ဆောင်နေသည်...",
-  "please_wait": "ခဏစောင့်ပါ..."
+  "please_wait": "ခဏစောင့်ပါ...",
+  "validation_item_required": "ပစ္စည်းလိုအပ်ပါသည်",
+  "validation_must_be_number": "ကိန်းဂဏန်းဖြစ်ရမည်",
+  "validation_must_be_greater_than_zero": "သုညထက်ကြီးရမည်",
+  "validation_merchant_required": "ကုန်သည်လိုအပ်ပါသည်",
+  "validation_date_required": "ရက်စွဲလိုအပ်ပါသည်",
+  "validation_at_least_one_item": "အနည်းဆုံးပစ္စည်းတစ်ခုလိုအပ်ပါသည်",
+  "validation_max_bags": "အများဆုံး %{max} အိတ်",
+  "validation_max_loose_lb": "အများဆုံး %{max} ပေါင်",
+  "batch_create_success": "ထုတ်လုပ်မှုအသုတ် အောင်မြင်စွာ ဖန်တီးပြီးပါပြီ",
+  "batch_create_failed": "ထုတ်လုပ်မှုအသုတ် ဖန်တီးရန် မအောင်မြင်ပါ",
+  "batch_update_success": "ထုတ်လုပ်မှုအသုတ် အောင်မြင်စွာ ပြင်ဆင်ပြီးပါပြီ",
+  "batch_update_failed": "ထုတ်လုပ်မှုအသုတ် ပြင်ဆင်ရန် မအောင်မြင်ပါ",
+  "dispatch_create_success": "ပို့ဆောင်မှု အောင်မြင်စွာ ဖန်တီးပြီးပါပြီ",
+  "dispatch_create_failed": "ပို့ဆောင်မှု ဖန်တီးရန် မအောင်မြင်ပါ",
+  "dispatch_update_success": "ပို့ဆောင်မှု အောင်မြင်စွာ ပြင်ဆင်ပြီးပါပြီ",
+  "dispatch_update_failed": "ပို့ဆောင်မှု ပြင်ဆင်ရန် မအောင်မြင်ပါ",
+  "unknown_error": "အမည်မသိ အမှားအယွင်း"
 }
